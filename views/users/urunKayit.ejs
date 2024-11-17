@@ -9,9 +9,7 @@
 <body>
   <%- include("../partials/nav") %>
     <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
-
-
-
+      
 
     <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
     <main class="container-md mt-5 bg-warning p-5">
@@ -100,21 +98,19 @@
       const urunStokGırButon = document.querySelector("#urunStokGir");
       const urunMiktar = document.querySelector("#stokMiktar");
       
-      urunStokGırButon.addEventListener("click", urunStokGüncelle)
-
-      function urunStokGüncelle(){
-        urunMiktarValue = urunMiktar.value; 
-
+      urunStokGırButon.addEventListener("click", function(){
         
+        const urunMiktarValue = urunMiktar.value;
+
         if(urunMiktarValue == ""){
-          alert("Lütfen bir değer giriniz...")
+          alert("Lütfen stok adetini güncellemek için bir değer giriniz...");
         }else{
-          
+
         }
+        
+        
 
-
-
-      }
+      });
 
     </script>
     
