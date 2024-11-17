@@ -64,15 +64,15 @@
         const lowStock = await response.json();
 
         // Listeyi ekrana yazdır
-        const abc = document.querySelector(".abc");
-        abc.innerHTML = "";  // Önceki içeriği temizle
+        const alınacaklarList = document.querySelector(".alınacaklarList");
+        alınacaklarList.innerHTML = "";  // Önceki içeriği temizle
 
         // Gelen her bir ürünü liste elemanı olarak ekle
         lowStock.forEach(stockLow => {
           const listItem = document.createElement("li");
           listItem.className = "list-group-item list-group-item-action ";
-          listItem.innerHTML = `Malzeme Adı: <strong>${stockLow.urun_malzeme_adi}</strong>, Kalan Sayı: <strong>${stockLow.urun_malzeme_adet}</strong> SİPARİŞ ÇEKİLECEK`;
-          abc.appendChild(listItem);
+          listItem.innerHTML = `Malzeme Adı: <strong>${stockLow.urun_malzeme_adi}</strong>: Kalan Sayı: <strong>${stockLow.urun_malzeme_adet}</strong> SİPARİŞ ÇEKİLECEK`;
+          alınacaklarList.appendChild(listItem);
         });
 
       } catch (error) {
