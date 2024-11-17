@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include("../partials/meta") %>
+    <title>ÜRÜN KAYIT</title>
+</head>
+
+<body>
+  <%- include("../partials/nav") %>
+    <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+
+    <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+    <main class="container-md mt-5 bg-warning p-5">
+      <form class="getForm" action="/urunler/get" method="GET">
+        <!-- Ürün Seçimi -->
+        <div class="col-auto mb-3 urnForm">
+          <!-- Dinamik olarak doldurulacak -->
+        </div>
+    
+        <!-- Malzeme Seçimi -->
+        <div class="col-auto mb-3 malzemeForm">
+          <!-- Dinamik olarak doldurulacak -->
+        </div>
+    
+        <!-- Miktar Girişi -->
+        <label>Miktar:</label>
+        <input id="stokMiktar" type="number" name="amount" required>
+    
+        <!-- İşlem Butonları -->
+        <button id="urunStokGir" class="btn btn-primary urunGır" type="submit">ÜRÜN GİR</button>
+        <button class="btn btn-danger urunCık" type="submit">ÜRÜN ÇIK</button>
+      </form>
+    </main>
+    
+    <script>
+      // Ürünleri ve malzemeleri getirmek için kullanılan fonksiyonlar
+      document.addEventListener("DOMContentLoaded", async () => {
+        await fetchProducts(); // Ürün listesini yükle
+      });
+    
+      async function fetchProducts() {
+        try {
+          const response = await fetch("/urunler/get");
+          const products = await response.json();
+    
+          const urnForm = document.querySelector(".urnForm");
+          let selectHTML = `
+            <label for="productSelect">Ürün Seç</label>
+            <select class="form-select" id="productSelect">
+            <option selected value="">ÜRÜN SEÇ...</option>`;
+    
+          products.forEach(product => {
+            selectHTML += `<option value="${product.urun_key}">${product.urun_Name}</option>`;
+          });
+    
+          selectHTML += `</select>`;
+          urnForm.innerHTML = selectHTML;
+    
+          // Ürün seçiminde malzemeleri yükleme işlemini bağla
+          document.getElementById("productSelect").addEventListener("change", async (event) => {
+            const selectedProductId = event.target.value;
+            if (selectedProductId) {
+              await fetchMaterials(selectedProductId);
+            } else {
+              document.querySelector(".malzemeForm").innerHTML = ""; // Malzemeleri temizle
+            }
+          });
+        } catch (error) {
+          console.error("Ürünleri getirme hatası:", error);
+        }
+      }
+    
+      async function fetchMaterials(productId) {
+        try {
+          const response = await fetch(`/urunler/malzeme/get/${productId}`);
+          const materials = await response.json();
+    
+          const malzemeForm = document.querySelector(".malzemeForm");
+          let selectHTML = `
+            <label for="materialSelect">Malzeme Seç</label>
+            <select class="form-select" id="materialSelect">
+              <option selected value="">MALZEME SEÇ...</option>
+          `;
+    
+          materials.forEach(material => {
+            selectHTML += `<option value="${material.urun_malzeme_PK}">${material.urun_malzeme_adi}</option>`;
+          });
+    
+          selectHTML += `</select>`;
+          malzemeForm.innerHTML = selectHTML;
+        } catch (error) {
+          console.error("Malzemeleri getirme hatası:", error);
+        }
+      }
+
+      const urunStokGırButon = document.querySelector("#urunStokGir");
+      const urunMiktar = document.querySelector("#stokMiktar");
+      
+      urunStokGırButon.addEventListener("click", urunStokGüncelle)
+
+      function urunStokGüncelle(){
+        urunMiktarValue = urunMiktar.value; 
+        if(urunMiktarValue == ""){
+          alert("Lütfen bir değer giriniz...")
+        }else{
+          
+        }
+      }
+
+    </script>
+    
+
+
+
+
+
+
+
+
+    
+</body>
+
+</html>

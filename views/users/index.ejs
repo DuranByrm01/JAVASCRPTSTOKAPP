@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <%- include("../partials/meta") %>
+    <title>STOCK APP</title>
+
+</head>
+
+<body style="background-color: #212529;">
+  <%- include("../partials/nav") %>
+
+  <main>
+
+    <div style="width: 100%; height: 100%;" class=" text-white mt-3 rounded p-5 bg-dark">
+
+      <div class="cards d-flex justify-content-center align-items-center gap-3 flex-wrap">
+
+        <% urunName.forEach(urunler => { %>
+        
+          <div style="width: 18rem;" class="urunCard bg-primary card p-3">
+
+              <div class="urunHeaders"><h3><%= urunler.urun_Name %></h3></div>
+
+              <div class="urunList"><ul id="productList"></ul></div>
+
+              <p class="card-text">GÜNCEL STOK KAYITLARI</p>
+
+              <div class="bg-light text-black p-2 rounded" id="someDiv">
+
+                <p class="m-0 p-0">HESAPLANIYOR...</p>
+                
+              </div>
+
+          </div>
+  
+        <% }) %>
+
+      </div>
+      <br><br><br>
+      <h2 class="bg-warning p-2 text-black w-50 text-center rounded"><i class="fa-solid fa-truck"></i> <i class="fa-solid fa-circle-chevron-down"></i> SİPARİŞ EDİLECEK MALZEMELER <i class="fa-solid fa-circle-chevron-down"></i> <i class="fa-solid fa-plane-departure"></i></h2>
+      <div style="max-height: 300px; border: 5px solid #0D6EFD;" class="eksikMalzemeler mt-5 p-2 rounded overflow-auto" >
+          
+          <ul class="alınacaklarList list-group  abc" >
+              
+              <li class="list-group-item list-group-item-action">ürürn 3</li>
+              <li class="list-group-item list-group-item-action">ürürn 3</li>
+              
+              
+          </ul>
+      </div>
+
+
+    </div>
+    
+    
+  </main>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      try {
+        const response = await fetch('/lowStock/get');
+        const lowStock = await response.json();
+
+        // Listeyi ekrana yazdır
+        const abc = document.querySelector(".abc");
+        abc.innerHTML = "";  // Önceki içeriği temizle
+
+        // Gelen her bir ürünü liste elemanı olarak ekle
+        lowStock.forEach(stockLow => {
+          const listItem = document.createElement("li");
+          listItem.className = "list-group-item list-group-item-action ";
+          listItem.innerHTML = `Malzeme Adı: <strong>${stockLow.urun_malzeme_adi}</strong>, Kalan Sayı: <strong>${stockLow.urun_malzeme_adet}</strong> SİPARİŞ ÇEKİLECEK`;
+          abc.appendChild(listItem);
+        });
+
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+
+        const response = await fetch('/siparisList/trc60');
+        const siparisListİtem = await response.json();
+
+        siparisListİtem.forEach(siparisİtem => {
+
+          const values = [
+            siparisİtem.Trc60_Abs_Ön,
+            siparisİtem.Trc60_Abs_Arka,
+            siparisİtem.Trc60_Pcb,
+            siparisİtem.Trc60_Numarator,
+            siparisİtem.Trc60_Arka_Etiket,
+            siparisİtem.Trc60_Silikon_baslık,
+            siparisİtem.Trc60_Pil,
+            siparisİtem.Trc60_20li_Kutu,
+            siparisİtem.Trc60_100lü_Kutu
+          ];
+  
+          const trc60minValue = Math.min(...values);
+
+          // const siparisUl = document.querySelector(".alınacaklarList");
+          // siparisUl.innerHTML =  `<li class="list-group-item list-group-item-action"><strong class=" p-1 rounded "> ${siparisİtem.urun_Name}  ${trc60minValue} </strong> </li>`
+              
+          //   ;
+        })
+
+      } catch (error) {
+        console.log(error);
+        }
+
+
+      try {
+        const response = await fetch('/siparisList/trc60');
+        const trc60CardUrun = await response.json();
+  
+        trc60CardUrun.forEach(product => {
+          const values = [
+            product.Trc60_Abs_Ön,
+            product.Trc60_Abs_Arka,
+            product.Trc60_Pcb,
+            product.Trc60_Numarator,
+            product.Trc60_Arka_Etiket,
+            product.Trc60_Silikon_baslık,
+            product.Trc60_Pil,
+            product.Trc60_20li_Kutu,
+            product.Trc60_100lü_Kutu
+          ];
+  
+          const minValue = Math.min(...values);
+          const someDiv = document.querySelector("#someDiv");
+          someDiv.innerHTML = `ÜRETİLEBİLİR ÜRÜN SAYISI: <strong class="bg-dark text-white p-1 rounded "> ${minValue} </strong>  `;
+        });
+  
+      } catch (error) {
+        console.error('Veri alınamadı:', error);
+      }
+    });
+  </script>
+  
+
+
+
+</body>
+
+</html>

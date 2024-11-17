@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/meta") %>
+    <title>Deneme</title>
+</head>
+<body>
+
+    <%- include("../partials/nav") %>
+    
+    <main class="container-xl">
+
+        <div>
+            <h1>baslık</h1>
+            <input type="text" id="urunAdi">
+            <button class="btn btn-primary">NAME DEĞİŞ</button>
+        </div>
+        <hr>
+        <form action="/updateProduct" method="POST">
+            <input type="text" name="productName" placeholder="Yeni Ürün Adı" required />
+            <button class="btn btn-primary" type="submit">Ürünü Güncelle</button>
+        </form>
+        
+    
+    
+        <div class="container-xl d-flex flex-wrap gap-5 " id="content">
+            <!-- Ürün bilgileri buraya yüklenecek -->
+        </div>
+        
+
+    </main>
+
+            
+    <script>
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/savedata');
+                const data = await response.json();
+
+                const contentDiv = document.getElementById('content');
+                data.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = "list-group-item list-group-item-action shadow w-auto product-item mx-5 p-5 "
+                    productDiv.innerHTML = `
+                        <h3>${product.urunName}</h3>
+                        <p>DETAY: ${product.urunDetay}</p>
+                        <p>STOK: ${product.urunAdet}</p>
+                    `;
+                    contentDiv.appendChild(productDiv);
+                });
+
+            } catch (error) {
+                console.error('Veri alınamadı:', error);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/buNedir');
+                const data = await response.json();
+
+                const contentDiv = document.getElementById('content');
+                data.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = "list-group-item list-group-item-action shadow w-auto product-item mx-5 p-5 "
+                    productDiv.innerHTML = `
+                        <h3>${product.urunNameShow}</h3>
+                        <p>DETAY: ${product.urunSarfMalzemeABSön}</p>
+                        <p>STOK: ${product.urunPCB}</p>
+                    `;
+                    contentDiv.appendChild(productDiv);
+                });
+
+            } catch (error) {
+                console.error('Veri alınamadı:', error);
+            }
+        });
+
+
+
+
+
+
+    </script>
+
+</body>
+</html>

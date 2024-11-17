@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/meta") %>
+    <title>Günlük İş Kayıt Defteri</title>
+    
+</head>
+<body>
+
+    <%- include("../partials/nav") %>
+
+
+    <main >
+
+        <div class="container-xl vw-100 wh-100 mt-3">
+
+            <div class="container-xl shadow-lg p-3 rounded">
+
+                <div class="container-xl p-2 ">
+    
+                    <form action="/gunlukUretim" method="post" id="urunForm" class="d-flex justify-content-center align-items-center flex-wrap gap-3 ">
+                        <input  id="urunName" placeholder="ürünün adını giriniz..." type="text" name="urunName" />
+                        <input  id="urunDetay" placeholder="ürünün detayını yazınız..." type="text" name="urunDetay"/>
+                        <input  id="urunAdet" placeholder="ürünün adeti..." type="number"  name="urunAdet"/>
+                        <input  id="urunTarih" type="date" name="urunDate"/>
+                        <button class="btn btn-primary" type="submit">KAYDET</button>
+                    </form>
+    
+                </div>
+    
+            </div>
+    
+            <div class=" mt-3 p-2">
+    
+                
+                
+                <div class="list-group list-group-flush w-auto mt-3">
+
+                    <div style="margin-left: 35px;"  class="searchBox mb-2">
+                        <input id="searchInput" type="text" placeholder="Lütfen aramak istediğiniz ürünü yazınız" oninput="filterList()">
+                    </div>
+
+                    <ul class="dataList ">
+
+                        <% daySaveData.forEach(function(data) { %>
+                            <li class="list-group-item list-group-item-action shadow w-auto"><%= data.urunName %> = <%= data.urunDetay %>  = <%= data.urunAdet %>  = <%= data.urunDate %></li>
+                        <% }) %>
+                        
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        
+    </main>
+
+    <script>
+           
+        function filterList() {
+            
+             // Arama girişinin değerini al
+             const searchInput = document.getElementById('searchInput').value.toLowerCase();
+             
+             // Liste öğelerini al
+             const listItems = document.querySelectorAll('.dataList li');
+             
+             // Liste öğeleri üzerinde döngü yap ve arama girişine uyanları göster
+             listItems.forEach((item) => {
+
+                const itemText = item.textContent.toLowerCase();
+
+                if (itemText.includes(searchInput)) {
+                     item.style.display = ''; // Öğeyi göster
+                } else {
+                     item.style.display = 'none'; // Öğeyi gizle
+                }
+
+            });
+        }
+
+
+         
+
+    </script>
+  
+    
+</body>
+</html>

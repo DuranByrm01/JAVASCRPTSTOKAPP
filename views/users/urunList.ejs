@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <%- include("../partials/meta") %>
+    <title>ÜRÜN LİST</title>
+</head>
+<body>
+    <%- include("../partials/nav") %>
+
+    <main>
+      <div class="showScreen container-md d-flex justify-content-center align-items-center flex-wrap vw-100 vh-100 gap-3 mt-3 mb-4">
+
+        <!-- Flex container for cards -->
+        <div class=" container d-flex flex-wrap justify-content-center gap-3">
+          <div class="container">
+            
+            <!-- card  -->
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="/img/tempurate.png" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title trc01_baslık2">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <ul class="urunMalzemeList">
+
+                </ul>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+        
+      
+    </main>
+
+    <script>
+
+      document.addEventListener("DOMContentLoaded", async function() {
+        try {
+          const response = await fetch("/urun/card/trc01");
+          const trc01CardUrun = await response.json();
+          trc01CardUrun.forEach(trc01 => {
+
+              const trc01Baslık = document.querySelector(".trc01_baslık2");
+              trc01Baslık.innerHTML= `<p class="p-0 m-0">${trc01.TRC01_urunName}</p>`;
+
+             
+
+              
+          });
+        } catch (error) {
+          console.error('Veri alınamadı:', error);
+        }
+
+
+
+
+      
+      });
+
+      
+
+
+
+    </script>
+  
+
+</body>
+</html>
