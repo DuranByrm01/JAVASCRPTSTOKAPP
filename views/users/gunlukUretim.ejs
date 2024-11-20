@@ -40,10 +40,15 @@
                         <input id="searchInput" type="text" placeholder="Lütfen aramak istediğiniz ürünü yazınız" oninput="filterList()">
                     </div>
 
+                    
+
                     <ul class="dataList ">
 
+
                         <% daySaveData.forEach(function(data) { %>
-                            <li class="list-group-item list-group-item-action shadow w-auto"><%= data.urunName %> = <%= data.urunDetay %>  = <%= data.urunAdet %>  = <%= data.urunDate %></li>
+                            
+                            <li class="list-group-item list-group-item-action shadow w-auto bg-dark text-white"><%= data.urunName %> = <%= data.urunDetay %>  = <%= data.urunAdet %>  = <%= data.urunDate %></li>
+                            
                         <% }) %>
                         
 
