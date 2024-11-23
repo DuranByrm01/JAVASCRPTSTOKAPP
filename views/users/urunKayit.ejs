@@ -108,12 +108,12 @@
 
     const urunStokGırButon = document.querySelector("#urunStokGir");
     
-    urunStokGırButon.addEventListener("click", async () => {
+    urunStokGırButon.addEventListener("click", async (e) => {
 
       const selectedProduct = document.querySelector("#productSelect").value;
       const selectedMaterial = document.querySelector("#materialSelect").value;
       const stockAmount = document.querySelector("#stokMiktar").value;
-
+      e.preventDefault();
 
       // Seçilen ürün ve malzeme ID'si
       const selectedProductId = productSelect.value;
@@ -123,7 +123,7 @@
       const selectedProductName = productSelect.options[productSelect.selectedIndex].text;
       const selectedMaterialName = materialSelect.options[materialSelect.selectedIndex].text;
 
-      console.log(selectedProductName,selectedMaterialName);
+      console.log(selectedProductName,selectedMaterialName,stockAmount);
 
       try {
         const response = await fetch("/urunler/stok/post", {
