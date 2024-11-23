@@ -75,13 +75,30 @@ router.post('/urunler/stok/post', async (req, res) => {
   
     console.log("Gönderilen Veriler:", req.body);
     
-    const [rows] = await db.query(
-        "SELECT * FROM urunmalzemeleri WHERE urun_malzeme_adi = ? AND malzeme_id = ?",
+      // Mevcut stok bilgisini al
+      const [rows] = await db.query(
+        "SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_adi = ? AND malzeme_id = ?",
         [product, material]
-    );   
+    );
 
+    if (rows.length === 0) {
+        return res.status(404).json({
+            success: false,
+            message: "Belirtilen ürün malzemesi bulunamadı.",
+        });
+    }
+
+    const currentStock = rows[0].urun_malzeme_adet;
+
+    // Yeni stok miktarını hesapla
+    const newStock = currentStock + parseInt(amount);
+
+    // Stok miktarını güncelle
+    await db.query(
+        "UPDATE urunmalzemeleri SET urun_malzeme_adet = ? WHERE urun_malzeme_adi = ? AND malzeme_id = ?",
+        [newStock, product, material]
+    );
     
-
     
 });
   

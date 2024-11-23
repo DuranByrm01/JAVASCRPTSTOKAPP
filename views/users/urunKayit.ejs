@@ -25,7 +25,7 @@
 
     <!-- ////////////////////////////////////////////////////////////////////////////////// -->
 
-    <form class="postForm" action="/urunler/stok/post" method="POST">  
+    <form class="postForm" >  
          
       <!-- Miktar Girişi -->
         
@@ -33,8 +33,8 @@
         <input id="stokMiktar" type="number" name="amount" required>
       
         <!-- İşlem Butonları -->
-        <button id="urunStokGir" class="btn btn-primary urunGır" type="submit">ÜRÜN GİR</button>
-        <button class="btn btn-danger urunCık" type="submit">ÜRÜN ÇIK</button>
+        <button id="urunStokGir" class="btn btn-primary urunGır" type="button" name="action" value="add">ÜRÜN GİR</button>
+        <button class="btn btn-danger urunCık" type="button" name="action" value="remove">ÜRÜN ÇIK</button>
 
     </form>
 
@@ -123,7 +123,7 @@
       const selectedProductName = productSelect.options[productSelect.selectedIndex].text;
       const selectedMaterialName = materialSelect.options[materialSelect.selectedIndex].text;
 
-      console.log(selectedProductName,selectedMaterialName,stockAmount);
+     
 
       try {
         const response = await fetch("/urunler/stok/post", {
