@@ -92,7 +92,7 @@ router.post('/urunler/stok/post', async (req, res) => {
 
     // Yeni stok miktarını hesapla
     const newStock = currentStock + parseInt(amount);
-
+    
     // Stok miktarını güncelle
     await db.query(
         "UPDATE urunmalzemeleri SET urun_malzeme_adet = ? WHERE urun_malzeme_adi = ? AND malzeme_id = ?",
