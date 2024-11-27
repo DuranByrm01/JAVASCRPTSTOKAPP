@@ -52,6 +52,7 @@ router.post("/gunlukUretim", async function(req,res){
  
  });
 
+///////////////////////deneme //////////////////////
 
  router.post("/urunler/post", async function(req,res){
     const malName =  req.body.malName;
