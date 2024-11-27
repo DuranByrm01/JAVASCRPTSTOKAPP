@@ -25,7 +25,7 @@
 
     <!-- ////////////////////////////////////////////////////////////////////////////////// -->
 
-    <form class="postForm" >  
+    <form class="postForm" action="/urunler/post" method="POST" >  
          
       <!-- Miktar Girişi -->
         
@@ -54,9 +54,9 @@
   
         const urnForm = document.querySelector(".urnForm");
         let selectHTML = `
-          <label for="productSelect">Ürün Seç</label>
+          <label for="productSelect" >Ürün Seç</label>
           <select class="form-select" id="productSelect">
-          <option selected value="">ÜRÜN SEÇ...</option>`;
+          <option name="malName"  selected value="">ÜRÜN SEÇ...</option>`;
   
         products.forEach(product => {
           selectHTML += `<option value="${product.urun_key}">${product.urun_Name}</option>`;
@@ -88,7 +88,7 @@
         let selectHTML = `
           <label for="materialSelect">Malzeme Seç</label>
           <select class="form-select" id="materialSelect">
-            <option selected value="">MALZEME SEÇ...</option>
+            <option name="malAltName" selected value="">MALZEME SEÇ...</option>
         `;
   
         materials.forEach(material => {
@@ -106,50 +106,50 @@
     ////////////////////////////////////////////////////////////////////////////
 
 
-    const urunStokGırButon = document.querySelector("#urunStokGir");
+    // const urunStokGırButon = document.querySelector("#urunStokGir");
     
-    urunStokGırButon.addEventListener("click", async (e) => {
+    // urunStokGırButon.addEventListener("click", async (e) => {
 
-      const selectedProduct = document.querySelector("#productSelect").value;
-      const selectedMaterial = document.querySelector("#materialSelect").value;
-      const stockAmount = document.querySelector("#stokMiktar").value;
-      e.preventDefault();
+    //   const selectedProduct = document.querySelector("#productSelect").value;
+    //   const selectedMaterial = document.querySelector("#materialSelect").value;
+    //   const stockAmount = document.querySelector("#stokMiktar").value;
+    //   e.preventDefault();
 
-      // Seçilen ürün ve malzeme ID'si
-      const selectedProductId = productSelect.value;
-      const selectedMaterialId = materialSelect.value;
+    //   // Seçilen ürün ve malzeme ID'si
+    //   const selectedProductId = productSelect.value;
+    //   const selectedMaterialId = materialSelect.value;
 
-      // Seçilen ürün ve malzeme adı
-      const selectedProductName = productSelect.options[productSelect.selectedIndex].text;
-      const selectedMaterialName = materialSelect.options[materialSelect.selectedIndex].text;
+    //   // Seçilen ürün ve malzeme adı
+    //   const selectedProductName = productSelect.options[productSelect.selectedIndex].text;
+    //   const selectedMaterialName = materialSelect.options[materialSelect.selectedIndex].text;
 
      
 
-      try {
-        const response = await fetch("/urunler/stok/post", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            product: selectedProductName,
-            material: selectedMaterialName,
-            amount: stockAmount,
-            action: "add", // 'add' veya 'remove' işlemi
-          }),
-        });
+    //   try {
+    //     const response = await fetch("/urunler/stok/post", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         product: selectedProductName,
+    //         material: selectedMaterialName,
+    //         amount: stockAmount,
+    //         action: "add", // 'add' veya 'remove' işlemi
+    //       }),
+    //     });
 
         
-        const result = await response.json();
-        if (result.success) {
-          alert("Stok güncellendi!");
-        } else {
-          alert("Stok güncellenirken bir hata oluştu.");
-        }
-      } catch (error) {
-        console.error("Stok güncelleme hatası:", error);
-      }
-    });
+    //     const result = await response.json();
+    //     if (result.success) {
+    //       alert("Stok güncellendi!");
+    //     } else {
+    //       alert("Stok güncellenirken bir hata oluştu.");
+    //     }
+    //   } catch (error) {
+    //     console.error("Stok güncelleme hatası:", error);
+    //   }
+    // });
 
 
     /////////////////////////////////////////////////////////////////////////////

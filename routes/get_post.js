@@ -3,6 +3,20 @@ const router = express.Router();
 
 const db = require("../data/db"); 
 
+router.get('/lowStock/get', async function (req, res) {
+
+    try {
+        const [lowStock] = await db.execute(
+          "SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
+        );
+        res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
+    }
+
+});
+
 router.get('/siparisList/trc60', async function (req, res) {
     
     try {
@@ -22,19 +36,40 @@ router.get('/siparisList/trc60', async function (req, res) {
 
 })
 
-router.get('/lowStock/get', async function (req, res) {
-
-    try {
-        const [lowStock] = await db.execute(
-          "SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
-        );
-        res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
+router.post("/gunlukUretim", async function(req,res){
+    const urunName =  req.body.urunName;
+    const urunDetay =  req.body.urunDetay;
+    const urunAdet =  req.body.urunAdet;
+    const urunDate =  req.body.urunDate;
+     
+    try{
+         await db.execute("INSERT INTO savedata(urunName,urunDetay,urunAdet,urunDate) VALUES (?,?,?,?)", [urunName, urunDetay, urunAdet, urunDate])
+         res.redirect("/gunlukUretim");
     }
+    catch(err){
+         console.log(err);
+    }
+ 
+ });
 
-});
+
+ router.post("/urunler/post", async function(req,res){
+    const malName =  req.body.malName;
+    const malAltName =  req.body.malAltName;
+    const urunAdet =  req.body.amount;
+    const urunACTİON =  req.body.urunACTİON;
+     
+    try{
+        console.log("post edilen veriler",malName,malAltName,urunAdet,urunACTİON)
+         res.redirect("/urunKayit");
+    }
+    catch(err){
+         console.log(err);
+    }
+ 
+ });
+ 
+
 
 router.get('/urunler/get', async function (req, res) {
 

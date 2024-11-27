@@ -78,10 +78,7 @@ router.get("/index",async function(req, res){
     try{
       
         const [stokCard] = await db.execute("SELECT * FROM urunler");
-        
-       
-
-
+     
         res.render("users/index", {
             title:"STOK SAYFAM",
             urunName: stokCard,
@@ -98,6 +95,7 @@ router.get("/index",async function(req, res){
 
 
 
+
 router.get("/savedata", async (req, res) => {
     try {
         const [rows] = await db.execute("SELECT * FROM savedata");
@@ -107,56 +105,6 @@ router.get("/savedata", async (req, res) => {
         res.status(500).send("Veritabanı hatası");
     }
 });
-
-router.get("/buNedir", async (req, res) => {
-    try {
-        const [ornekDene] = await db.execute("SELECT * FROM urunshowcard");
-        res.json(ornekDene);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Veritabanı hatası");
-    }
-});
-
-router.post("/updateProduct", async (req, res) => {
-    const newProductName = req.body.productName;  // Formdan gelen yeni ürün adı
-    try {
-        const result = await db.execute(
-            "UPDATE savedata SET urunName = ? WHERE dataID = ?",
-            [newProductName, 1]  // id 1 olan ürünün adını güncelliyoruz
-        );
-        
-        res.redirect("/deneme");
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Veritabanı hatası");
-    }
-});
-
-
-
-
-
-router.post("/gunlukUretim", async function(req,res){
-   const urunName =  req.body.urunName;
-   const urunDetay =  req.body.urunDetay;
-   const urunAdet =  req.body.urunAdet;
-   const urunDate =  req.body.urunDate;
-    
-   try{
-        await db.execute("INSERT INTO savedata(urunName,urunDetay,urunAdet,urunDate) VALUES (?,?,?,?)", [urunName, urunDetay, urunAdet, urunDate])
-        res.redirect("/gunlukUretim");
-   }
-   catch(err){
-        console.log(err);
-   }
-
-});
-
-
-
-
-
 
 
 
