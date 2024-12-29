@@ -6,163 +6,93 @@
     <title>ÜRÜN KAYIT</title>
 </head>
 
-<body>
+<body class="bg-dark">
   <%- include("../partials/nav") %>
-  <main class="container-md mt-5 bg-warning p-5">
-    <form class="getForm" action="/urunler/get" method="GET">
-      <!-- Ürün Seçimi -->
-      <div class="col-auto mb-3 urnForm">
-        <!-- Dinamik olarak doldurulacak -->
-      </div>
-  
-      <!-- Malzeme Seçimi -->
-      <div class="col-auto mb-3 malzemeForm">
-        <!-- Dinamik olarak doldurulacak -->
-      </div>
-  
-     
-    </form>
 
-    <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+  <div class="d-flex justify-content-center align-items-center mt-3 mb-3" id="urunContainer">
 
-    <form class="postForm" action="/urunler/post" method="POST" >  
-         
-      <!-- Miktar Girişi -->
+  </div>
+
+  
+
+  <main class="bg-dark">
+
+    <%- include("../partials/eklecıkar") %>
+
+    <br><br><br>
+
+
+    <div class="bg-warning p-3">
+
+      <h3>GİRDİLER/ÇIKTILAR</h3>
+
+      <div class="w-50">
         
-         <label>Miktar:</label>
-        <input id="stokMiktar" type="number" name="amount" required>
-      
-        <!-- İşlem Butonları -->
-        <button id="urunStokGir" class="btn btn-primary urunGır" type="button" name="action" value="add">ÜRÜN GİR</button>
-        <button class="btn btn-danger urunCık" type="button" name="action" value="remove">ÜRÜN ÇIK</button>
+        <ul class="list-group">
+          <li class="list-group-item">Ürün adı ÜRÜN 1  Malzeme adı ÜRÜN MLZ  eklenen adet : 100</li>
+        </ul>
 
-    </form>
+      </div>
 
-    <!-- //////////////////////////////////////////////////////////////////////////////// -->
+      <ul class="list-group">
+        
+        <li class="list-group-item">Cras justo odio</li>
+        <li class="list-group-item">Dapibus ac facilisis in</li>
+       
+      </ul>
+
+    </div>
+
   </main>
   
+
   <script>
-    // Ürünleri ve malzemeleri getirmek için kullanılan fonksiyonlar
-    document.addEventListener("DOMContentLoaded", async () => {
-      await fetchProducts(); // Ürün listesini yükle
-    });
-  
-    async function fetchProducts() {
-      try {
-        const response = await fetch("/urunler/get");
-        const products = await response.json();
-  
-        const urnForm = document.querySelector(".urnForm");
-        let selectHTML = `
-          <label for="productSelect" >Ürün Seç</label>
-          <select class="form-select" id="productSelect">
-          <option name="malName"  selected value="">ÜRÜN SEÇ...</option>`;
-  
-        products.forEach(product => {
-          selectHTML += `<option value="${product.urun_key}">${product.urun_Name}</option>`;
-        });
-  
-        selectHTML += `</select>`;
-        urnForm.innerHTML = selectHTML;
-  
-        // Ürün seçiminde malzemeleri yükleme işlemini bağla
-        document.getElementById("productSelect").addEventListener("change", async (event) => {
-          const selectedProductId = event.target.value;
-          if (selectedProductId) {
-            await fetchMaterials(selectedProductId);
-          } else {
-            document.querySelector(".malzemeForm").innerHTML = ""; // Malzemeleri temizle
-          }
-        });
-      } catch (error) {
-        console.error("Ürünleri getirme hatası:", error);
-      }
-    }
-  
-    async function fetchMaterials(productId) {
-      try {
-        const response = await fetch(`/urunler/malzeme/get/${productId}`);
-        const materials = await response.json();
-  
-        const malzemeForm = document.querySelector(".malzemeForm");
-        let selectHTML = `
-          <label for="materialSelect">Malzeme Seç</label>
-          <select class="form-select" id="materialSelect">
-            <option name="malAltName" selected value="">MALZEME SEÇ...</option>
-        `;
-  
-        materials.forEach(material => {
-          selectHTML += `<option value="${material.urun_malzeme_PK}">${material.urun_malzeme_adi} (${material.malzeme_id})</option>`;
-        });
-  
-        selectHTML += `</select>`;
-        malzemeForm.innerHTML = selectHTML;
-      } catch (error) {
-        console.error("Malzemeleri getirme hatası:", error);
-      }
-    }
+
+  document.addEventListener('DOMContentLoaded', async () => {
 
 
-    ////////////////////////////////////////////////////////////////////////////
+    try {
 
+      const response = await fetch ('urun/card');
+      const urunCard = await response.json();
 
-    // const urunStokGırButon = document.querySelector("#urunStokGir");
-    
-    // urunStokGırButon.addEventListener("click", async (e) => {
+      urunCard.forEach(urun => {
+        let urunCont = document.querySelector("#urunContainer");
+        let urunadi = document.querySelector("#urunName");
 
-    //   const selectedProduct = document.querySelector("#productSelect").value;
-    //   const selectedMaterial = document.querySelector("#materialSelect").value;
-    //   const stockAmount = document.querySelector("#stokMiktar").value;
-    //   e.preventDefault();
-
-    //   // Seçilen ürün ve malzeme ID'si
-    //   const selectedProductId = productSelect.value;
-    //   const selectedMaterialId = materialSelect.value;
-
-    //   // Seçilen ürün ve malzeme adı
-    //   const selectedProductName = productSelect.options[productSelect.selectedIndex].text;
-    //   const selectedMaterialName = materialSelect.options[materialSelect.selectedIndex].text;
-
-     
-
-    //   try {
-    //     const response = await fetch("/urunler/stok/post", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         product: selectedProductName,
-    //         material: selectedMaterialName,
-    //         amount: stockAmount,
-    //         action: "add", // 'add' veya 'remove' işlemi
-    //       }),
-    //     });
-
+        urunCont.innerHTML += `
+        <div class="card" style="width: 18rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">${urun.urun_Name}</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>` 
+        ;
         
-    //     const result = await response.json();
-    //     if (result.success) {
-    //       alert("Stok güncellendi!");
-    //     } else {
-    //       alert("Stok güncellenirken bir hata oluştu.");
-    //     }
-    //   } catch (error) {
-    //     console.error("Stok güncelleme hatası:", error);
-    //   }
-    // });
+
+      });
+
+    } catch (error) {
+      console.log(error);
+    }
 
 
-    /////////////////////////////////////////////////////////////////////////////
+
+
+
+
+  });
+
+
+
+
+
+
 
   </script>
-  
-
-
-
-
-
-
-
+ 
 
     
 </body>

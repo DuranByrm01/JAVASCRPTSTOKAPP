@@ -1,12 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include("../partials/meta") %>
-    <title>blog Oluşturma</title>
-</head>
-<body>
-    <%- include("../partials/nav") %>
 
-    <h1>save Page</h1>
+<head>
+  <%- include("../partials/meta") %>
+    <title>ÜRÜN KAYIT</title>
+</head>
+
+<body class="bg-dark">
+  <%- include("../partials/nav") %>
+
+  <main class="bg-dark">
+
+    <div class="text-white p-5">
+      
+      <table class="table text-white w-50 border mx-auto ">
+        <thead >
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">ÜRÜN ADI</th>
+            <th scope="col">ÜRÜN KEY</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>TRC60</td>
+            <td>1001</td>
+            
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>TRC01</td>
+            <td>1002</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td >GZC24</td>
+            <td >1003</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td >GZC24 GOLD</td>
+            <td >1004</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td >CASUS</td>
+            <td >1005</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="p-2">
+      <h3 class="text-white">ÜRÜN MALZEMESİ EKLEME</h3>
+      <ul class="text-white">
+        <li>Hangi ürüne malzeme ekleyecekseniz o ürünün key i ile ekleme yapın</li>
+        <li>Ürün malzeme pk ile ürün malzeme key i aynı olmak zorunda</li>
+        <li>Ürün malzeme girişi yaptıktan sonra malzeme adetini arttırma yada azaltma işini anasayfadan yapınız</li>
+      </ul>
+    </div>
+
+    <div class="mx-auto p-2">
+      <form >
+        <input id="urunMalzemeAdi" class="w-25" placeholder="ürün malzemesinin adı" type="text" name="ürünMalzemesi">
+        <input id="urunMalzemePK" placeholder="ürün malzeme pk" type="text" name="ürünMalzemePK">
+        <input id="urunMalzemeKEY" placeholder="ürün malzeme key" type="text" name="ürünMalzemeKEY">
+        <button id="ürünEkleButton" class="btn btn-primary">ürün ekle</button>
+      </form>
+      
+    </div>
+
+
+  </main>
+ 
+  <script>
+
+    
+
+    const ürünEkle = document.querySelector("#ürünEkleButton");
+
+    ürünEkle.addEventListener("click", urunekleFanc);
+
+    async function urunekleFanc(){
+      const urunMalzemeAdi = document.querySelector("#urunMalzemeAdi");
+      const urunMalzemePK = document.querySelector("#urunMalzemePK");
+      const urunMalzemeKEY = document.querySelector("#urunMalzemeKEY");
+
+      let urunMalzemeAdiV = urunMalzemeAdi.value;
+      let urunMalzemePKv = urunMalzemePK.value;
+      let urunMalzemeKEYv = urunMalzemeKEY.value;
+
+      const formattedDate = new Intl.DateTimeFormat('tr-TR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit'
+      }).format(new Date());
+
+      if(urunMalzemeAdiV ==="" || urunMalzemePKv === "" || urunMalzemeKEYv ==="" ){
+        alert("Lütfen bilgileri doğru giriniz...")
+      }else{
+          try {
+            const response = await fetch("urun/malzeme", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+
+                urunAdi: urunMalzemeAdiV,
+                urunAdet: 0,
+                urunPK: urunMalzemePKv,
+                urunKey: urunMalzemeKEYv,
+                urunsavedate: formattedDate,
+              }),
+            
+            });
+
+           
+            
+          } catch (error) {
+            console.log(error)
+          }
+      }
+
+      
+
+    }
+
+
+
+  </script>
+
+
+    
 </body>
+
 </html>

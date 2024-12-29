@@ -5,7 +5,7 @@
     <title>Günlük İş Kayıt Defteri</title>
     
 </head>
-<body>
+<body class="bg-dark">
 
     <%- include("../partials/nav") %>
 
@@ -14,45 +14,67 @@
 
         <div class="container-xl vw-100 wh-100 mt-3">
 
-            <div class="container-xl shadow-lg p-3 rounded">
+            <div class="container-xl bg-primary p-3 rounded">
 
                 <div class="container-xl p-2 ">
     
                     <form action="/gunlukUretim" method="post" id="urunForm" class="d-flex justify-content-center align-items-center flex-wrap gap-3 ">
-                        <input  id="urunName" placeholder="ürünün adını giriniz..." type="text" name="urunName" />
-                        <input  id="urunDetay" placeholder="ürünün detayını yazınız..." type="text" name="urunDetay"/>
-                        <input  id="urunAdet" placeholder="ürünün adeti..." type="number"  name="urunAdet"/>
-                        <input  id="urunTarih" type="date" name="urunDate"/>
-                        <button class="btn btn-primary" type="submit">KAYDET</button>
+                        <input class="form-control w-auto"  id="urunName" placeholder="ürünün adını giriniz..." type="text" name="urunName" />
+                        <input class="form-control w-auto" id="urunDetay" placeholder="ürünün detayını yazınız..." type="text" name="urunDetay"/>
+                        <input class="form-control w-auto" id="urunAdet" placeholder="ürünün adeti..." type="number"  name="urunAdet"/>
+                        <input class="form-control w-auto" id="urunTarih" type="date" name="urunDate"/>
+                        <button class="btn btn-warning" type="submit">KAYDET</button>
                     </form>
     
                 </div>
     
             </div>
     
-            <div class=" mt-3 p-2">
+            <div  class=" mt-3 p-2 bg-primary rounded ">
     
                 
                 
-                <div class="list-group list-group-flush w-auto mt-3">
+                <div  class="list-group list-group-flush w-auto mt-3 ">
 
-                    <div style="margin-left: 35px;"  class="searchBox mb-2">
-                        <input id="searchInput" type="text" placeholder="Lütfen aramak istediğiniz ürünü yazınız" oninput="filterList()">
+
+                    <div  class="searchBox  d-flex align-items-center">
+                        
+                        <input type="text" id="searchInputList" oninput="filterListİ()" placeholder="Ara..." class="form-control p-2 mb-2  w-auto">
+
                     </div>
 
                     
-
-                    <ul class="dataList ">
-
-
-                        <% daySaveData.forEach(function(data) { %>
-                            
-                            <li class="list-group-item list-group-item-action shadow w-auto bg-dark text-white"><%= data.urunName %> = <%= data.urunDetay %>  = <%= data.urunAdet %>  = <%= data.urunDate %></li>
-                            
-                        <% }) %>
+                    <div  class="table-responsive" style="max-height: 500px; overflow-y: auto;">
                         
+                        <table  class="table bg-warning text-dark mt-3 table-bordered border-dark">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px;" scope="col">#</th>
+                                    <th scope="col">ÜRÜN ADI</th>
+                                    <th scope="col">ÜRÜN DETAY</th>
+                                    <th scope="col">ÜRÜN ADET</th>
+                                    <th scope="col">ÜRÜN TARİH</th>
+                                </tr>
+                            </thead>
+                            <tbody class="dataListSearch">
+                                <% daySaveData.forEach(function(data) { %>
+                                    <tr>
+                                        <th scope="row"><i class="fa-solid fa-circle-chevron-right"></i></th>
+                                        <td><%= data.urunName %></td>
+                                        <td><%= data.urunDetay %></td>
+                                        <td><%= data.urunAdet %></td>
+                                        <td><%= data.urunDate %></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
 
-                    </ul>
+                    
+                      
+                    
+                    
+
                 </div>
 
             </div>
@@ -63,25 +85,23 @@
 
     <script>
            
-        function filterList() {
-            
-             // Arama girişinin değerini al
-             const searchInput = document.getElementById('searchInput').value.toLowerCase();
-             
-             // Liste öğelerini al
-             const listItems = document.querySelectorAll('.dataList li');
-             
-             // Liste öğeleri üzerinde döngü yap ve arama girişine uyanları göster
-             listItems.forEach((item) => {
+       
+        function filterListİ() {
+            // Arama girişinin değerini al
+            const searchInput = document.getElementById('searchInputList').value.toLowerCase().trim();
 
-                const itemText = item.textContent.toLowerCase();
+            // Liste öğelerini al
+            const listItems = document.querySelectorAll('.dataListSearch tr');
 
-                if (itemText.includes(searchInput)) {
-                     item.style.display = ''; // Öğeyi göster
+            // Liste öğeleri üzerinde döngü yap ve arama girişine uyanları göster
+            listItems.forEach((item) => {
+                const itemText = item.textContent.toLowerCase().trim();
+
+                if (!searchInput || itemText.includes(searchInput)) {
+                    item.style.display = ''; // Öğeyi göster
                 } else {
-                     item.style.display = 'none'; // Öğeyi gizle
+                    item.style.display = 'none'; // Öğeyi gizle
                 }
-
             });
         }
 
