@@ -38,6 +38,19 @@
         
         <li class="list-group-item">Cras justo odio</li>
         <li class="list-group-item">Dapibus ac facilisis in</li>
+
+        <ul class="list-group">
+          <% addRemoveLog.forEach(log => { %>
+              <li class="list-group-item">
+                  Ürün adı: <%= log.urun_adi %><br>
+                  Malzeme adı: <%= log.malzeme_adi %><br>
+                  Miktar: <%= log.amount %><br>
+                  Yapılan işlem: <%= log.action %><br>
+              </li>
+          <% }) %>
+      </ul>
+      
+      
        
       </ul>
 
@@ -78,6 +91,15 @@
       console.log(error);
     }
 
+    try {
+
+      
+
+
+
+    } catch (error) {
+      console.log("loglama hatası", error);
+    }
 
 
 

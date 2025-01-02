@@ -152,6 +152,12 @@ router.post('/urunler/stok/post', async (req, res) => {
         }
 
         
+        // loglama 
+        
+        await db.execute(`INSERT INTO urun_malzeme_kayıtları (urun_adi, malzeme_adi, amount, action) VALUES (?,?,?,?)`, [product,material,amount,action]);
+        
+        ///////
+        
         // Yönlendirme işlemini en son yapıyoruz
         res.redirect('/index');
 
@@ -162,6 +168,29 @@ router.post('/urunler/stok/post', async (req, res) => {
 });
 
 
+//////////////////////log
+
+router.get('/add/remove/log', async function (req, res) {
+
+    try {
+        const [loglama] = await db.execute(`SELECT * FROM urun_malzeme_kayıtları`);
+        // res.json(loglama);
+        // res.render('add/remove/log',{loglama});
+        console.log(loglama);
+
+        res.render("add/remove/log", {
+            title: "STOK SAYFAM",
+            addRemoveLog: loglama,
+        });
+
+        console.log(addRemoveLog);
+
+    } catch (error) {
+        console.log("add/remove", error);
+    }
+
+    
+});
   
 
 
