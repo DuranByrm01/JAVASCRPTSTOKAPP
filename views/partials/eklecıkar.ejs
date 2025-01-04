@@ -54,7 +54,10 @@
     // Ürünleri ve malzemeleri getirmek için kullanılan fonksiyonlar
     document.addEventListener("DOMContentLoaded", async () => {
       await fetchProducts(); // Ürün listesini yükle
+
     });
+
+
   
     async function fetchProducts() {
       try {
@@ -133,6 +136,19 @@
       const selectedProductName = productSelect.options[productSelect.selectedIndex].text;
       const selectedMaterialName = materialSelect.options[materialSelect.selectedIndex].text;
 
+      // Güncel tarihi al
+      const today = new Date();
+
+      // Gün, Ay ve Yıl bilgilerini alın
+      const day = String(today.getDate()).padStart(2, '0'); // Gün
+      const month = String(today.getMonth() + 1).padStart(2, '0'); // Ay (0'dan başlar)
+      const year = today.getFullYear(); // Yıl
+
+      // İstediğiniz formatta tarihi birleştirin
+      const formattedDate = `${day}.${month}.${year}`;
+
+      console.log(formattedDate); // Çıktı: 04.01.2025
+
      
 
       try {
@@ -146,10 +162,11 @@
             material: selectedMaterialName,
             amount: stockAmount,
             action: "add", // 'add' veya 'remove' işlemi
-            
+            date : formattedDate
           }),
           
         });
+
         location.reload(); // Sayfayı yeniden yükler
         
         const result = await response.json();
@@ -185,6 +202,18 @@
       const selectedProductName = productSelect.options[productSelect.selectedIndex].text;
       const selectedMaterialName = materialSelect.options[materialSelect.selectedIndex].text;
 
+      // Güncel tarihi al
+      const today = new Date();
+
+      // Gün, Ay ve Yıl bilgilerini alın
+      const day = String(today.getDate()).padStart(2, '0'); // Gün
+      const month = String(today.getMonth() + 1).padStart(2, '0'); // Ay (0'dan başlar)
+      const year = today.getFullYear(); // Yıl
+
+      // İstediğiniz formatta tarihi birleştirin
+      const formattedDate = `${day}.${month}.${year}`;
+
+      console.log(formattedDate); // Çıktı: 04.01.2025
 
 
       try {
@@ -198,6 +227,7 @@
             material: selectedMaterialName,
             amount: stockAmount,
             action: "remove", // 'add' veya 'remove' işlemi
+            date : formattedDate
           }),
         });
 

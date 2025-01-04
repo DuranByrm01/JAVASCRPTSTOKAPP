@@ -26,33 +26,19 @@
 
       <h3>GİRDİLER/ÇIKTILAR</h3>
 
-      <div class="w-50">
+      <div  style="max-height: 300px;" class="w-auto overflow-auto">
+        <ul id="addRemovelogList" class="list-group">
+          
+          <li class="list-group-item">Cras justo odio</li>
+          <li class="list-group-item">Dapibus ac facilisis in</li>
         
-        <ul class="list-group">
-          <li class="list-group-item">Ürün adı ÜRÜN 1  Malzeme adı ÜRÜN MLZ  eklenen adet : 100</li>
+          
         </ul>
 
       </div>
 
-      <ul class="list-group">
-        
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-
-        <ul class="list-group">
-          <% addRemoveLog.forEach(log => { %>
-              <li class="list-group-item">
-                  Ürün adı: <%= log.urun_adi %><br>
-                  Malzeme adı: <%= log.malzeme_adi %><br>
-                  Miktar: <%= log.amount %><br>
-                  Yapılan işlem: <%= log.action %><br>
-              </li>
-          <% }) %>
-      </ul>
-      
       
        
-      </ul>
 
     </div>
 
@@ -89,6 +75,30 @@
 
     } catch (error) {
       console.log(error);
+    }
+
+    try {
+
+      const response = await fetch('/add/Remove');
+      const addRemoveList = await response.json();
+
+      const addRemovelogList = document.querySelector("#addRemovelogList");
+      addRemovelogList.innerHTML = "";
+
+      addRemoveList.forEach(addRemove => {
+
+        const itemLi = document.createElement("li");
+        itemLi.className = "list-group-item list-group-item-action";
+
+        itemLi.innerHTML = `Ürün adı : <strong class="bg-warning">${addRemove.urun_adi}</strong> alt malzeme adı : <strong class="bg-warning">${addRemove.malzeme_adi}</strong> eklenen sayı : <strong class="bg-warning"> ${addRemove.amount}</strong> yapılan işlem : <strong class="bg-warning">${addRemove.action}</strong> kayıt tarihi : <strong class="bg-warning">${addRemove.date}</strong>`;
+
+        addRemovelogList.appendChild(itemLi);
+
+      })
+
+
+    } catch (error) {
+      console.log("/add/remove hatası",error)
     }
 
     try {

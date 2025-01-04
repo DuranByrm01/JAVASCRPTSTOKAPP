@@ -42,12 +42,13 @@ router.get("/gunlukUretim",async  function(req, res){
 
 });
 
-router.use("/urunKayit",function(req, res){
-   
+router.use("/urunKayit", async function(req, res){
+
     res.render("users/urunKayit",{
-        title:"STOK SAYFAM"
+        title:"STOK SAYFAM",
         
     });
+    
 });
 
 router.use("/urunList", async function(req, res){
@@ -55,14 +56,14 @@ router.use("/urunList", async function(req, res){
 
     try {
         const [urunListC, ] = await db.execute("select * from urunler")
-        const [trc60] = await db.execute("SELECT * FROM trc60");
+        // const [trc60] = await db.execute("SELECT * FROM trc60");
         
 
         res.render("users/urunList", {
 
             title:"STOK SAYFAM",
             cards: urunListC,
-            trcStockCard : trc60
+            // trcStockCard : trc60
             
         });
         
@@ -110,39 +111,6 @@ router.get("/savedata", async (req, res) => {
 
 
 
-// router.get("/urun/card", async function (req, res) {
-    
-//     try {
-
-//         const [trc60] = await db.execute("SELECT * FROM trc60");
-//         res.json(trc60);
-
-        
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).send("Veritabanı hatası");
-//     }
-
-
-
-// })
-
-// router.get('/urun/card/trc01', async function (req, res) {
-    
-//     try {
-
-//         const [trc01] = await db.execute("SELECT * FROM trc01");
-//         res.json(trc01);
-
-        
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).send("Veritabanı hatası");
-//     }
-
-
-
-// })
 
 
 

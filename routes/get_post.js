@@ -77,7 +77,7 @@ router.get('/urunler/malzeme/get/:urun_malzeme_PK', async function (req, res) {
 
 
 router.post('/urunler/stok/post', async (req, res) => {
-    const { product, material, amount, action } = req.body;
+    const { product, material, amount, action , date } = req.body;
 
     console.log("Gönderilen Veriler:", req.body);
     
@@ -146,15 +146,21 @@ router.post('/urunler/stok/post', async (req, res) => {
         );
 
         if(action === "add"){
-            console.log(`Ürün adı ${product} malzeme adı ${material} eklenen malzeme miktarı: ${amount} GÜNCEL ADET : ${newAmount} `);
+
+            addMesage = (`Ürün adı ${product} malzeme adı ${material} eklenen malzeme miktarı: ${amount} GÜNCEL ADET : ${newAmount} `);
+
+            console.log(addMesage);
         }else{
-            console.log(`Ürün adı ${product} malzeme adı ${material} çıkarılan malzeme miktarı: ${amount} GÜNCEL ADET : ${newAmount} `);
+
+            removeMesage = (`Ürün adı ${product} malzeme adı ${material} çıkarılan malzeme miktarı: ${amount} GÜNCEL ADET : ${newAmount} `);
+
+            console.log(removeMesage);
         }
 
         
         // loglama 
         
-        await db.execute(`INSERT INTO urun_malzeme_kayıtları (urun_adi, malzeme_adi, amount, action) VALUES (?,?,?,?)`, [product,material,amount,action]);
+        await db.execute(`INSERT INTO urun_malzeme_kayıtları (urun_adi, malzeme_adi, amount, action, date) VALUES (?,?,?,?,?)`, [product,material,amount,action,date]);
         
         ///////
         
@@ -349,5 +355,29 @@ router.get('/urun/card', async function (req, res){
 
 
 //////////////ürün kartları /////////////////////////
+/////////////////////////////////////////////////////////////loglama
+
+router.get('/add/Remove', async function (req, res) {
+
+    try {
+
+        const [addRemove, ] = await db.execute("select * from urun_malzeme_kayıtları")
+
+        res.json(addRemove);
+
+    } catch (error) {
+        console.log("backend add/remove hatası :",error);
+    }
+    
+
+    
+})
+
+
+///////////////////////////////////////////////////////////
+
+
+
+
 
 module.exports = router;
