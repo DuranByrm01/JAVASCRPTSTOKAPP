@@ -73,7 +73,7 @@ router.get('/urunler/malzeme/get/:urun_malzeme_PK', async function (req, res) {
 
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////dasdad/////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////dasdad/////////////ekle çıkar
 
 
 router.post('/urunler/stok/post', async (req, res) => {
@@ -123,10 +123,10 @@ router.post('/urunler/stok/post', async (req, res) => {
         // action'a göre yeni miktarı hesapla
         let newAmount;
 
-        if (action === 'add') {
+        if (action === 'GİRDİ') {
             // Eğer işlem 'add' ise, miktarı ekle
             newAmount = currentAmount + amountToUpdate;
-        } else if (action === 'remove') {
+        } else if (action === 'ÇIKTI') {
             // Eğer işlem 'remove' ise, miktarı çıkar
             // Stok miktarı negatif olmamalı, bu yüzden kontrol edelim
             if (currentAmount < amountToUpdate) {
@@ -145,7 +145,7 @@ router.post('/urunler/stok/post', async (req, res) => {
             [newAmount, material, productKey]
         );
 
-        if(action === "add"){
+        if(action === "GİRDİ"){
 
             addMesage = (`Ürün adı ${product} malzeme adı ${material} eklenen malzeme miktarı: ${amount} GÜNCEL ADET : ${newAmount} `);
 

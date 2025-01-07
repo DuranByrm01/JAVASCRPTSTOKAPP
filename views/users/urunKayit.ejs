@@ -26,18 +26,37 @@
 
       <h3>GİRDİLER/ÇIKTILAR</h3>
 
-      <div  style="max-height: 300px;" class="w-auto overflow-auto">
-        <ul id="addRemovelogList" class="list-group">
-          
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-        
-          
-        </ul>
+      <div  class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                        
+        <table  class="table bg-primary text-white mt-3 table-bordered border-dark ">
+            <thead>
+                <tr>
+                    <th style="width: 10px;" scope="col">#</th>
+                    <th scope="col">ÜRÜN ADI</th>
+                    <th scope="col">ÜRÜN DETAY</th>
+                    <th scope="col">ÜRÜN ADET</th>
+                    <th scope="col">ÜRÜN GİRİŞ/ÇIKIŞ</th>
+                    <th scope="col">ÜRÜN TARİH</th>
+                </tr>
+            </thead>
+            <tbody id="addRemovelogListTable" class="dataListSearch">
+                
+                    <tr>
+                        <th scope="row"></th>
+                        <td >deneme</td>
+                        <td >deneme</td>
+                        <td >deneme</td>
+                        <td >deneme</td>
+                        <td >deneme</td>
+                        
+                    </tr>
+                
+            </tbody>
+        </table>
+    </div>
 
-      </div>
 
-      
+     
        
 
     </div>
@@ -65,6 +84,11 @@
           <div class="card-body">
             <h5 class="card-title">${urun.urun_Name}</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+            <ul>
+              <li>ürün 1</li>
+            </ul>
+
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
         </div>` 
@@ -74,7 +98,7 @@
       });
 
     } catch (error) {
-      console.log(error);
+      console.log("urunCont hata",error);
     }
 
     try {
@@ -82,20 +106,27 @@
       const response = await fetch('/add/Remove');
       const addRemoveList = await response.json();
 
-      const addRemovelogList = document.querySelector("#addRemovelogList");
-      addRemovelogList.innerHTML = "";
+      const addRemovelogListTable = document.querySelector("#addRemovelogListTable");
+      addRemovelogListTable.innerHTML = "";
 
-      addRemoveList.forEach(addRemove => {
+      addRemoveList.forEach((addRemoveData , index) => {
+          const tableRow = `
 
-        const itemLi = document.createElement("li");
-        itemLi.className = "list-group-item list-group-item-action";
+           <tr>
+              <th scope="row">${index + 1}</th>
+              <td ><strong class="bg-warning text-dark p-1">${addRemoveData.urun_adi}</strong></td>
+              <td ><strong class="bg-warning text-dark p-1">${addRemoveData.malzeme_adi.toUpperCase()}</strong></td>
+              <td ><strong class="bg-warning text-dark p-1"> ${addRemoveData.amount}</strong></td>
+              <td ><strong class="bg-warning text-dark p-1">${addRemoveData.action.toUpperCase()}</strong></td>
+              <td ><strong class="bg-warning text-dark p-1">${addRemoveData.date}</strong></td>
+                     
+           </tr
+          
+          `;
+          addRemovelogListTable.innerHTML += tableRow;
+      });
 
-        itemLi.innerHTML = `Ürün adı : <strong class="bg-warning">${addRemove.urun_adi}</strong> alt malzeme adı : <strong class="bg-warning">${addRemove.malzeme_adi}</strong> eklenen sayı : <strong class="bg-warning"> ${addRemove.amount}</strong> yapılan işlem : <strong class="bg-warning">${addRemove.action}</strong> kayıt tarihi : <strong class="bg-warning">${addRemove.date}</strong>`;
-
-        addRemovelogList.appendChild(itemLi);
-
-      })
-
+      
 
     } catch (error) {
       console.log("/add/remove hatası",error)
