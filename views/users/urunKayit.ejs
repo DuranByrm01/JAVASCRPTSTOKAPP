@@ -3,7 +3,7 @@
 
 <head>
   <%- include("../partials/meta") %>
-    <title>ÜRÜN KAYIT</title>
+    <title>MALZEME GİRİŞ/ÇIKIŞ</title>
 </head>
 
 <body class="bg-dark">
@@ -77,7 +77,7 @@
       const addRemovelogListTable = document.querySelector("#addRemovelogListTable");
       addRemovelogListTable.innerHTML = "";
 
-      addRemoveList.forEach((addRemoveData , index) => {
+      addRemoveList.reverse().forEach((addRemoveData , index) => {
           const tableRow = `
 
            <tr>

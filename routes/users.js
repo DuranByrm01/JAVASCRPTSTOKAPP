@@ -61,12 +61,22 @@ router.use("/urunList", async function(req, res){
 
         const [trc01Ürünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1002;")
 
+        const [gzc24Ürünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1003;")
+
+        const [goldÜrünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1004;")
+
+        const [casusÜrünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1005;")
+
         res.render("users/urunList", {
 
             title:"STOK SAYFAM",
             cards: urunListC,
-            trcStockCard : trc60Ürünler,
-            trc01StockCard : trc01Ürünler
+            trc60StockCard : trc60Ürünler,
+            trc01StockCard : trc01Ürünler,
+            gzc24StockCard : gzc24Ürünler,
+            goldStockCard : goldÜrünler,
+            casusStockCard : casusÜrünler,
+
         });
         
     } catch (err) {

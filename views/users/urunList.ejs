@@ -12,9 +12,9 @@
      
 
 
-      <div class="showScreen container-md d-flex justify-content-center align-items-center flex-wrap vw-100 vh-100 gap-3 mt-1 mb-4">
+      <div class="showScreen container-xl d-flex justify-content-center flex-wrap vw-100 vh-100 gap-3 mt-1 mb-4 ">
 
-        <div class="card" style="width: 30rem;">
+        <div class="card" style="width: 100%;">
           
           <div class="card-body">
             <h3 class="card-title">TRC60</h3>
@@ -22,8 +22,12 @@
             <p class="card-text">MALZEME LİSTESİ</p>
             <ol class="urunMalzemeList">
 
-              <% trcStockCard.forEach(trc60 => { %>
-                    <li class="list-group-item bg-primary text-white mb-1 p-2"><%= trc60.urun_malzeme_adi %> adet : <%= trc60.urun_malzeme_adet %></li>
+              <% trc60StockCard.forEach(trc60 => { %>
+                  <div class="d-flex justify-content-between bg-primary mb-1">
+                    <li class="list-group-item bg-primary text-white mb-1 p-2"><%= trc60.urun_malzeme_adi %></li>
+                    <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= trc60.urun_malzeme_adet %></strong> PCS </li>
+                  </div>
+                    
               <% }) %>
 
             </ol>
@@ -31,7 +35,7 @@
           </div>
         </div>
 
-        <div class="card" style="width: 30rem;">
+        <div class="card" style="width: 100%;">
           
           <div class="card-body">
             <h3 class="card-title">TRC01</h3>
@@ -40,7 +44,74 @@
             <ol class="urunMalzemeList">
 
               <% trc01StockCard.forEach(trc01 => { %>
-                    <li class="list-group-item bg-primary text-white mb-1 p-2"><%= trc01.urun_malzeme_adi %> adet : <%= trc01.urun_malzeme_adet %></li>
+                   
+                    <div class="d-flex justify-content-between bg-primary mb-1">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= trc01.urun_malzeme_adi %></li>
+                      <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= trc01.urun_malzeme_adet %></strong> PCS </li>
+                    </div>
+              <% }) %>
+
+            </ol>
+           
+          </div>
+        </div>
+
+        <div class="card" style="width: 100%;">
+          
+          <div class="card-body">
+            <h3 class="card-title">GZC24</h3>
+            
+            <p class="card-text">MALZEME LİSTESİ</p>
+            <ol class="urunMalzemeList">
+
+              <% gzc24StockCard.forEach(gzc24 => { %>
+                    
+                    <div class="d-flex justify-content-between bg-primary mb-1">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= gzc24.urun_malzeme_adi %></li>
+                      <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= gzc24.urun_malzeme_adet %></strong> PCS </li>
+                    </div>
+              <% }) %>
+
+            </ol>
+           
+          </div>
+        </div>
+
+        <div class="card" style="width: 100%;">
+          
+          <div class="card-body">
+            <h3 class="card-title">GOLD</h3>
+            
+            <p class="card-text">MALZEME LİSTESİ</p>
+            <ol class="urunMalzemeList">
+
+              <% goldStockCard.forEach(gold => { %>
+                    
+                    <div class="d-flex justify-content-between bg-primary mb-1">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= gold.urun_malzeme_adi %></li>
+                      <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= gold.urun_malzeme_adet %></strong> PCS </li>
+                    </div>
+              <% }) %>
+
+            </ol>
+           
+          </div>
+        </div>
+
+        <div class="card" style="width: 100%;">
+          
+          <div class="card-body">
+            <h3 class="card-title">CASUS</h3>
+            
+            <p class="card-text">MALZEME LİSTESİ</p>
+            <ol class="urunMalzemeList">
+
+              <% casusStockCard.forEach(casus => { %>
+                    
+                    <div class="d-flex justify-content-between bg-primary mb-1">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= casus.urun_malzeme_adi %></li>
+                      <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= casus.urun_malzeme_adet %></strong> PCS </li>
+                    </div>
               <% }) %>
 
             </ol>
