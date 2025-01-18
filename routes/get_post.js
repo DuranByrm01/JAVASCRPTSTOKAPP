@@ -304,15 +304,15 @@ router.get('/urunler/uretimSayiCasus/get', async function (req, res) {
 //////üretim sayısı///////////////////////////////////
 
 
-////////malzeme ekleme //////////////////////
+////////malzeme ekleme save page //////////////////////
 
 
 router.post('/urun/malzeme', async (req, res) =>{
 
-    const { urunAdi, urunAdet, urunPK, urunKey, urunsavedate } = req.body;
+    const { urunAdi, urunAdet, urunPK, urunKey, } = req.body;
 
     // aynı üründen varsa ekleme diye kod yazılacak 
-    console.log(urunsavedate);
+    
 
     try {
         await db.execute("INSERT INTO urunmalzemeleri(urun_malzeme_adi,urun_malzeme_adet,urun_malzeme_PK,urun_key) VALUES (?,?,?,?)", [urunAdi,urunAdet,urunPK,urunKey])
@@ -329,28 +329,6 @@ router.post('/urun/malzeme', async (req, res) =>{
 ////////malzeme ekleme //////////////////////
 
 //////////////ürün kartları /////////////////////////
-
-router.get('/urun/card', async function (req, res){
-
-    try {
-
-        const [urunListCard ] = await db.execute ( "SELECT * FROM urunler" );
-
-        res.json(urunListCard);
-
-    
-
-    } catch (error) {
-
-        console.log(error);
-
-        res.status(500).send("veri tabanı hatası");
-
-    }
-
-
-
-});
 
 
 

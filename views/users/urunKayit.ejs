@@ -71,38 +71,6 @@
 
     try {
 
-      const response = await fetch ('urun/card');
-      const urunCard = await response.json();
-
-      urunCard.forEach(urun => {
-        let urunCont = document.querySelector("#urunContainer");
-        let urunadi = document.querySelector("#urunName");
-
-        urunCont.innerHTML += `
-        <div class="card" style="width: 18rem;">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">${urun.urun_Name}</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-            <ul>
-              <li>ürün 1</li>
-            </ul>
-
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>` 
-        ;
-        
-
-      });
-
-    } catch (error) {
-      console.log("urunCont hata",error);
-    }
-
-    try {
-
       const response = await fetch('/add/Remove');
       const addRemoveList = await response.json();
 
@@ -132,18 +100,7 @@
       console.log("/add/remove hatası",error)
     }
 
-    try {
-
-      
-
-
-
-    } catch (error) {
-      console.log("loglama hatası", error);
-    }
-
-
-
+    
 
 
   });

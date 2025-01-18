@@ -14,7 +14,7 @@ router.get("/deneme",async  function(req, res){
        
         
         res.render("users/deneme",{
-            title: "DENEME",
+            title: "CANLI STOK",
             
         });
         
@@ -56,15 +56,17 @@ router.use("/urunList", async function(req, res){
 
     try {
         const [urunListC, ] = await db.execute("select * from urunler")
-        // const [trc60] = await db.execute("SELECT * FROM trc60");
         
+        const [trc60Ürünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1001;")
+
+        const [trc01Ürünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1002;")
 
         res.render("users/urunList", {
 
             title:"STOK SAYFAM",
             cards: urunListC,
-            // trcStockCard : trc60
-            
+            trcStockCard : trc60Ürünler,
+            trc01StockCard : trc01Ürünler
         });
         
     } catch (err) {

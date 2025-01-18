@@ -2,13 +2,95 @@
 <html lang="en">
 <head>
     <%- include("../partials/meta") %>
-    <title>Deneme</title>
+    <title>CANLI STOK</title>
 </head>
-<body>
+<body class="bg-dark">
 
     <%- include("../partials/nav") %>
     
-   
+    <div class="d-flex flex-wrap justify-content-center align-items-center p-3 w-100">
+
+        <div style="max-height: 50vh; overflow-y: auto;" class="bg-primary mt-5 w-100  p-3">
+
+            <h3 class="text-white">SİPARİŞ EDİLECEK MALZEMELER</h3>
+
+           <table class="table bg-primary text-white mt-3 table-bordered border-dark ">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">MALZEME ADI</th>
+                        <th scope="col">KALAN STOK</th>
+                        
+                    </tr>
+                </thead>
+                <tbody id="canlıStokList">
+                        <!-- <tr>
+                            <td>burası dinamik olarak dolacak</td>
+                        </tr> -->
+                </tbody>
+           </table>
+        </div>
+        <div style="max-height: 50vh; overflow-y: auto;" class="bg-warning mt-5 w-100  p-3">
+            <h3>ATÖLYE İÇİN HAFTALIK ALINACAKLAR</h3>
+            <ul>
+                <li>malzeme 1</li>
+                <li>malzeme 1</li>
+                <li>malzeme 1</li>
+                <li>malzeme 1</li>
+                <li>malzeme 1</li>
+                <li>malzeme 1</li>
+                <li>malzeme 1</li>
+                <li>malzeme 1</li>
+                <li>malzeme 1</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            
+            try {
+
+                const response = await fetch('/lowStock/get');
+                const canlıALınacaklar = await response.json();
+
+                const canlıStokList = document.querySelector("#canlıStokList");
+                // canlıStokList = "";
+
+                canlıALınacaklar.forEach(stockİtem => {
+                    const stockTable = `
+
+                        <tr>
+                            <th style="width: auto;" scope="col">SİPARİŞ EDİLECEK</th>
+                            <td ><strong class="bg-warning text-dark p-1">${stockİtem.urun_malzeme_adi}</strong></td>
+                            <td ><strong class="bg-warning text-dark p-1">${stockİtem.urun_malzeme_adet}</strong></td>
+                            
+                        </tr
+
+                    
+                    `;
+                    canlıStokList.innerHTML += stockTable;
+                });
+                
+            } catch (error) {
+                console.log("lowstock2 eror", error);
+            }
+
+
+            
+
+            
+        })
+
+
+
+
+
+
+
+    </script>
 
 </body>
 </html>
