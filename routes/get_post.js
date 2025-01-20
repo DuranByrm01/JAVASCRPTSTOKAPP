@@ -11,7 +11,7 @@ router.get('/lowStock/get', async function (req, res) {
         );
         res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
     } catch (error) {
-        console.error(error);
+        console.error("lowStock hatası",error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
     }
 
@@ -30,7 +30,7 @@ router.post("/gunlukUretim", async function(req,res){
          res.redirect("/gunlukUretim");
     }
     catch(err){
-         console.log(err);
+         console.log("günlük üretim hatası",err);
     }
  
  });
