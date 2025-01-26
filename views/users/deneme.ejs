@@ -3,6 +3,17 @@
 <head>
     <%- include("../partials/meta") %>
     <title>CANLI STOK</title>
+    <style>
+         input[type="checkbox"] {
+             accent-color: yellow; /* Checkbox işaretleme rengi */
+         }
+
+         .strikethrough td {
+                text-decoration: line-through;
+                text-decoration-thickness: 10px; /* Çizgi kalınlığı */
+                text-decoration-color: blue;
+         }
+    </style>
 </head>
 <body class="bg-dark">
 
@@ -20,6 +31,7 @@
                         <th scope="col">#</th>
                         <th scope="col">MALZEME ADI</th>
                         <th scope="col">KALAN STOK</th>
+                        <th scope="col">SİPARİŞ</th>
                         
                     </tr>
                 </thead>
@@ -30,7 +42,7 @@
                 </tbody>
            </table>
         </div>
-        <div style="max-height: 50vh; overflow-y: auto;" class="bg-warning mt-5 w-100  p-3">
+        <div style="max-height: 50vh; overflow-y: auto; " class="bg-warning mt-5 w-100  p-3">
             <h3>ATÖLYE İÇİN HAFTALIK ALINACAKLAR</h3>
             <ul>
                 <li>malzeme 1</li>
@@ -46,45 +58,46 @@
 
     <script>
 
+
+        
+
+
         document.addEventListener("DOMContentLoaded", async () => {
-            
+           
             try {
 
-                const response = await fetch('/lowStock/get');
-                const canlıALınacaklar = await response.json();
+                const response = await fetch ("/lowStock/get");
+                const siparisListesi = await response.json();
 
-                const canlıStokList = document.querySelector("#canlıStokList");
-                // canlıStokList = "";
-
-                canlıALınacaklar.forEach(stockİtem => {
-                    const stockTable = `
-
+                siparisListesi.forEach(siparisİtem => {
+                    const canlıStokList = document.querySelector("#canlıStokList");
+                    canlıStokList.innerHTML += `
                         <tr>
-                            <th style="width: auto;" scope="col">SİPARİŞ EDİLECEK</th>
-                            <td ><strong class="bg-warning text-dark p-1">${stockİtem.urun_malzeme_adi}</strong></td>
-                            <td ><strong class="bg-warning text-dark p-1">${stockİtem.urun_malzeme_adet}</strong></td>
+                            <th scope="row">${siparisİtem.malzeme_id}</th>
+                            <td>${siparisİtem.urun_malzeme_adi}</td>
+                            <td>${siparisİtem.urun_malzeme_adet}</td>
+                            <td>@mdo</td>
                             
-                        </tr
+                        </tr>
 
-                    
-                    `;
-                    canlıStokList.innerHTML += stockTable;
+
+                    ` ;
                 });
-                
+
+
+
             } catch (error) {
-                console.log("lowstock2 eror", error);
+                console.log("canlı alınacak",error);
             }
 
 
-            
-
-            
-        })
 
 
 
+        });
 
 
+        
 
 
     </script>

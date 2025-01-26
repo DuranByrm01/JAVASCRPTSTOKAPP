@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark bg-primary navbar-expand-lg d-flex justify-content-center align-items-center flex-column flex-wrap">
+<!-- <nav class="navbar navbar-dark bg-primary navbar-expand-lg d-flex justify-content-center align-items-center flex-column flex-wrap">
     <div class="container d-flex justify-content-center align-items-center flex-wrap flex-column">
         <a href="/index" class="navbar-brand bg-warning p-1 rounded text-black fw-bold">
           <%=title  %>
@@ -38,6 +38,41 @@
             </li>
         </ul>
     </div>
-</nav>
+</nav> -->
 
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a href="/index" class="navbar-brand bg-warning p-1 rounded text-black fw-bold">
+            <%=title  %>
+        </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a href="/urunList" class="nav-link">ÜRÜN STOKLARI</a>
+          </li>
+          <li class="nav-item">
+            <a href="/urunKayit" class="nav-link">MALZEME GİRİŞ/ÇIKIŞ</a>
+          </li>
+          <li class="nav-item">
+            <a href="/gunlukUretim" class="nav-link">GÜNLÜK KAYIT</a>
+          </li>
+          <li class="nav-item">
+            <a href="/admin/save" class="nav-link">MALZEME EKLE</a>
+          </li>
+          <li class="nav-item">
+            <a href="/admin/gunlukList" class="nav-link">GÜNLÜK KAYIT LİSTESİ</a>
+          </li>
+          <li class="nav-item">
+            <a href="/deneme" class="nav-link">İZLEME EKRANI</a>
+          </li>
+        </ul>
+        
+      </div>
+    </div>
+  </nav>
 

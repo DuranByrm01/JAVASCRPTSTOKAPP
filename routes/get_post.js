@@ -7,7 +7,7 @@ router.get('/lowStock/get', async function (req, res) {
 
     try {
         const [lowStock] = await db.execute(
-          "SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
+          "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
         );
         res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
     } catch (error) {
@@ -16,6 +16,20 @@ router.get('/lowStock/get', async function (req, res) {
     }
 
 });
+
+router.post('/lowStock/update', async (req, res) => {
+    const { id, checked } = req.body;
+    const checkedValue = checked ? 1 : 0; // Boolean'ı MySQL için 1/0'a dönüştür
+    try {
+        await db.query('UPDATE urunmalzemeleri SET checked = ? WHERE malzeme_id = ?', [checkedValue, id]);
+        res.status(200).send("Güncelleme başarılı");
+    } catch (error) {
+        console.error("Güncelleme hatası:", error);
+        res.status(500).send("Güncelleme sırasında bir hata oluştu");
+    }
+});
+
+
 
 
 
