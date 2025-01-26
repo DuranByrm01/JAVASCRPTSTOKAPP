@@ -6,13 +6,11 @@
     <style>
          input[type="checkbox"] {
              accent-color: yellow; /* Checkbox işaretleme rengi */
+             width: 20px;
+             height: 20px;
          }
 
-         .strikethrough td {
-                text-decoration: line-through;
-                text-decoration-thickness: 10px; /* Çizgi kalınlığı */
-                text-decoration-color: blue;
-         }
+         
     </style>
 </head>
 <body class="bg-dark">
@@ -31,7 +29,7 @@
                         <th scope="col">#</th>
                         <th scope="col">MALZEME ADI</th>
                         <th scope="col">KALAN STOK</th>
-                        <th scope="col">SİPARİŞ</th>
+                        <th scope="col">SİPARİŞ DURUMU</th>
                         
                     </tr>
                 </thead>
@@ -58,44 +56,60 @@
 
     <script>
 
+            document.addEventListener("DOMContentLoaded", async () => {
+                try {
+                    const response = await fetch("/lowStock/get");
+                    const siparisListesi = await response.json();
 
-        
+                    siparisListesi.forEach(siparisİtem => {
+                        const canlıStokList = document.querySelector("#canlıStokList");
+                        canlıStokList.innerHTML += `
+                            <tr  data-id="${siparisİtem.malzeme_id}" style="text-decoration: ${siparisİtem.checked ? "line-through" : "none"};">
+                                <th scope="row">${siparisİtem.malzeme_id}</th>
+                                <td >${siparisİtem.urun_malzeme_adi}</td>
+                                <td >${siparisİtem.urun_malzeme_adet}</td>
+                                <td style="width: 20px;">
+                                    <input type="checkbox" class="malzeme-checkbox" ${siparisİtem.checked ? "checked" : ""} />
+                                </td>
+                            </tr>
+                        `;
+                    });
 
+                    // Checkbox'lar için olay dinleyici ekle
+                    document.querySelectorAll(".malzeme-checkbox").forEach(checkbox => {
+                        checkbox.addEventListener("change", async (event) => {
+                            const row = event.target.closest("tr");
+                            const malzemeId = row.dataset.id;
 
-        document.addEventListener("DOMContentLoaded", async () => {
-           
-            try {
-
-                const response = await fetch ("/lowStock/get");
-                const siparisListesi = await response.json();
-
-                siparisListesi.forEach(siparisİtem => {
-                    const canlıStokList = document.querySelector("#canlıStokList");
-                    canlıStokList.innerHTML += `
-                        <tr>
-                            <th scope="row">${siparisİtem.malzeme_id}</th>
-                            <td>${siparisİtem.urun_malzeme_adi}</td>
-                            <td>${siparisİtem.urun_malzeme_adet}</td>
-                            <td>@mdo</td>
                             
-                        </tr>
+                            
+                            // Backend'e güncelleme isteği gönder
+                            try {
+                                const updateResponse = await fetch("/lowStock/update", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({ malzeme_id: malzemeId, checked: event.target.checked }),
+                                });
 
-
-                    ` ;
-                });
-
-
-
-            } catch (error) {
-                console.log("canlı alınacak",error);
-            }
-
-
-
-
-
-        });
-
+                                if (updateResponse.ok) {
+                                    // Güncelleme başarılı ise satırı üstü çizili yap
+                                    row.style.textDecoration = event.target.checked ? "line-through" : "none";
+                                    
+                                } else {
+                                    console.error("Güncelleme başarısız");
+                                }
+                                
+                            } catch (error) {
+                                console.error("checkbox güncelleme Hata:", error);
+                            }
+                        });
+                    });
+                } catch (error) {
+                    console.log("canlı alınacak", error);
+                }
+            });
 
         
 

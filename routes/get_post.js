@@ -6,8 +6,14 @@ const db = require("../data/db");
 router.get('/lowStock/get', async function (req, res) {
 
     try {
+
+        // Önce 1000'in üzerinde olanların checked değerini sıfırla
+        await db.execute(
+            "UPDATE urunmalzemeleri SET checked = 0 WHERE urun_malzeme_adet >= 1000"
+        );
+
         const [lowStock] = await db.execute(
-          "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
+          "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
         );
         res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
     } catch (error) {
@@ -17,17 +23,34 @@ router.get('/lowStock/get', async function (req, res) {
 
 });
 
-router.post('/lowStock/update', async (req, res) => {
-    const { id, checked } = req.body;
-    const checkedValue = checked ? 1 : 0; // Boolean'ı MySQL için 1/0'a dönüştür
+router.post('/lowStock/update', async function (req, res) {
+    const { malzeme_id, checked } = req.body;
+
+    
+
+    // Gelen veriyi kontrol et
+    if (!malzeme_id || typeof checked === "undefined") {
+        return res.status(400).json({ success: false, message: "Eksik parametreler" });
+    }
+
     try {
-        await db.query('UPDATE urunmalzemeleri SET checked = ? WHERE malzeme_id = ?', [checkedValue, id]);
-        res.status(200).send("Güncelleme başarılı");
+        const [result] = await db.execute(
+            "UPDATE urunmalzemeleri SET checked = ? WHERE malzeme_id = ?",
+            [checked ? 1 : 0, malzeme_id]
+        );
+
+        if (result.affectedRows > 0) {
+            res.json({ success: true, message: "Güncelleme başarılı" });
+        } else {
+            res.status(404).json({ success: false, message: "Malzeme bulunamadı" });
+        }
     } catch (error) {
-        console.error("Güncelleme hatası:", error);
-        res.status(500).send("Güncelleme sırasında bir hata oluştu");
+        console.error("Update hatası:", error);
+        res.status(500).json({ success: false, message: "Veritabanı hatası" });
     }
 });
+
+
 
 
 
