@@ -8,6 +8,23 @@ const data = {
     cards:" rows"
 }
 
+router.get("/trc60-production",async  function(req, res){
+
+    try {
+       
+        
+        res.render("users/trc60-production",{
+            title: "ANASAYFA",
+            
+        });
+        
+    } catch (error) {
+        console.log(error);
+    }
+    
+    
+});
+
 router.get("/deneme",async  function(req, res){
 
     try {
@@ -61,6 +78,8 @@ router.use("/urunList", async function(req, res){
 
         const [trc01Ürünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1002;")
 
+        const [luvinkaÜrünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1006;")
+
         const [gzc24Ürünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1003;")
 
         const [goldÜrünler, ] = await db.execute("SELECT urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_malzeme_PK = 1004;")
@@ -76,7 +95,7 @@ router.use("/urunList", async function(req, res){
             gzc24StockCard : gzc24Ürünler,
             goldStockCard : goldÜrünler,
             casusStockCard : casusÜrünler,
-
+            luvinkaStockCard : luvinkaÜrünler,
         });
         
     } catch (err) {

@@ -17,7 +17,7 @@
         <div class="card" style="width: 100%;">
           
           <div class="card-body">
-            <h3 class="card-title">TRC60</h3>
+            <h3 class="card-title bg-warning p-2 rounded">TRC60</h3>
             
             <p class="card-text">MALZEME LİSTESİ</p>
             <ol class="urunMalzemeList">
@@ -35,10 +35,12 @@
           </div>
         </div>
 
+        
+
         <div class="card" style="width: 100%;">
           
           <div class="card-body">
-            <h3 class="card-title">TRC01</h3>
+            <h3 class="card-title bg-warning p-2 rounded">TRC01</h3>
             
             <p class="card-text">MALZEME LİSTESİ</p>
             <ol class="urunMalzemeList">
@@ -59,7 +61,28 @@
         <div class="card" style="width: 100%;">
           
           <div class="card-body">
-            <h3 class="card-title">GZC24</h3>
+            <h3 class="card-title bg-warning p-2 rounded">LUVİNKA DT6001</h3>
+            
+            <p class="card-text">MALZEME LİSTESİ</p>
+            <ol class="urunMalzemeList">
+
+              <% luvinkaStockCard.forEach(DT6001 => { %>
+                   
+                    <div class="d-flex justify-content-between bg-primary mb-1">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= DT6001.urun_malzeme_adi %></li>
+                      <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= DT6001.urun_malzeme_adet %></strong> PCS </li>
+                    </div>
+              <% }) %>
+
+            </ol>
+           
+          </div>
+        </div>
+
+        <div class="card" style="width: 100%;">
+          
+          <div class="card-body">
+            <h3 class="card-title bg-warning p-2 rounded">GZC24</h3>
             
             <p class="card-text">MALZEME LİSTESİ</p>
             <ol class="urunMalzemeList">
@@ -80,7 +103,7 @@
         <div class="card" style="width: 100%;">
           
           <div class="card-body">
-            <h3 class="card-title">GOLD</h3>
+            <h3 class="card-title bg-warning p-2 rounded">GOLD</h3>
             
             <p class="card-text">MALZEME LİSTESİ</p>
             <ol class="urunMalzemeList">
@@ -101,7 +124,7 @@
         <div class="card" style="width: 100%;">
           
           <div class="card-body">
-            <h3 class="card-title">CASUS</h3>
+            <h3 class="card-title bg-warning p-2 rounded">CASUS</h3>
             
             <p class="card-text">MALZEME LİSTESİ</p>
             <ol class="urunMalzemeList">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 
 <head>
   <%- include("../partials/meta") %>
@@ -26,8 +26,12 @@
 
       <h3>GİRDİLER/ÇIKTILAR</h3>
 
+      <div>
+        <input class="form-control p-2 mb-2  w-auto" id="searchInput" type="text" placeholder="MALZEME ARA" oninput="searchBox()">
+      </div>    
+
       <div  class="table-responsive" style="max-height: 300px; overflow-y: auto;">
-                        
+              
         <table  class="table bg-primary text-white mt-3 table-bordered border-dark ">
             <thead>
                 <tr>
@@ -101,9 +105,38 @@
     }
 
     
+    
 
 
   });
+
+  function searchBox(){
+
+    try {
+          const searchInput = document.querySelector("#searchInput").value.toLowerCase().trim();
+
+          const dataListItem = document.querySelectorAll(".dataListSearch tr");
+
+          dataListItem.forEach((item) => {
+
+            const dataText = item.textContent.toLowerCase().trim();
+
+            if (!searchInput || dataText.includes(searchInput)) {
+                item.style.display = "";
+            } else {
+                item.style.display = "none";
+            }
+
+
+
+
+          } )
+    } catch (error) {
+      console.log("searchBox hatası", error)
+    }
+
+
+  }
 
 
 
