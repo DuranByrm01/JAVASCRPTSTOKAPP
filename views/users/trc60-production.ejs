@@ -13,29 +13,46 @@
 
         
 
-        <div class="d-flex justify-content-around align-items-center flex-wrap  ">
-
-            <div class="listMenu bg-warning ">
-                <ul>
-                    <li>item 1</li>
-                    <li>item 1</li>
-                    <li>item 1</li>
-                    <li>item 1</li>
-                    <li>item 1</li>
-                </ul>
+        <div class="d-flex justify-content-center align-items-center flex-wrap  ">
+            <div class="d-flex justify-content-center align-items-start flex-column flex-wrap w-100 m-3 p-2 rounded">
+                <div class="bg-warning p-2 rounded">
+                    <h5 class="bg-danger p-2 text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded">0</strong></h5>
+                    <h5 class="bg-dark p-2 text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">800</strong></h5>
+                    <h5 class="bg-success p-2 text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">1500</strong></h5>
+                </div>
+                
             </div>
+            <div class="container-xl d-flex justify-content-start align-items-center">
 
-            <div class="d-flex bg-dark ">
+                <button class="btn btn-warning mx-2 w-25" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fa-solid fa-bars m-1"></i> LİSTELER </button>
 
-                <input class="form-control w-auto me-1" type="text" placeholder="20 li kutu barkodu gir...">
+                <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 
-                <button class="btn btn-warning">KAYDET</button>
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">ÜRÜN KAYIT LİSTELERİ</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+
+                    <div class="offcanvas-body d-flex flex-column">
+                        <button class="btn btn-primary mb-2 p-3">TRC60 20 li KUTU</button>
+                        <button class="btn btn-primary mb-2 p-3">TRC60 100 lü KUTU</button>
+                    </div>
+
+                </div>
 
                
-
-                
+            
+                <div class="d-flex justify-content-start  ">
     
+                    <input class="form-control w-auto me-1" type="text" placeholder="20 li kutu barkodu gir...">
+    
+                    <button class="btn btn-warning">KAYDET</button>
+    
+                   
+                </div>
             </div>
+
+            
             
             
             
