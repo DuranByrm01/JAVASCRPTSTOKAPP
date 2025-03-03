@@ -390,7 +390,31 @@ router.get('/add/Remove', async function (req, res) {
 
 
 ///////////////////////////////////////////////////////////
+///////////trc60 barkod kayıt ///////////////////////
 
+router.post("/barkod/data/save", async (req, res) => {
+    const { barkod , barkodDateSave } = req.body;
+
+    
+
+    try {
+
+        await db.execute("INSERT INTO trc60_20pcs_box (trc60_20pcs_box_barkod, trc60_20pcs_box_date) VALUES (?,?)", [barkod, barkodDateSave])
+        res.json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
+        
+    } catch (error) {
+        
+        console.log("Barkod 20 pcs kayıt hatası:", error);
+        res.status(500).json({ message: "Veri eklenirken hata oluştu!" });
+    }
+
+
+})
+
+
+
+
+////////////////////////////////////////////////////
 
 
 
