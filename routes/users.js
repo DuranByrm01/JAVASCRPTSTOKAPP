@@ -8,6 +8,22 @@ const data = {
     cards:" rows"
 }
 
+router.get("/trc60-20barkod", async function (req, res) {
+   
+    try {
+
+        res.render("users/trc60-20barkod", {
+            title: "STOK SAYFAM",
+        })
+
+
+    } catch (error) {
+        console.log("20lik kutu hatası", error);
+    }
+    
+
+});
+
 router.get("/trc60-production",async  function(req, res){
 
     try {

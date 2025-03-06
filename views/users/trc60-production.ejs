@@ -36,7 +36,8 @@
                     </div>
 
                     <div class="offcanvas-body d-flex flex-column">
-                        <button class="btn btn-primary mb-2 p-3">TRC60 20 li KUTU</button>
+                        
+                        <a class="btn btn-primary mb-2 p-3" href="/trc60-20barkod">TRC60 20 li KUTU</a>
                         <button class="btn btn-primary mb-2 p-3">TRC60 100 lü KUTU</button>
                         
                     </div>
@@ -83,9 +84,6 @@
 
         
         
-            
-
-        
 
         saveButton.addEventListener("click", sendBarkod);
 
@@ -114,6 +112,24 @@
                 barkodİnput.value = "";
 
                 return;
+            }
+
+            try {
+                // Mevcut barkodları çek
+                const response = await fetch("/barkod/data/save/get");
+                const barkodList = await response.json();
+
+                // Barkodun listede olup olmadığını kontrol et
+                const exists = barkodList.some(item => item.trc60_20pcs_box_barkod === barkod);
+
+                if (exists) {
+                    alert("Bu barkod zaten kayıtlı!");
+                    barkodİnput.focus();
+                    barkodİnput.value = "";
+                    return;
+                }
+            } catch (error) {
+                alert("Hata barkod çekmede", error)
             }
 
             
