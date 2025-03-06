@@ -412,6 +412,23 @@ router.post("/barkod/data/save", async (req, res) => {
 })
 
 
+router.get("/barkod/data/save/get", async function (req, res) {
+
+    try {
+        
+        const [barkod20pcs,] = await db.execute("SELECT id_20_pcs, trc60_20pcs_box_barkod , trc60_20pcs_box_date FROM trc60_20pcs_box");
+
+        res.json(barkod20pcs);
+
+        
+
+    } catch (error) {
+        console.log("barkod data save hatası", error);
+    }
+
+
+});
+
 
 
 ////////////////////////////////////////////////////

@@ -67,24 +67,33 @@
 
 
     <div class=" container-xl createProduct bg-warning p-3 mt-2">
-            <div class="barkodList">
+            <div style="max-height: 500px; overflow-y: auto;" id="barkodDataList20pcs" class="barkodList">
                 <ul>
                     <li class="form-control mb-1 w-auto">1. <strong>10009999</strong> 02.03.25</li>
-                    <li class="form-control mb-1 w-auto">1. <strong>10009999</strong> 02.03.25</li>
-                    <li class="form-control mb-1 w-auto">1. <strong>10009999</strong> 02.03.25</li>
-                    <li class="form-control mb-1 w-auto">1. <strong>10009999</strong> 02.03.25</li>
+                    
                 </ul>
             </div>
     </div>
 
     <script>
+        
 
         let barkodİnput = document.querySelector("#barkodİnput");
         let saveButton = document.querySelector("#saveButton");
 
         
+        
+            
+
+        
 
         saveButton.addEventListener("click", sendBarkod);
+
+        barkodİnput.addEventListener("keydown", function(event){
+            if(event.key === "Enter") {
+                sendBarkod();
+            }
+        });
 
         window.onload = () => {
             barkodİnput.focus();
@@ -107,6 +116,8 @@
                 return;
             }
 
+            
+
             const today = new Date();
 
             const day = String(today.getDate()).padStart(2, "0");
@@ -114,6 +125,8 @@
             const year = today.getFullYear();
 
             const barkodDateFormat = `${day}.${mounth}.${year}`;
+
+            
 
 
             try {
@@ -133,6 +146,7 @@
                 barkodİnput.focus();
                 barkodİnput.value = "";
 
+                window.location.reload(); // Sayfayı yenile
 
             } catch (error) {
                 console.log("barkodSave", error);
@@ -142,6 +156,42 @@
 
 
         }
+
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            
+            try {
+
+
+
+                const response = await fetch ("/barkod/data/save/get");
+                const barkod20pcsData = await response.json();
+
+                const barkodData20pcsList = document.querySelector("#barkodDataList20pcs");
+
+                barkodData20pcsList.innerHTML = "";
+
+                barkod20pcsData.reverse().forEach(barkodData => {
+
+                    
+
+                    barkodData20pcsList.innerHTML += `
+                        <li class="form-control mb-1 w-auto">${barkodData.id_20_pcs} <strong>${barkodData.trc60_20pcs_box_barkod}</strong> ${barkodData.trc60_20pcs_box_date}</li>
+                    `;
+
+                    
+                });
+
+                
+                
+                
+                
+            } catch (error) {
+                alert("barkod data çekme hatası", error);
+            }
+
+            
+        });
 
         
 
