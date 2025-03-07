@@ -19,7 +19,7 @@
 
                 
 
-                <h5 class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
+                <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
                 <h5 class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
                 <h5 class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">1500</strong></h5>
                 
@@ -157,7 +157,17 @@
 
                 });
 
-                let result = await response.json();
+                if(!response.ok){
+                    //backend den gelen hata mesajını yakalama
+                    const errorData = await response.json();
+                    throw new Error(errorData.message);
+                }
+
+                  
+
+                // let result = await response.json();
+                // alert(result.message);  
+                
                 
                 barkodİnput.focus();
                 barkodİnput.value = "";
@@ -201,9 +211,26 @@
                 
                 
                 
-                
             } catch (error) {
                 alert("barkod data çekme hatası", error);
+            }
+
+            try {
+
+                const response = await fetch("/barkod/data/save/get");
+                const stokadet = await response.json();
+
+                const uretimMiktari = document.querySelector("#uretimMiktari");
+
+                uretimMiktari.innerHTML = "";
+
+                
+                let stoksayısı =  stokadet.length * 20;
+
+                uretimMiktari.innerHTML = `ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">${stoksayısı}</strong>`;
+                
+            } catch (error) {
+                console.log("stok sayısı güncelleme hatası", error);
             }
 
             

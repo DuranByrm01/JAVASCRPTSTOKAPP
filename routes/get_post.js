@@ -399,8 +399,26 @@ router.post("/barkod/data/save", async (req, res) => {
 
     try {
 
+        //ürünmalzemeleri tablosundan trc60 ın alt mazlemeleri çek
+        const [trc60urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1001");
+
+        //eğer stok 20 den az ise hata ver
+        if(trc60urunMalzemeStok.length === 0 || trc60urunMalzemeStok[0].urun_malzeme_adet < 20){
+            console.log("TRC60 ALT MALZEMELERİNDE STOK YETERSİZ");
+            return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+            
+        }
+
+        // barkod ekle
+
         await db.execute("INSERT INTO trc60_20pcs_box (trc60_20pcs_box_barkod, trc60_20pcs_box_date) VALUES (?,?)", [barkod, barkodDateSave])
-        res.json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
+        // res.json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
+        res.status(200).send(); 
+
+        //stok yeterliyse 20 azalt 
+
+        await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1001");
+       
         
     } catch (error) {
         
@@ -419,6 +437,11 @@ router.get("/barkod/data/save/get", async function (req, res) {
         const [barkod20pcs,] = await db.execute("SELECT id_20_pcs, trc60_20pcs_box_barkod , trc60_20pcs_box_date FROM trc60_20pcs_box");
 
         res.json(barkod20pcs);
+
+        const [trc6020pcskutuAdet] = await db.execute ("SELECT trc60_20pcs_box_barkod FROM trc60_20pcs_box");
+
+        res.json(trc6020pcskutuAdet);
+
 
         
 
