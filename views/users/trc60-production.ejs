@@ -20,7 +20,7 @@
                 
 
                 <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
-                <h5 class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
+                <h5 id="uretimMalzeme" class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
                 <h5 class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">1500</strong></h5>
                 
             </div>
@@ -208,6 +208,9 @@
                     
                 });
 
+
+                
+
                 
                 
                 
@@ -217,7 +220,7 @@
 
             try {
 
-                const response = await fetch("/barkod/data/save/get");
+                const response = await fetch("/barkod/data/save/get/box/number");
                 const stokadet = await response.json();
 
                 const uretimMiktari = document.querySelector("#uretimMiktari");
@@ -231,6 +234,25 @@
                 
             } catch (error) {
                 console.log("stok sayısı güncelleme hatası", error);
+            }
+
+            try {
+
+                const response = await fetch("/urunler/uretimSayisi/get");
+
+                const trc60ProductNumber = await response.json();
+
+                const trc60uretimMalzeme = document.querySelector("#uretimMalzeme");
+                
+                trc60ProductNumber.forEach(data => {
+                    trc60uretimMalzeme.innerHTML = `ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">${data.urun_malzeme_adet}</strong>`;
+                });
+
+                
+
+                
+            } catch (error) {
+                console.log("trc60ÜretimSayısı", error);
             }
 
             

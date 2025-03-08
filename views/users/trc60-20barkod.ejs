@@ -4,14 +4,59 @@
     <%- include("../partials/meta") %>
     <title>TRC60 BARKOD</title>
 </head>
-<body>
+<body class="bg-dark">
 
     <%- include("../partials/nav") %>
 
-
+    <div class="container-xxl bg-primary mt-3 rounded w-100 p-3">
+        <h3 class="text-white font-weight-bold">TRC60 20 Lİ KUTU LİSTESi</h3>
+        <div class="container-xl trc6020pcsboxList p-2">
+            <ul id="list20pcsBox">
+                <li class="form-control mb-1">item</li>
+                <li class="form-control mb-1">item</li>
+            </ul>
+        </div>
+    </div>
     
 
+    <script>
 
+
+        document.addEventListener("DOMContentLoaded", async function () {
+
+            try {
+
+                const response = await fetch("/trc60/20/box/barkod");
+
+                const trc60Box20List = await response.json();
+
+                trc60Box20List.forEach(trc6020pcsBoxListİtem => {
+                    
+                    const list20pcsBox = document.querySelector("#list20pcsBox");
+
+                    list20pcsBox.innerHTML  ="";
+
+                    list20pcsBox.innerHTML += ` <li class="form-control mb-1 w-auto">${trc6020pcsBoxListİtem.id} <strong>${trc6020pcsBoxListİtem.TRC60_20PCS_BOX_LIST_BARKOD}</strong> ${trc6020pcsBoxListİtem.TRC60_20PCS_BOX_LIST_date}</li> `;
+
+                    
+                });
+
+
+                
+            } catch (error) {
+                console.log("trc60 20pcs box list çekme hatası ", error);
+            }
+
+
+
+
+            
+        });
+
+
+
+
+    </script>
 
     
 </body>
