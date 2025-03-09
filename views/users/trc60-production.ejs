@@ -21,7 +21,7 @@
 
                 <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
                 <h5 id="uretimMalzeme" class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
-                <h5 class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">1500</strong></h5>
+                <h5 id="guncelStok" class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
                 
             </div>
 
@@ -210,15 +210,13 @@
 
 
                 
-
-                
-                
-                
             } catch (error) {
                 alert("barkod data çekme hatası", error);
             }
 
             try {
+
+
 
                 const response = await fetch("/barkod/data/save/get/box/number");
                 const stokadet = await response.json();
@@ -231,6 +229,7 @@
                 let stoksayısı =  stokadet.length * 20;
 
                 uretimMiktari.innerHTML = `ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">${stoksayısı}</strong>`;
+
                 
             } catch (error) {
                 console.log("stok sayısı güncelleme hatası", error);
@@ -253,6 +252,26 @@
                 
             } catch (error) {
                 console.log("trc60ÜretimSayısı", error);
+            }
+
+
+            try {
+
+               
+                const response = await fetch("trc60/guncel/stok/trc6020pcs");
+                const trc60GuncelStok = await response.json();
+
+                const guncelStok = document.querySelector("#guncelStok");
+
+                let guncelStokTrc60 = trc60GuncelStok.length * 20;
+
+                
+
+                guncelStok.innerHTML = `ATÖLYE GÜNCEL STOK : <strong class=" bg-light text-black p-1 rounded me-auto">${guncelStokTrc60}</strong>`;
+
+                
+            } catch (error) {
+                console.log("Güncel STOK ÇEKME HATASI", error);
             }
 
             

@@ -499,6 +499,30 @@ router.get("/barkod/data/save/get/box/number", async function (req,res) {
 
 /////////////////////////////////////////////
 
+////////////trc60///////guncel/////stok/////
+
+router.get("/trc60/guncel/stok/trc6020pcs", async function (req, res) {
+    
+    try {
+
+        const [trc60guncelStock] = await db.execute ("SELECT  TRC60_20PCS_BOX_LIST_BARKOD FROM trc60_20pcs_box_lıst");
+
+        res.json(trc60guncelStock);
+        
+    } catch (error) {
+        console.log("güncel stok çekme hatası ", error);
+        
+    }
+    
+
+});
+
+
+
+
+
+//////////////////////////
+
 
 
 
