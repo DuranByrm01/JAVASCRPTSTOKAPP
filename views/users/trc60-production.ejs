@@ -107,7 +107,7 @@
 
             if(!barkodRegex.test(barkod) || barkod === ""){
 
-                alert(" KÖR GÖZÜNÜ ****");
+                alert("HATALI BARKOD");
                 barkodİnput.focus();
                 barkodİnput.value = "";
 
@@ -267,11 +267,12 @@
 
                 
 
-                guncelStok.innerHTML = `ATÖLYE GÜNCEL STOK : <strong class=" bg-light text-black p-1 rounded me-auto">${guncelStokTrc60}</strong>`;
+                guncelStok.innerHTML = `TOPLAM ÜRETİLMİŞ ÜRÜN : <strong class=" bg-light text-black p-1 rounded me-auto">${guncelStokTrc60}</strong>`;
 
                 
             } catch (error) {
                 console.log("Güncel STOK ÇEKME HATASI", error);
+                alert("GÜNCEL STOK ÇEKME HATASI");
             }
 
             

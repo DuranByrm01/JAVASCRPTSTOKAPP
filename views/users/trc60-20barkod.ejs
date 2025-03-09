@@ -15,7 +15,7 @@
         <%- include("../partials/uretımNav") %>
         <h3 class="text-white font-weight-bold">TRC60 20 Lİ KUTU LİSTESi</h3>
         <div class="container-xl trc6020pcsboxList p-2">
-            <ul id="list20pcsBox">
+            <ul style="max-height: 500px; overflow-y: auto;" id="list20pcsBox">
                 <li class="form-control mb-1">item</li>
                 <li class="form-control mb-1">item</li>
             </ul>
@@ -34,12 +34,13 @@
 
                 const trc60Box20List = await response.json();
 
+                list20pcsBox.innerHTML  ="";
+
                 trc60Box20List.forEach(trc6020pcsBoxListİtem => {
                     
                     const list20pcsBox = document.querySelector("#list20pcsBox");
 
-                    list20pcsBox.innerHTML  ="";
-
+                    
                     list20pcsBox.innerHTML += ` <li class="form-control mb-1 w-auto">${trc6020pcsBoxListİtem.id} <strong>${trc6020pcsBoxListİtem.TRC60_20PCS_BOX_LIST_BARKOD}</strong> ${trc6020pcsBoxListİtem.TRC60_20PCS_BOX_LIST_date}</li> `;
 
                     
