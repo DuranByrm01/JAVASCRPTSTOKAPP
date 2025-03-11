@@ -12,7 +12,7 @@ router.get("/save",function(req, res){
    try {
        
        res.render("admin/save", {
-           title:"STOK SAYFAM"
+           title:"STOK UYGULAMAM"
        });
    } catch (error) {
         console.log(error);
@@ -22,7 +22,7 @@ router.get("/save",function(req, res){
 router.use("/gunlukList",function(req, res){
     
     res.render("admin/gunlukList", {
-        title:"MY STOCK"
+        title:"STOK UYGULAMAM"
         
     });
 });

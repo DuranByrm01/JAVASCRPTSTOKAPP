@@ -13,7 +13,7 @@ router.get("/trc60-20barkod", async function (req, res) {
     try {
 
         res.render("users/trc60-20barkod", {
-            title: "STOK SAYFAM",
+            title: "STOK UYGULAMAM",
         })
 
 
@@ -30,7 +30,7 @@ router.get("/trc60-production",async  function(req, res){
        
         
         res.render("users/trc60-production",{
-            title: "ANASAYFA",
+            title: "STOK UYGULAMAM",
             
         });
         
@@ -41,13 +41,13 @@ router.get("/trc60-production",async  function(req, res){
     
 });
 
-router.get("/deneme",async  function(req, res){
+router.get("/liveScreen",async  function(req, res){
 
     try {
        
         
-        res.render("users/deneme",{
-            title: "CANLI STOK",
+        res.render("users/liveScreen",{
+            title: "STOK UYGULAMAM",
             
         });
         
@@ -55,6 +55,21 @@ router.get("/deneme",async  function(req, res){
         console.log(error);
     }
     
+    
+});
+
+router.get("/StockScreen", async function (req, res) {
+    
+    try {
+
+        res.render("users/StockScreen",{
+            title : "STOK UYGULAMAM", 
+
+        })
+        
+    } catch (error) {
+        console.log("stockscreen hatası" , error);
+    }
     
 });
 
@@ -64,7 +79,7 @@ router.get("/gunlukUretim",async  function(req, res){
         const [saveDayData, ] = await db.execute("select * from savedata")
         
         res.render("users/gunlukUretim",{
-            title:"STOK SAYFAM",
+            title:"STOK UYGULAMAM",
             daySaveData : saveDayData
         });
         
@@ -78,7 +93,7 @@ router.get("/gunlukUretim",async  function(req, res){
 router.use("/urunKayit", async function(req, res){
 
     res.render("users/urunKayit",{
-        title:"STOK SAYFAM",
+        title:"STOK UYGULAMAM",
         
     });
     
@@ -104,7 +119,7 @@ router.use("/urunList", async function(req, res){
 
         res.render("users/urunList", {
 
-            title:"STOK SAYFAM",
+            title:"STOK UYGULAMAM",
             cards: urunListC,
             trc60StockCard : trc60Ürünler,
             trc01StockCard : trc01Ürünler,
@@ -129,7 +144,7 @@ router.get("/index",async function(req, res){
         const [stokCard] = await db.execute("SELECT * FROM urunler");
      
         res.render("users/index", {
-            title:"STOK SAYFAM",
+            title:"STOK UYGULAMAM",
             urunName: stokCard,
             
             
