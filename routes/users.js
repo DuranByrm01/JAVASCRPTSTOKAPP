@@ -13,7 +13,7 @@ router.get("/trc60-20barkod", async function (req, res) {
     try {
 
         res.render("users/trc60-20barkod", {
-            title: "STOK UYGULAMAM",
+            title: "STOCK APP",
         })
 
 
