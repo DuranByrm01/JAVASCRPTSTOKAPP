@@ -30,7 +30,7 @@ router.get("/trc60-production",async  function(req, res){
        
         
         res.render("users/trc60-production",{
-            title: "STOK UYGULAMAM",
+            title: "STOCK APP",
             
         });
         
@@ -47,7 +47,7 @@ router.get("/liveScreen",async  function(req, res){
        
         
         res.render("users/liveScreen",{
-            title: "STOK UYGULAMAM",
+            title: "STOCK APP",
             
         });
         
@@ -63,7 +63,7 @@ router.get("/StockScreen", async function (req, res) {
     try {
 
         res.render("users/StockScreen",{
-            title : "STOK UYGULAMAM", 
+            title : "STOCK APP", 
 
         })
         
@@ -79,7 +79,7 @@ router.get("/gunlukUretim",async  function(req, res){
         const [saveDayData, ] = await db.execute("select * from savedata")
         
         res.render("users/gunlukUretim",{
-            title:"STOK UYGULAMAM",
+            title:"STOCK APP",
             daySaveData : saveDayData
         });
         
@@ -93,7 +93,7 @@ router.get("/gunlukUretim",async  function(req, res){
 router.use("/urunKayit", async function(req, res){
 
     res.render("users/urunKayit",{
-        title:"STOK UYGULAMAM",
+        title:"STOCK APP",
         
     });
     
@@ -119,7 +119,7 @@ router.use("/urunList", async function(req, res){
 
         res.render("users/urunList", {
 
-            title:"STOK UYGULAMAM",
+            title:"STOCK APP",
             cards: urunListC,
             trc60StockCard : trc60Ürünler,
             trc01StockCard : trc01Ürünler,
@@ -144,7 +144,7 @@ router.get("/index",async function(req, res){
         const [stokCard] = await db.execute("SELECT * FROM urunler");
      
         res.render("users/index", {
-            title:"STOK UYGULAMAM",
+            title:"STOCK APP",
             urunName: stokCard,
             
             
