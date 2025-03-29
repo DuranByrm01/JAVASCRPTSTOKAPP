@@ -157,6 +157,21 @@ router.get("/index",async function(req, res){
    
 });
 
+router.get("/login", async function(req, res){
+
+    try {
+
+        res.render("users/login",{
+            title:"STOCKAPP",
+        })
+        
+    } catch (error) {
+        console.log("login hatası",error)
+    }
+
+
+})
+
 
 
 

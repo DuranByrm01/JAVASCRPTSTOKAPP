@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/meta") %>
+    
+    <title>STOCKAPP LOGIN</title>
+
+    <style>
+
+        body{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #212529 ;
+            height: 100vh;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loginForm{
+            background-color: #FFC107;
+            width: 30vw;
+            height: auto;
+            padding: 30px;
+            border-radius: 10px;
+           
+        }
+
+        .headlogin{
+            background-color:#0D6EFD ;
+            padding: 20px;
+            width: 100vh;
+            border-radius: 10px;
+            position: relative;
+            margin-top: 10%;
+            cursor: pointer;
+        }
+
+        .logoLogin{
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            
+        }
+
+
+
+    </style>
+
+</head>
+<body >
+
+    <div class="headlogin">
+        <h1 class="logoLogin">STOCKAPP</h1>
+    </div>
+    <br>
+    <form class="loginForm">
+        <div class="form-group">
+          <label for="exampleInputEmail1">User Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Kullanıcı Adınızı Giriniz...">
+          
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifrenizi Giriniz...">
+        </div>
+        <!-- <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div> -->
+        <br>
+        <button type="submit" class="btn btn-primary w-100">GİRİŞ YAP</button>
+    </form>
+
+
+</body>
+</html>
