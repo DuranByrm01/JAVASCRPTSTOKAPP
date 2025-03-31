@@ -68,7 +68,9 @@
 
 
     <div class=" container-xl createProduct bg-warning p-3 mt-2">
+            <h5>Kayıt edilen 20 li kutular</h5>
             <div style="max-height: 500px; overflow-y: auto;" id="barkodDataList20pcs" class="barkodList">
+                
                 <ul>
                     <li class="form-control mb-1 w-auto">1. <strong>10009999</strong> 02.03.25</li>
                     
@@ -157,16 +159,38 @@
 
                 });
 
-                if(!response.ok){
-                    //backend den gelen hata mesajını yakalama
-                    const errorData = await response.json();
-                    throw new Error(errorData.message);
+                // Yanıtı text olarak oku
+                let responseText = await response.text();
+                
+                let responseData = {};
+
+                // JSON olup olmadığını kontrol et
+                try {
+                    responseData = responseText ? JSON.parse(responseText) : {}; 
+                } catch (jsonError) {
+                    console.error("JSON Parse Hatası:", jsonError);
+                }
+               
+                // Eğer response.ok false ise hata fırlat
+                if (!response.ok) {
+
+                    if (response.status === 400) {
+                        alert("Stok yetersiz! TRC60 alt malzemeleri eksik.");
+                    } else if (response.status === 409) {
+                        alert("Bu barkod zaten eklenmiş!");
+                        barkodİnput.value = "";
+                        
+
+                    } else if (response.status === 500) {
+                        alert("Sunucu hatası! Lütfen daha sonra tekrar deneyin.");
+                    } else {
+                        alert(responseData.message || "Bilinmeyen bir hata oluştu.");
+                    }
+
+                    throw new Error(responseData.message);
+                     
                 }
 
-                  
-
-                // let result = await response.json();
-                // alert(result.message);  
                 
                 
                 barkodİnput.focus();
@@ -174,10 +198,18 @@
 
                 window.location.reload(); // Sayfayı yenile
 
-            } catch (error) {
-                console.log("barkodSave", error);
-                alert("barkod kayıt ederken bir sorunla karşılaşıldı");
                 
+               
+                
+
+            } catch (error) {
+
+                console.log("barkodSave", error);
+
+                alert("barkod kayıt ederken bir sorunla karşılaşıldı");
+
+               
+
             }
 
 

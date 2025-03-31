@@ -187,11 +187,14 @@ router.post('/urunler/stok/post', async (req, res) => {
             addMesage = (`Ürün adı ${product} malzeme adı ${material} eklenen malzeme miktarı: ${amount} GÜNCEL ADET : ${newAmount} `);
 
             console.log(addMesage);
+
+            
         }else{
 
             removeMesage = (`Ürün adı ${product} malzeme adı ${material} çıkarılan malzeme miktarı: ${amount} GÜNCEL ADET : ${newAmount} `);
 
             console.log(removeMesage);
+            
         }
 
         
@@ -402,18 +405,27 @@ router.post("/barkod/data/save", async (req, res) => {
         //ürünmalzemeleri tablosundan trc60 ın alt mazlemeleri çek
         const [trc60urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1001");
 
+        const [midiBoxTrc60100Fınd] = await db.execute("SELECT TRC60_20PCS_BOX_LIST_BARKOD FROM trc60_20pcs_box_lıst WHERE TRC60_20PCS_BOX_LIST_BARKOD = ? ", [barkod]);
+
+        if(midiBoxTrc60100Fınd.length > 0){
+            // return res.json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
+            // return console.log("bu barkod zaten daha önceden eklenmiş");
+            return res.status(409).json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
+
+        }
+
         //eğer stok 20 den az ise hata ver
         if(trc60urunMalzemeStok.length === 0 || trc60urunMalzemeStok[0].urun_malzeme_adet < 20){
             console.log("TRC60 ALT MALZEMELERİNDE STOK YETERSİZ");
-            return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
-            
+            // return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+            return res.status(400).json({ success: false, message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
         }
 
         // barkod ekle
 
         await db.execute("INSERT INTO trc60_20pcs_box (trc60_20pcs_box_barkod, trc60_20pcs_box_date) VALUES (?,?)", [barkod, barkodDateSave])
-        // res.json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
-        res.status(200).send(); 
+        res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
+        // res.status(200).send();
 
         //stok yeterliyse 20 azalt 
 
