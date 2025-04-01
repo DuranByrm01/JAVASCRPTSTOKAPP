@@ -52,7 +52,7 @@
             
         </div>
 
-        <div class=" container-xl createProduct bg-warning p-3 mt-2">
+        <div class=" container-xl createProduct bg-warning p-3 mt-2 rounded">
             
             <div style="max-height: 500px; overflow-y: auto;"  class="barkodList">
                 <h3>liste</h3>
@@ -95,7 +95,7 @@
                             if (barkodDataList20pcs.length < 5) {
                                 barkodDataList20pcs.push(barkod20);
                                 barkodDataList20pcsElement.innerHTML += `
-                                    <li class="form-control mb-1 w-auto"><strong>${barkodDataList20pcs.length + 1}. ${barkod20}</strong></li> 
+                                    <li class="form-control mb-1 w-auto"><strong>${barkodDataList20pcs.length + 0}. ${barkod20}</strong></li> 
                                 `;
                             }
                             if (barkodDataList20pcs.length === 5) {
@@ -150,50 +150,6 @@
 
 
 
-
-
-        // document.getElementById("barkodİnput20").addEventListener("keyup", function(event) {
-        //     if (event.key === "Enter") {
-        //         const barkod20 = event.target.value.trim(); // Barkodu al
-
-        //         if (barkod20 === "") {
-        //             alert("Barkod alanı boş olamaz!");
-        //             return;
-        //         }
-
-        //         // Backend'e barkod sorgulaması yap
-        //         fetch(`/checkBarkod20/${barkod20}`)
-        //             .then(response => response.json())
-        //             .then(data => {
-        //                 if (data.exists) {
-        //                     alert("Barkod bulundu!");
-        //                 } else {
-        //                     alert("Barkod bulunamadı!");
-        //                 }
-
-
-        //             })
-        //             .catch(error => {
-        //                 console.error('Hata oluştu:', error);
-        //         });
-
-
-                
-
-        //         barkodDataList20pcs.innerHTML += `
-        //             <li class="form-control mb-1 w-auto"><strong>${barkod20}</strong></li>
-        //         `;
-
-
-        //         // Inputu temizle
-        //         event.target.value = "";
-        //     }
-        // });
-
-
-
-
-        
 
         document.addEventListener("DOMContentLoaded", async function () {
 
