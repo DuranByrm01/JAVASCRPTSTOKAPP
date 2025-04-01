@@ -494,7 +494,7 @@ router.get("/barkod/data/save/get/box/number", async function (req,res) {
 
         try {
 
-            const [trc60Box20pcsListİtem ] = await db.execute("SELECT id, TRC60_20PCS_BOX_LIST_BARKOD, TRC60_20PCS_BOX_LIST_date FROM trc60_20pcs_box_lıst");
+            const [trc60Box20pcsListİtem ] = await db.execute("SELECT id, TRC60_20PCS_BOX_LIST_BARKOD, TRC60_20PCS_BOX_LIST_date FROM trc60_20pcs_box_list");
 
             res.json(trc60Box20pcsListİtem);
 
@@ -517,7 +517,7 @@ router.get("/trc60/guncel/stok/trc6020pcs", async function (req, res) {
     
     try {
 
-        const [trc60guncelStock] = await db.execute ("SELECT  TRC60_20PCS_BOX_LIST_BARKOD FROM trc60_20pcs_box_lıst");
+        const [trc60guncelStock] = await db.execute ("SELECT  TRC60_20PCS_BOX_LIST_BARKOD FROM trc60_20pcs_box_list");
 
         res.json(trc60guncelStock);
         
@@ -530,10 +530,81 @@ router.get("/trc60/guncel/stok/trc6020pcs", async function (req, res) {
 });
 
 
+//////////////////////////100lük barkod
+
+router.get("/checkBarkod20/:barkod", async (req, res) => {
+    try {
+        const barkod = req.params.barkod;
+        console.log(`Barkod kontrol ediliyor: ${barkod}`);
+
+        // İlk tabloyu kontrol et
+        const [boxResult] = await db.execute(
+            "SELECT trc60_20pcs_box_barkod FROM trc60_20pcs_box WHERE trc60_20pcs_box_barkod = ?",
+            [barkod]
+        );
+
+        // İkinci tabloyu kontrol et
+        const [listResult] = await db.execute(
+            "SELECT TRC60_20PCS_BOX_LIST_BARKOD FROM trc60_20pcs_box_list WHERE TRC60_20PCS_BOX_LIST_BARKOD = ?",
+            [barkod]
+        );
+
+        // Eğer herhangi bir tabloda barkod varsa
+        if (boxResult.length > 0 || listResult.length > 0) {
+            console.log(`Barkod bulundu: ${barkod}`);
+            return res.json({ exists: true });
+        } else {
+            console.log(`Barkod bulunamadı: ${barkod}`);
+            return res.json({ exists: false });
+        }
+    } catch (err) {
+        console.error("Veritabanı hatası:", err);
+        return res.status(500).json({ message: "Veritabanı hatası" });
+    }
+});
+
+
+router.post("/save100lukuBox", async (req, res) => {
+    const { barkod100, barkod20List ,barkodDateFormat } = req.body;
+
+    if (!barkod100 || barkod20List.length !== 5) {
+        return res.status(400).json({ success: false, message: "Eksik veri gönderildi!" });
+    }
+
+    try {
+        await db.execute(
+            "INSERT INTO trc60_100_lu_box_lıst (trc60100lukutubarkod, trc6020col1, trc6020col2, trc6020col3, trc6020col4, trc6020col5,trc60100BoxDate) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [barkod100, ...barkod20List,barkodDateFormat]
+        );
+        res.json({ success: true });
+    } catch (err) {
+        console.error("Veritabanı hatası:", err);
+        res.status(500).json({ success: false, message: "Veritabanı hatası!" });
+    }
+});
+
+
+router.get("/trc60/100/box/list/get", async function (req, res) {
+
+    try {
+
+        const [trc60100boxlistitem ] = await db.execute("SELECT id, trc60100lukutubarkod, trc6020col1, trc6020col2, trc6020col3, trc6020col4, trc6020col5, trc60100BoxDate FROM trc60_100_lu_box_lıst")
+
+        res.json(trc60100boxlistitem);
 
 
 
-//////////////////////////
+    } catch (error) {
+        console.log("100 lü liste veri çekme hatası", error)
+    }
+    
+})
+
+
+
+
+
+///////////////////////////////////////////////100lük barkod
 
 
 

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const db = require("../data/db"); 
+const { route } = require("./get_post");
 
 const data = {
     title : "Homepage",
@@ -40,6 +41,20 @@ router.get("/trc60-production",async  function(req, res){
     
     
 });
+
+router.get("/trc60-100-box-tabs", async function (req, res) {
+    try {
+
+        res.render("users/trc60-100-box-tabs",{
+            title:"STOCK APP",
+        });
+
+    } catch (error) {
+
+        console.log("100lü box listesi yüklenmiyor",error);
+
+    }
+})
 
 router.get("/liveScreen",async  function(req, res){
 
