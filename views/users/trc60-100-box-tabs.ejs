@@ -54,8 +54,8 @@
 
         <div class=" container-xl createProduct bg-warning p-3 mt-2 rounded">
             
-            <div style="max-height: 500px; overflow-y: auto;"  class="barkodList">
-                <h3>liste</h3>
+            <div style="max-height: 500px; overflow-y: auto; height: 250px;"  class="barkodList">
+                <h3> <i class="fa-solid fa-list-ol"></i> </i></h3>
                 <ul id="barkodDataList20pcs">
                     <!-- <li class="form-control mb-1 w-auto">1. <strong>10009999</strong> 02.03.25</li> -->
                     
@@ -69,16 +69,39 @@
     <div class="container-xxl bg-primary mt-3 rounded w-100 p-3">
         
         <h3 class="text-white font-weight-bold">TRC60 100 LÜ KUTU LİSTESi</h3>
-        <div class="container-xl trc60100pcsboxList p-2">
-            <ul style="max-height: 500px; overflow-y: auto;" id="list100pcsBox">
-                <li class="form-control mb-1">item</li>
-                <li class="form-control mb-1">item</li>
-            </ul>
+
+        <input oninput="searchBox()" id="boxSearchInput" class="form-control w-auto mb-2" type="text" placeholder="Koli/Kutu Numarası ara...">
+       
+        <div style="max-height: 400px; overflow-y: auto;" class="container-xl trc60100pcsboxList p-2 text-center ">
+
+            <table  class="table table-dark ">
+                <thead >
+                  <tr class="rounded">
+                    <th scope="col">ID</th>
+                    <th scope="col">KOLİ</th>
+                    <th scope="col">KUTU-1</th>
+                    <th scope="col">KUTU-2</th>
+                    <th scope="col">KUTU-3</th>
+                    <th scope="col">KUTU-4</th>
+                    <th scope="col">KUTU-5</th>
+                    <th scope="col">KAYIT TARİHİ</th>
+                  </tr>
+                </thead>
+                <tbody class="boxDataList"  id="tableList">
+                  
+                </tbody>
+            </table>
+
+           
+
         </div>
     </div>
     
 
     <script>
+
+        
+        const saveButton = document.querySelector("#saveButton");
 
         const barkodDataList20pcsElement = document.querySelector("#barkodDataList20pcs"); // HTML listesini temsil eden değişken
         let barkodDataList20pcs = []; // Barkodları tutacak dizi
@@ -101,6 +124,12 @@
                             if (barkodDataList20pcs.length === 5) {
                                 document.getElementById("barkodİnput100").disabled = false;
                             }
+
+                            if(barkodDataList20pcs.length === 5){
+                                
+                                document.getElementById("barkodİnput100").focus();
+                            }
+
                         } else {
                             alert("Barkod bulunamadı!");
                         }
@@ -110,43 +139,100 @@
             }
         });
 
-        document.getElementById("barkodİnput100").addEventListener("keyup", function(event) {
-            if (event.key === "Enter" && barkodDataList20pcs.length === 5) {
-                const barkod100 = event.target.value.trim();
-                if (barkod100 === "") return alert("Barkod alanı boş olamaz!");
+        // Butona tıklama olayını dinle
+        saveButton.addEventListener("click", handleSave);
 
-                const today = new Date();
 
-                const day = String(today.getDate()).padStart(2, "0");
-                const month = String(today.getMonth() + 1).padStart(2, "0"); // 
-                const year = today.getFullYear();
+        function handleSave() {
 
-                const barkodDateFormat = `${day}.${month}.${year}`;
+          
 
-                fetch("/save100lukuBox", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ barkod100, barkod20List: barkodDataList20pcs, barkodDateFormat })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("100'lük kutu başarıyla kaydedildi!");
-                        barkodDataList20pcs = []; // Listeyi temizle
-                        barkodDataList20pcsElement.innerHTML = ""; // HTML listesini temizle
-                        document.getElementById("barkodİnput100").disabled = true;
-                        event.target.value = "";
-                        location.reload(); // Sayfayı yenileyerek güncellenen verileri yansıtır.
-
-                    } else {
-                        alert("Kayıt işlemi başarısız!");
-                    }
-                })
-                .catch(error => console.error('Hata:', error));
+            if (barkodDataList20pcs.length !== 5){
+                alert("LÜTFEN 5 ADET 20 LİK KUTU BARKODU OKUTUNUZ");
+                return;
             }
 
+            const barkod100 = document.getElementById("barkodİnput100").value.trim();
+            if (barkod100 === "") return alert("Barkod alanı boş olamaz!");
+
            
+
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, "0");
+            const month = String(today.getMonth() + 1).padStart(2, "0");
+            const year = today.getFullYear();
+            const barkodDateFormat = `${day}.${month}.${year}`;
+
+            fetch("/save100lukuBox", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ barkod100, barkod20List: barkodDataList20pcs, barkodDateFormat })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("100'lük kutu başarıyla kaydedildi!");
+                    barkodDataList20pcs = [];
+                    barkodDataList20pcsElement.innerHTML = "";
+                    document.getElementById("barkodİnput100").disabled = true;
+                    document.getElementById("barkodİnput100").value = "";
+                    location.reload();
+                } else {
+                    alert("Kayıt işlemi başarısız!");
+                }
+            })
+            .catch(error => console.error('Hata:', error));
+        }
+
+        
+        // Enter tuşuna basıldığında çalıştır
+
+        document.getElementById("barkodİnput100").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                handleSave();
+            }
         });
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        // document.getElementById("barkodİnput100").addEventListener("keyup", function(event) {
+        //     if (event.key === "Enter" && barkodDataList20pcs.length === 5) {
+        //         const barkod100 = event.target.value.trim();
+        //         if (barkod100 === "") return alert("Barkod alanı boş olamaz!");
+
+        //         const today = new Date();
+
+        //         const day = String(today.getDate()).padStart(2, "0");
+        //         const month = String(today.getMonth() + 1).padStart(2, "0"); // 
+        //         const year = today.getFullYear();
+
+        //         const barkodDateFormat = `${day}.${month}.${year}`;
+
+        //         fetch("/save100lukuBox", {
+        //             method: "POST",
+        //             headers: { "Content-Type": "application/json" },
+        //             body: JSON.stringify({ barkod100, barkod20List: barkodDataList20pcs, barkodDateFormat })
+        //         })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             if (data.success) {
+        //                 alert("100'lük kutu başarıyla kaydedildi!");
+        //                 barkodDataList20pcs = []; // Listeyi temizle
+        //                 barkodDataList20pcsElement.innerHTML = ""; // HTML listesini temizle
+        //                 document.getElementById("barkodİnput100").disabled = true;
+        //                 event.target.value = "";
+        //                 location.reload(); // Sayfayı yenileyerek güncellenen verileri yansıtır.
+
+        //             } else {
+        //                 alert("Kayıt işlemi başarısız!");
+        //             }
+        //         })
+        //         .catch(error => console.error('Hata:', error));
+        //     }
+
+           
+        // });
 
 
 
@@ -159,14 +245,37 @@
 
                 const trc60Box100List = await response.json();
 
-                list100pcsBox.innerHTML  ="";
+                
 
-                trc60Box100List.forEach(item  => {
+                trc60Box100List.reverse().forEach(item  => {
                     
-                    const list100pcsBox = document.querySelector("#list100pcsBox");
+                    
+                    const tableList = document.querySelector("#tableList");
+                  
+
+
+                    tableList.innerHTML += `
+
+                            <tbody>
+
+                                <tr >
+
+                                <th scope="row">${item.id}</th>
+                                <td class="bg-warning text-dark fw-bold">${item.trc60100lukutubarkod}</td>
+                                <td>${item.trc6020col1}</td>
+                                <td>${item.trc6020col2}</td>
+                                <td>${item.trc6020col3}</td>
+                                <td>${item.trc6020col4}</td>
+                                <td>${item.trc6020col5}</td>
+                                <td>${item.trc60100BoxDate}</td>
+                                
+                                </tr>
+                                
+                            </tbody>
+
 
                     
-                    list100pcsBox.innerHTML += ` <li class="form-control mb-1 w-auto"> ${item.id} <strong>${item.trc60100lukutubarkod}</strong> - ${item.trc6020col1} - ${item.trc6020col2} - ${item.trc6020col3} - ${item.trc6020col4} - ${item.trc6020col5} - ${item.trc60100BoxDate} </li> `;
+                    `;
 
                    
                     
@@ -176,7 +285,7 @@
                
                 
             } catch (error) {
-                console.log("trc60 20pcs box list çekme hatası ", error);
+                console.log("trc60 barkod 100pcs & 20pcs box list çekme hatası ", error);
             }
 
 
@@ -184,6 +293,34 @@
 
             
         });
+
+
+        function searchBox(){
+            try {
+
+                const boxSearchInput = document.querySelector("#boxSearchInput").value.toLowerCase().trim();
+
+                const dataListItem = document.querySelectorAll(".boxDataList tr");
+
+                dataListItem.forEach((item) => {
+                    const datatext = item.textContent.toLowerCase().trim();
+
+                    if(!boxSearchInput || datatext.includes(boxSearchInput)) {
+                        item.style.display = "";
+
+                    }else {
+                        item.style.display = "none";
+                    }
+                })
+
+
+
+
+                
+            } catch (error) {
+                console.log("arama hatası ", error);
+            }
+        }
 
 
 
