@@ -9,6 +9,58 @@ const data = {
     cards:" rows"
 }
 
+router.get("/trc01-production", async function (req, res) {
+   
+    try {
+
+        res.render("users/trc01-production", {
+            title: "STOCK APP",
+        })
+
+
+    } catch (error) {
+        console.log("trc01-production", error);
+    }
+    
+
+});
+
+router.get("/trc01-20barkod", async function (req, res) {
+   
+    try {
+
+        res.render("users/trc01-20barkod", {
+            title: "STOCK APP",
+        })
+
+
+    } catch (error) {
+        console.log("trc01-20barkod", error);
+    }
+    
+
+});
+
+router.get("/trc01-100-box-tabs", async function (req, res) {
+   
+    try {
+
+        res.render("users/trc01-100-box-tabs", {
+            title: "STOCK APP",
+        })
+
+
+    } catch (error) {
+        console.log("trc01-100-box-tabs", error);
+    }
+    
+
+});
+
+
+//////////////////////////////////////////////////////////////////
+
+
 router.get("/trc60-20barkod", async function (req, res) {
    
     try {
@@ -56,6 +108,9 @@ router.get("/trc60-100-box-tabs", async function (req, res) {
     }
 })
 
+////////////////////////////////////////////////////////////////////
+
+
 router.get("/liveScreen",async  function(req, res){
 
     try {
@@ -72,6 +127,8 @@ router.get("/liveScreen",async  function(req, res){
     
     
 });
+
+//////////////////////////////////////////////////////////////////////
 
 router.get("/StockScreen", async function (req, res) {
     
