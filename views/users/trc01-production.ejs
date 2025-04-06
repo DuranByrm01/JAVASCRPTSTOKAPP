@@ -124,11 +124,11 @@
 
             try {
                 // Mevcut barkodları çek
-                const response = await fetch("/barkod/data/save/get");
+                const response = await fetch("/barkod/data/save/get/trc01");
                 const barkodList = await response.json();
 
                 // Barkodun listede olup olmadığını kontrol et
-                const exists = barkodList.some(item => item.trc60_20pcs_box_barkod === barkod);
+                const exists = barkodList.some(item => item.trc01_20pcs_box_barkod === barkod);
 
                 if (exists) {
                     alert("Bu barkod zaten kayıtlı!");
@@ -155,7 +155,7 @@
 
             try {
                 
-                let response = await fetch("barkod/data/save",{
+                let response = await fetch("barkod/data/save/trc01",{
                     method: "POST",
                     headers: {
                         "content-Type": "application/json",
@@ -228,7 +228,7 @@
 
 
 
-                const response = await fetch ("/barkod/data/save/get");
+                const response = await fetch ("/barkod/data/save/get/trc01");
                 const barkod20pcsData = await response.json();
 
                 const barkodData20pcsList = document.querySelector("#barkodDataList20pcs");
@@ -240,7 +240,7 @@
                     
 
                     barkodData20pcsList.innerHTML += `
-                        <li class="form-control mb-1 w-auto">${barkodData.id_20_pcs} <strong>${barkodData.trc60_20pcs_box_barkod}</strong> ${barkodData.trc60_20pcs_box_date}</li>
+                        <li class="form-control mb-1 w-auto">${barkodData.id_trc01_20pcs_box} <strong>${barkodData.trc01_20pcs_box_barkod}</strong> ${barkodData.trc01_20pcs_box_date}</li>
                     `;
 
                     
@@ -256,7 +256,7 @@
 
 
 
-                const response = await fetch("/barkod/data/save/get/box/number");
+                const response = await fetch("/barkod/data/save/get/box/number/trc01");
                 const stokadet = await response.json();
 
                 const uretimMiktari = document.querySelector("#uretimMiktari");
@@ -275,14 +275,14 @@
 
             try {
 
-                const response = await fetch("/urunler/uretimSayisi/get");
+                const response = await fetch("/urunler/uretimSayiTrc01/get");
 
-                const trc60ProductNumber = await response.json();
+                const trc01ProductNumber = await response.json();
 
-                const trc60uretimMalzeme = document.querySelector("#uretimMalzeme");
+                const trc01uretimMalzeme = document.querySelector("#uretimMalzeme");
                 
-                trc60ProductNumber.forEach(data => {
-                    trc60uretimMalzeme.innerHTML = `ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">${data.urun_malzeme_adet}</strong>`;
+                trc01ProductNumber.forEach(data => {
+                    trc01uretimMalzeme.innerHTML = `ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">${data.urun_malzeme_adet}</strong>`;
                 });
 
                 
@@ -296,12 +296,12 @@
             try {
 
                
-                const response = await fetch("trc60/guncel/stok/trc6020pcs");
-                const trc60GuncelStok = await response.json();
+                const response = await fetch("/trc01/guncel/stok/trc0120pcs");
+                const trc01GuncelStok = await response.json();
 
                 const guncelStok = document.querySelector("#guncelStok");
 
-                let guncelStokTrc60 = trc60GuncelStok.length * 20;
+                let guncelStokTrc60 = trc01GuncelStok.length * 20;
 
                 
 

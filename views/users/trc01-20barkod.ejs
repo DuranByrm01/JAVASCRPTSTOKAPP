@@ -55,18 +55,18 @@
 
             try {
 
-                const response = await fetch("/trc60/20/box/barkod");
+                const response = await fetch("/trc01/20/box/barkod");
 
-                const trc60Box20List = await response.json();
+                const trc01Box20List = await response.json();
 
                 list20pcsBox.innerHTML  ="";
 
-                trc60Box20List.forEach(trc6020pcsBoxListİtem => {
+                trc01Box20List.forEach(trc01 => {
                     
                     const list20pcsBox = document.querySelector("#list20pcsBox");
 
                     
-                    list20pcsBox.innerHTML += ` <li class="form-control mb-1 w-auto">${trc6020pcsBoxListİtem.id} <strong>${trc6020pcsBoxListİtem.TRC60_20PCS_BOX_LIST_BARKOD}</strong> ${trc6020pcsBoxListİtem.TRC60_20PCS_BOX_LIST_date}</li> `;
+                    list20pcsBox.innerHTML += ` <li class="form-control mb-1 w-auto">${trc01.id_trc01} <strong>${trc01.trc01_20pcs_box_list_barkod}</strong> ${trc01.trc01_20pcs_box_list_date}</li> `;
 
                     
                 });

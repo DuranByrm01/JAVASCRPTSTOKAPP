@@ -138,7 +138,7 @@
                 const barkod20 = event.target.value.trim();
                 if (barkod20 === "") return alert("Barkod alanı boş olamaz!");
 
-                fetch(`/checkBarkod20/${barkod20}`)
+                fetch(`/checkBarkod20/trc01/${barkod20}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.exists) {
@@ -191,7 +191,7 @@
             const year = today.getFullYear();
             const barkodDateFormat = `${day}.${month}.${year}`;
 
-            fetch("/save100lukuBox", {
+            fetch("/save100lukuBox/trc01", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ barkod100, barkod20List: barkodDataList20pcs, barkodDateFormat })
@@ -269,7 +269,7 @@
 
             try {
 
-                const response = await fetch("/trc60/100/box/list/get");
+                const response = await fetch("/trc01/100/box/list/get");
 
                 const trc60Box100List = await response.json();
 
@@ -288,14 +288,14 @@
 
                                 <tr >
 
-                                <th scope="row">${item.id}</th>
-                                <td class="bg-warning text-dark fw-bold">${item.trc60100lukutubarkod}</td>
-                                <td>${item.trc6020col1}</td>
-                                <td>${item.trc6020col2}</td>
-                                <td>${item.trc6020col3}</td>
-                                <td>${item.trc6020col4}</td>
-                                <td>${item.trc6020col5}</td>
-                                <td>${item.trc60100BoxDate}</td>
+                                <th scope="row">${item.id_trc01_100pcs}</th>
+                                <td class="bg-warning text-dark fw-bold">${item.trc01_100pcs_box_barkod}</td>
+                                <td>${item.trc01_100pcs_col_1}</td>
+                                <td>${item.trc01_100pcs_col_2}</td>
+                                <td>${item.trc01_100pcs_col_3}</td>
+                                <td>${item.trc01_100pcs_col_4}</td>
+                                <td>${item.trc01_100pcs_col_5}</td>
+                                <td>${item.trc01_100pcs_date}</td>
                                 
                                 </tr>
                                 
