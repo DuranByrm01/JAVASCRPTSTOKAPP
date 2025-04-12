@@ -9,6 +9,23 @@ const data = {
     cards:" rows"
 }
 
+router.get("/gzc24-production", async function (req, res) {
+
+    try {
+
+        res.render("users/gzc24-production",{
+            title: "STOCK APP",
+        });
+        
+    } catch (error) {
+        console.log("Gzc24 üretim sayfası", error);
+    }
+
+})
+
+
+
+
 router.get("/trc01-production", async function (req, res) {
    
     try {

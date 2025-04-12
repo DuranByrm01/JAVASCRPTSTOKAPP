@@ -47,6 +47,14 @@
     color: black;
    
   }
+
+  
+
+  .nav-link.active{
+    background-color: #FFC107;
+    color: white;
+  }
+
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -95,3 +103,35 @@
     </div>
   </nav>
 
+
+
+  <!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const links = document.querySelectorAll(".nav-link");
+  
+      // Aktif linki localStorage'tan getir
+      const activeLink = localStorage.getItem("activeLink");
+  
+      if (activeLink) {
+        links.forEach(link => {
+          if (link.href === activeLink) {
+            link.classList.add("active");
+          }
+        });
+      }
+  
+      links.forEach(link => {
+        link.addEventListener("click", function () {
+          // Tüm linklerden "active" class'ını kaldır
+          links.forEach(l => l.classList.remove("active"));
+  
+          // Tıklanan linke "active" class'ı ekle
+          this.classList.add("active");
+  
+          // Aktif link bilgisini kaydet
+          localStorage.setItem("activeLink", this.href);
+        });
+      });
+    });
+  </script> -->
+  

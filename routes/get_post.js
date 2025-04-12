@@ -821,6 +821,78 @@ router.get("/trc01/100/box/list/get", async function (req, res) {
 
 ///////////////////////////////////////////////100lük barkod
 
+///////////////////////////gzc24/////////////////
+
+router.post("/gzc24/Anyday/post", async (req, res) => {
+
+    const { cihazKutu, date, adet, day } = req.body;
+
+    console.log(`Kutu sayısı ${cihazKutu} tarih ${date} üretim adeti ${adet} gün ayarı ${day}`);
+    
+    try {
+        // Veritabanından malzeme adetlerini çekiyoruz
+        const [rows] = await db.execute("SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1003");
+    
+        // Toplamda yeterli malzeme olup olmadığını kontrol et
+        const toplamAdet = rows.reduce((acc, row) => acc + row.urun_malzeme_adet, 0);
+    
+        if (toplamAdet < adet) {
+            // Eğer toplam malzeme adedi yeterli değilse, hata fırlatıyoruz
+            throw new Error("Malzeme sayısı yetersiz!");
+        }
+    
+        // Eksiltme işlemini yapalım
+        let kalanAdet = adet;
+    
+        for (let row of rows) {
+            if (row.urun_malzeme_adet > 0) {
+                const eksiltilecekAdet = Math.min(row.urun_malzeme_adet, kalanAdet);
+                // Her satır için eksiltme işlemi yapıyoruz
+                await db.execute(
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND urun_malzeme_adet >= ?",
+                    [eksiltilecekAdet, eksiltilecekAdet]
+                );
+                kalanAdet -= eksiltilecekAdet;
+    
+                // Eğer kalan adet sıfırlandıysa, işlemi durdurabiliriz
+                if (kalanAdet === 0) {
+                    break;
+                }
+            }
+        }
+    
+        console.log("Malzeme adetleri başarıyla güncellendi!");
+    
+    } catch (error) {
+        console.log("gzc24 Malzeme Çekme Hatası", error);
+    }
+    
+
+    
+    
+
+
+
+    try {
+        
+        await db.execute("INSERT INTO gzc24_uretim_kayit (gzc24_kutu_sayisi, gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date) VALUES (?,?,?,?)", [cihazKutu, adet, day, date])
+
+        console.log("başarı ile kayıt edildi");
+    } catch (error) {
+        console.log("gzc24 üretim kayit", error);
+    }
+
+});
+
+
+
+
+
+
+
+
+/////////////////////////gzc24////////////////////
+
 
 
 module.exports = router;
