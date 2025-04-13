@@ -109,30 +109,34 @@
 
         <h2 class="text-white">ÜRETİLEN GZC24 </h2>
         <br>
-        <table class="table table-dark text-center">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">CİHAZ</th>
-                <th scope="col">12 Lİ KUTU</th>
-                <th scope="col">ADET</th>
-                <th scope="col">GÜN</th>
-                <th scope="col">TARİH</th>
-              </tr>
-            </thead>
-            <tbody>
 
-              <tr>
-                <th scope="row">1</th>
-                <td >Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-              </tr>
-             
-            </tbody>
-          </table>
+        <input oninput="searchBox()" id="boxSearchInput" class="form-control w-auto mb-2" type="text" placeholder="Cihaz / Gün / Tarih Ara...">
+
+        <div style="max-height: 300px; overflow-y: auto;">
+            <table  class="table table-dark text-center">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">CİHAZ</th>
+                    <th scope="col">12 Lİ KUTU</th>
+                    <th scope="col">ADET</th>
+                    <th scope="col">GÜN</th>
+                    <th scope="col">TARİH</th>
+                  </tr>
+                </thead>
+                <tbody  id="gzc24TableList">
+                  <!-- <tr>
+                    <th scope="row">1</th>
+                    <td >Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>@mdo</td>
+                    <td>@mdo</td>
+                  </tr> -->
+            
+                </tbody>
+              </table>
+        </div>
 
     </div>
     
@@ -157,11 +161,8 @@
 
             let dateInputValue = dateInput.value;
 
-            
 
             let üretilenCihazSayisi = barkodİnputValue * 12;
-
-
 
             
             const days20 = document.getElementById("days20");
@@ -179,7 +180,7 @@
                 alert("Gün seçeneği boş bırakılamaz...");
                 return;
             }else{
-                alert("başarılı");
+                
                 
                 if(days20.checked === true){
 
@@ -196,6 +197,8 @@
 
                     console.log(veri20);
 
+                    
+
                     fetch("/gzc24/Anyday/post", {
                         method: "POST",
                         headers: {
@@ -207,15 +210,26 @@
 
                     })
 
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log("sunucudan gelen cevap", data)
+                    
 
+
+                    .then(async res => {
+                        const data = await res.json();
+
+                        if (!res.ok) {
+                            // ❌ Hatalı yanıt geldiyse buraya girer
+                            alert("Hata: " + data.message);
+                            return;
+                        }
+
+                        // ✅ Başarılıysa buraya girer
+                        alert("Başarılı: " + data.message);
+                        console.log("✔ sunucudan gelen cevap:", data);
                     })
-
                     .catch(err => {
                         console.error("hata oluştu:", err);
-                    })
+                        // alert("İstek sırasında bir hata oluştu.");
+                    });
 
 
 
@@ -247,16 +261,23 @@
 
                     })
 
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log("sunucudan gelen cevap", data)
+                    .then(async res => {
+                        const data = await res.json();
 
+                        if (!res.ok) {
+                            // ❌ Hatalı yanıt geldiyse buraya girer
+                            alert("Hata: " + data.message);
+                            return;
+                        }
+
+                        // ✅ Başarılıysa buraya girer
+                        alert("Başarılı: " + data.message);
+                        console.log("✔ sunucudan gelen cevap:", data);
                     })
-
                     .catch(err => {
                         console.error("hata oluştu:", err);
-                    })
-
+                        // alert("İstek sırasında bir hata oluştu.");
+                    });
 
                 }else if(days60.checked === true){
 
@@ -284,15 +305,23 @@
 
                     })
 
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log("sunucudan gelen cevap", data)
+                    .then(async res => {
+                        const data = await res.json();
 
+                        if (!res.ok) {
+                            // ❌ Hatalı yanıt geldiyse buraya girer
+                            alert("Hata: " + data.message);
+                            return;
+                        }
+
+                        // ✅ Başarılıysa buraya girer
+                        alert("Başarılı: " + data.message);
+                        console.log("✔ sunucudan gelen cevap:", data);
                     })
-
                     .catch(err => {
                         console.error("hata oluştu:", err);
-                    })
+                        // alert("İstek sırasında bir hata oluştu.");
+                    });
 
 
                 }
@@ -311,18 +340,85 @@
                 
             }
 
-           
-
-
-
             
+
+
+           
+            window.location.reload()
 
             
         });
 
 
+        document.addEventListener("DOMContentLoaded", async function () {
+
+            try {
+
+                const response = await fetch("/gzc24/get/urun/kayit");
+
+                const gzc24UrunKayitList = await response.json();
+
+                gzc24UrunKayitList.reverse().forEach(data => {
+                    
+                    const gzc24TableList = document.querySelector("#gzc24TableList");
+
+                    gzc24TableList.innerHTML += `
+
+                        <tr>
+                            <th scope="row">${data.urun_İd}</th>
+                            <td >GZC24</td>
+                            <td>${data.gzc24_kutu_sayisi}</td>
+                            <td>${data.gzc24_uretim_adet}</td>
+                            <td>${data.gzc24_uretim_day}</td>
+                            <td>${data.gzc24_uretim_date}</td>
+                        </tr>
 
 
+
+                    
+                    `; 
+
+
+                });
+
+
+
+
+
+                
+            } catch (error) {
+                console.log("gzc24 urun kayıt listesi çekme hatası", error);
+            }
+
+
+        })
+
+        function searchBox(){
+            try {
+
+                const boxSearchInput = document.querySelector("#boxSearchInput").value.toLowerCase().trim();
+
+                const dataListItem = document.querySelectorAll("#gzc24TableList tr");
+
+                dataListItem.forEach((item) => {
+                    const datatext = item.textContent.toLowerCase().trim();
+
+                    if(!boxSearchInput || datatext.includes(boxSearchInput)) {
+                        item.style.display = "";
+
+                    }else {
+                        item.style.display = "none";
+                    }
+                })
+
+
+
+
+                
+            } catch (error) {
+                console.log("arama hatası ", error);
+            }
+        }
 
 
 

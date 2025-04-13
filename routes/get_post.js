@@ -828,61 +828,101 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
     const { cihazKutu, date, adet, day } = req.body;
 
     console.log(`Kutu sayısı ${cihazKutu} tarih ${date} üretim adeti ${adet} gün ayarı ${day}`);
-    
+
     try {
-        // Veritabanından malzeme adetlerini çekiyoruz
-        const [rows] = await db.execute("SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1003");
-    
-        // Toplamda yeterli malzeme olup olmadığını kontrol et
-        const toplamAdet = rows.reduce((acc, row) => acc + row.urun_malzeme_adet, 0);
-    
-        if (toplamAdet < adet) {
-            // Eğer toplam malzeme adedi yeterli değilse, hata fırlatıyoruz
-            throw new Error("Malzeme sayısı yetersiz!");
+        const [rows] = await db.execute(
+            "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003"
+        );
+
+        const [kutularEksiltme] = await db.execute(
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
+        );
+        
+
+        let ignoreMalzemeIds = []; // En başta tanımla
+
+        if (day === "20 DAY") {
+            ignoreMalzemeIds = [29, 30, 24, 25];
+        } else if (day === "40 DAY") {
+            ignoreMalzemeIds = [28, 30, 24, 25];
+        } else if (day === "60 DAY") {
+            ignoreMalzemeIds = [28, 29, 24, 25];
+        } else {
+            console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
-    
-        // Eksiltme işlemini yapalım
-        let kalanAdet = adet;
-    
-        for (let row of rows) {
-            if (row.urun_malzeme_adet > 0) {
-                const eksiltilecekAdet = Math.min(row.urun_malzeme_adet, kalanAdet);
-                // Her satır için eksiltme işlemi yapıyoruz
-                await db.execute(
-                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND urun_malzeme_adet >= ?",
-                    [eksiltilecekAdet, eksiltilecekAdet]
-                );
-                kalanAdet -= eksiltilecekAdet;
-    
-                // Eğer kalan adet sıfırlandıysa, işlemi durdurabiliriz
-                if (kalanAdet === 0) {
-                    break;
-                }
-            }
+
+
+        
+
+        // Dışlananlar hariç malzemeleri filtrele
+        const hedefMalzemeler = rows.filter(row => !ignoreMalzemeIds.includes(row.malzeme_id));
+
+        // Her bir ürün 120 adet eksiltmeyi karşılayabiliyor mu kontrol et
+        const yetersizler = hedefMalzemeler.filter(row => row.urun_malzeme_adet < adet);
+
+        if (yetersizler.length > 0) {
+            throw new Error("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
         }
-    
-        console.log("Malzeme adetleri başarıyla güncellendi!");
-    
+
+
+        for (let row of hedefMalzemeler) {
+            await db.execute(
+                "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
+                [adet, row.malzeme_id]
+            );
+
+            // console.log(`✔ ${row.malzeme_id} ID'li malzemeden ${adet} adet eksiltildi.`);
+            
+        }
+
+        console.log(`${ignoreMalzemeIds} ler hariç tüm malzemeler eksiltildi`);
+        
+
     } catch (error) {
-        console.log("gzc24 Malzeme Çekme Hatası", error);
+        console.log("❌ gzc24 Malzeme Çekme Hatası:", error.message);
+        return res.status(500).json({ message: error.message });
+
     }
     
-
+    //////////////////gzc24 listeye ekleme //////////////////////
     
-    
-
-
-
     try {
         
         await db.execute("INSERT INTO gzc24_uretim_kayit (gzc24_kutu_sayisi, gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date) VALUES (?,?,?,?)", [cihazKutu, adet, day, date])
 
+       
+
         console.log("başarı ile kayıt edildi");
+
+        // Başarıyla işlem tamamlandığında sayfaya yönlendirme
+        // res.redirect("/gzc24-production");  // Yalnızca bu satır yeterli
+
     } catch (error) {
         console.log("gzc24 üretim kayit", error);
     }
 
+    ////////////////////////////////////////////////////////////
+
 });
+
+
+router.get("/gzc24/get/urun/kayit", async function (req, res) {
+
+    try {
+
+        const [gzc24UrunKayitList ] = await  db.execute("SELECT urun_İd , gzc24_kutu_sayisi ,gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date FROM gzc24_uretim_kayit ")
+
+        res.json(gzc24UrunKayitList);
+
+
+        
+    } catch (error) {
+        console.log("gzc24 urun kayıt çekme hatası", error);
+    }
+
+
+
+})
 
 
 
