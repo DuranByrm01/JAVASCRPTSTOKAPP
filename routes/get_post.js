@@ -837,16 +837,18 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
         const [kutularEksiltme] = await db.execute(
             "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
         );
+
         
+
 
         let ignoreMalzemeIds = []; // En başta tanımla
 
         if (day === "20 DAY") {
-            ignoreMalzemeIds = [29, 30, 24, 25];
+            ignoreMalzemeIds = [29, 30, 24,25];
         } else if (day === "40 DAY") {
-            ignoreMalzemeIds = [28, 30, 24, 25];
+            ignoreMalzemeIds = [28, 30, 24,25];
         } else if (day === "60 DAY") {
-            ignoreMalzemeIds = [28, 29, 24, 25];
+            ignoreMalzemeIds = [28, 29, 24,25];
         } else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
@@ -866,6 +868,9 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
 
 
         for (let row of hedefMalzemeler) {
+
+        
+
             await db.execute(
                 "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
                 [adet, row.malzeme_id]
@@ -876,6 +881,24 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
         }
 
         console.log(`${ignoreMalzemeIds} ler hariç tüm malzemeler eksiltildi`);
+
+         // 24 ve 25 için özel eksiltme
+        for (let row of kutularEksiltme) {
+            if (row.malzeme_id === 24) {
+                await db.execute(
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
+                    [cihazKutu, 24]
+                );
+                console.log(`✔ 24 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
+            } else if (row.malzeme_id === 25) {
+                const azaltmaAdeti = Math.floor(cihazKutu / 3);
+                await db.execute(
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
+                    [azaltmaAdeti, 25]
+                );
+                console.log(`✔ 25 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
+            }
+        }
         
 
     } catch (error) {
