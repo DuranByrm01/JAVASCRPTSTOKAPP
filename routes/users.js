@@ -9,6 +9,34 @@ const data = {
     cards:" rows"
 }
 
+router.get("/etilen_s", async function (req, res) {
+    try {
+
+        res.render("users/etilen_s", {
+            title: "STOCK APP",
+        })
+        
+    } catch (error) {
+        console.log("etilen sayfası hata" , error);
+    }
+})
+
+router.get("/gold-production", async function (req, res) {
+
+    try {
+
+        res.render("users/gold-production",{
+            title: "STOCK APP",
+        });
+        
+    } catch (error) {
+        console.log("GOLD üretim sayfası", error);
+    }
+
+})
+
+
+
 router.get("/gzc24-production", async function (req, res) {
 
     try {

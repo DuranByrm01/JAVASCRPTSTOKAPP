@@ -3,6 +3,15 @@
 <head>
     <%- include("../partials/meta") %>
     <title>ÜRÜN LİST</title>
+
+    <style>
+      .item-list:hover{
+        background-color: #3585fd !important;
+        color: white !important;
+        cursor: pointer;
+      }
+    </style>
+
 </head>
 <body class="bg-dark">
     <%- include("../partials/nav") %>
@@ -23,8 +32,8 @@
             <ol class="urunMalzemeList">
 
               <% trc60StockCard.forEach(trc60 => { %>
-                  <div class="d-flex justify-content-between bg-primary mb-1">
-                    <li class="list-group-item bg-primary text-white mb-1 p-2"><%= trc60.urun_malzeme_adi %></li>
+                  <div class="d-flex justify-content-between  bg-primary mb-1 item-list">
+                    <li class="list-group-item bg-primary text-white mb-1 p-2 item-list"><%= trc60.urun_malzeme_adi %></li>
                     <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= trc60.urun_malzeme_adet %></strong> PCS </li>
                   </div>
                     
@@ -47,8 +56,8 @@
 
               <% trc01StockCard.forEach(trc01 => { %>
                    
-                    <div class="d-flex justify-content-between bg-primary mb-1">
-                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= trc01.urun_malzeme_adi %></li>
+                    <div class="d-flex justify-content-between bg-primary mb-1  item-list">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2  item-list"><%= trc01.urun_malzeme_adi %></li>
                       <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= trc01.urun_malzeme_adet %></strong> PCS </li>
                     </div>
               <% }) %>
@@ -68,8 +77,8 @@
 
               <% luvinkaStockCard.forEach(DT6001 => { %>
                    
-                    <div class="d-flex justify-content-between bg-primary mb-1">
-                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= DT6001.urun_malzeme_adi %></li>
+                    <div class="d-flex justify-content-between bg-primary mb-1  item-list">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2  item-list"><%= DT6001.urun_malzeme_adi %></li>
                       <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= DT6001.urun_malzeme_adet %></strong> PCS </li>
                     </div>
               <% }) %>
@@ -89,8 +98,8 @@
 
               <% gzc24StockCard.forEach(gzc24 => { %>
                     
-                    <div class="d-flex justify-content-between bg-primary mb-1">
-                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= gzc24.urun_malzeme_adi %></li>
+                    <div class="d-flex justify-content-between bg-primary mb-1  item-list">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2  item-list"><%= gzc24.urun_malzeme_adi %></li>
                       <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= gzc24.urun_malzeme_adet %></strong> PCS </li>
                     </div>
               <% }) %>
@@ -110,8 +119,8 @@
 
               <% goldStockCard.forEach(gold => { %>
                     
-                    <div class="d-flex justify-content-between bg-primary mb-1">
-                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= gold.urun_malzeme_adi %></li>
+                    <div class="d-flex justify-content-between bg-primary mb-1  item-list">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2  item-list"><%= gold.urun_malzeme_adi %></li>
                       <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= gold.urun_malzeme_adet %></strong> PCS </li>
                     </div>
               <% }) %>
@@ -131,8 +140,8 @@
 
               <% casusStockCard.forEach(casus => { %>
                     
-                    <div class="d-flex justify-content-between bg-primary mb-1">
-                      <li class="list-group-item bg-primary text-white mb-1 p-2"><%= casus.urun_malzeme_adi %></li>
+                    <div class="d-flex justify-content-between bg-primary mb-1  item-list">
+                      <li class="list-group-item bg-primary text-white mb-1 p-2  item-list"><%= casus.urun_malzeme_adi %></li>
                       <li class="list-group-item bg-primary text-white mb-1 p-2 bg-warning "><strong class="text-dark"><%= casus.urun_malzeme_adet %></strong> PCS </li>
                     </div>
               <% }) %>
