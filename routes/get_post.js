@@ -1153,5 +1153,68 @@ router.get("/etilen/uretim/get", async function ( req, res)  {
 /////////////////////etilen-sıvı//////////////////
 
 
+/////////////////////etilen-jeneratör//////////////////
+
+router.post("/etilen/jenerator/uretim/post", async function (req, res) {
+
+    const { uretimKutu,  date} = req.body;
+
+    console.log(req.body)
+
+    try {
+
+        await db.execute("INSERT INTO etilen_jenerator ( etilen_jenerator_adet, etilen_jenerator_date ) VALUES (?,?)", [uretimKutu,  date])
+
+       
+
+        console.log("başarı ile kayıt edildi");
+
+
+
+
+        
+    } catch (error) {
+        console.log("etilen üretim kayıt hatası", error);
+    }
+
+
+   
+
+
+
+
+})
+
+
+router.get("/etilen/jenerator/uretim/get", async function ( req, res)  {
+    try {
+
+        const [etilenUretim] =  await db.execute("SELECT jenerator_id, etilen_jenerator_adet , etilen_jenerator_date FROM etilen_jenerator")
+
+        res.json(etilenUretim);
+
+        
+    } catch (error) {
+        console.log("etilen üretim kayıt çekme hatası", error);
+    }
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////etilen-jeneratör//////////////////
+
+
 
 module.exports = router;
