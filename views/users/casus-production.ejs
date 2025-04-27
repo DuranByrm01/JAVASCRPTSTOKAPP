@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <%- include("../partials/meta") %>
-    <title>GZC24 ÜRETİM GİRİŞ/ÇIKIŞ</title>
+    <title>CASUS ÜRÜN KAYIT SAYFASI</title>
 
     <style>
 
@@ -37,22 +37,21 @@
 
     </style>
 
+
 </head>
 <body class="bg-dark">
 
     <%- include("../partials/nav") %>
 
-    
+    <div class="container-xl mt-3 bg-primary w-auto rounded p-3">
 
-    <div class="container-xl mt-3 bg-primary w-auto  rounded p-3">
         <%- include("../partials/uretımNav") %>
 
-        <br>
+        <br><br><br>
 
-        <h2 class="text-white text-center">GZC24 ÜRÜN KAYIT SAYFASI</h2>
+        <h2 class="text-white text-center">CASUS ÜRÜN KAYIT SAYFASI</h2>
 
-        <br>
-
+        <br><br>
 
         <div class="container-xxl d-flex justify-content-center align-items-center flex-wrap  p-3">
 
@@ -60,9 +59,17 @@
     
                     
     
-                <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
-                <h5 id="uretimMalzeme" class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
-                <h5 id="guncelStok" class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
+                <div class="d-flex flex-wrap mb-2">
+
+                
+
+                    <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
+                    <h5 id="uretimMalzeme" class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
+                    <h5 id="guncelStok" class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
+                    
+                </div>
+
+                
     
                 
                 
@@ -71,7 +78,7 @@
             <div class="container-xxl d-flex justify-content-start align-items-center saveCont">
 
 
-                <input id="barkodİnput" class="form-control  w-auto me-1" type="text" placeholder="12 li kutu sayısı gir...">
+                <input id="barkodİnput" class="form-control  w-auto me-1" type="text" placeholder="20 li kutu sayısı gir...">
 
                 <input id="dateInput" class="form-control  w-auto me-1" type="date">
     
@@ -79,85 +86,80 @@
 
                 <div class="bg-warning mx-2 p-2 d-flex justify-content-center align-items-center rounded">
 
-                    <label  for="days20">20 DAYS</label>
-
-                    <input class="inputStyle" type="checkbox" name="days20" id="days20">
-
-                </div>
-                
-
-                <div class="bg-warning mx-2 p-2 d-flex justify-content-center align-items-center rounded">
-
                     <label  for="days40">40 DAYS</label>
 
-                    <input  class="inputStyle"  type="checkbox" name="days40" id="days40">
-                
+                    <input class="inputStyle mx-2" type="checkbox" name="days40" id="days40">
+
                 </div>
+                
 
                 <div class="bg-warning mx-2 p-2 d-flex justify-content-center align-items-center rounded">
 
-                    <label  for="days60">60 DAYS</label>
-
-                    <input class="inputStyle"  type="checkbox" name="days60" id="days60">
+                    <label  for="days75">75 DAYS</label>
+                    
+                    <input  class="inputStyle mx-2"  type="checkbox" name="days75" id="days75">
                 
                 </div>
+
+                
 
                 <button id="saveButton" class="btn btn-warning saveBtn">KAYDET</button>
                 
             </div>
 
             
-
-            
-
-
-        </div>
-
-        
-
-        
-
-
-    </div>
-    <br>
-    <div  class="bg-primary container-xxl rounded p-3">
-
-        <h2 class="text-white">ÜRETİLEN GZC24 </h2>
-        <br>
-
-        <h3 class="toplamSayisi" id="toplamCihaz">Toplam : 0</h3>
-
-        <input oninput="searchBox()" id="boxSearchInput" class="form-control w-auto mb-2" type="text" placeholder="Cihaz / Gün / Tarih Ara...">
-
-        <div style="max-height: 300px; overflow-y: auto;">
-            <table  class="table table-dark text-center">
-                <thead>
-                  <tr>
-                    
-                    <th scope="col">İD</th>
-                    <th scope="col">CİHAZ</th>
-                    <th scope="col">12 Lİ KUTU</th>
-                    <th scope="col">ADET</th>
-                    <th scope="col">GÜN</th>
-                    <th scope="col">TARİH</th>
-                  </tr>
-                </thead>
-                <tbody class="toplam"  id="gzc24TableList">
-                  <!-- <tr>
-                    <th scope="row">1</th>
-                    <td >Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                  </tr> -->
-            
-                </tbody>
-              </table>
-        </div>
-
-    </div>
     
+
+    </div>
+
+    <div class="bg-primary mt-3">
+
+        <br>
+        <div  class="bg-primary container-xxl rounded p-3">
+    
+            <h2 class="text-white">ÜRETİLEN CASUS </h2>
+            <br>
+    
+            <h3 class="toplamSayisi" id="toplamCihaz">Toplam : 0</h3>
+    
+            <input oninput="searchBox()" id="boxSearchInput" class="form-control w-auto mb-2" type="text" placeholder="Cihaz / Gün / Tarih Ara...">
+    
+            <div style="max-height: 300px; overflow-y: auto;">
+                <table  class="table table-dark text-center">
+                    <thead>
+                      <tr>
+                        
+                        <th scope="col">İD</th>
+                        <th scope="col">CİHAZ</th>
+                        <th scope="col">12 Lİ KUTU</th>
+                        <th scope="col">ADET</th>
+                        <th scope="col">GÜN</th>
+                        <th scope="col">TARİH</th>
+                      </tr>
+                    </thead>
+                    <tbody class="toplam"  id="gzc24TableList">
+                      <!-- <tr>
+                        <th scope="row">1</th>
+                        <td >Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr> -->
+                
+                    </tbody>
+                  </table>
+            </div>
+    
+        </div>
+
+    </div>
+
+    
+
+    
+
+
     <script>
 
 
@@ -165,11 +167,11 @@
 
         let dateInput = document.querySelector("#dateInput");
 
-        let days20 = document.querySelector("#days20");
-
         let days40 = document.querySelector("#days40");
 
-        let days60 = document.querySelector("#days60");
+        let days75 = document.querySelector("#days75");
+
+        
 
         let saveButton = document.querySelector("#saveButton");
 
@@ -180,96 +182,35 @@
             let dateInputValue = dateInput.value;
 
 
-            let üretilenCihazSayisi = barkodİnputValue * 12;
+            let üretilenCihazSayisi = barkodİnputValue * 20;
 
             
-            const days20 = document.getElementById("days20");
             const days40 = document.getElementById("days40");
-            const days60 = document.getElementById("days60");
+            const days75 = document.getElementById("days75");
+            
            
-            if ((days20.checked && days40.checked) || 
-                (days20.checked && days60.checked) || 
-                (days40.checked && days60.checked)) {
+            if ((days40.checked && days75.checked) || 
+                (days75.checked && days40.checked) ) {
+                
 
-                
-                
                 alert("Aynı anda birden fazla gün ayarı seçemezsiniz...");
 
                 window.location.reload();
 
                 return;
-                
 
-                
 
-            } else if(days20.checked === false && days40.checked === false && days60.checked === false) {
-                alert("Gün ayarı boş bırakılamaz...");
+
+            } else if(days40.checked === false && days75.checked === false ) {
+                alert("Gün seçeneği boş bırakılamaz...");
 
                 window.location.reload();
 
                 return;
-
-
-
-
-            }else if(barkodİnputValue === "" || dateInputValue === ""){
-                alert("Kutu sayısı ve tarih boş bırakılamaz")
             }else{
                 
                 
-                if(days20.checked === true){
-
-                    let days20Checked ="20 DAY";
-                    console.log("üretilen cihaz", üretilenCihazSayisi, "ADET", dateInputValue , days20Checked);
-
-                    let veri20 = {
-                        cihazKutu : barkodİnputValue,
-                        date : dateInputValue,
-                        adet : üretilenCihazSayisi,
-                        day : days20Checked,
-
-                    }
-
-                    console.log(veri20);
-
-                    
-
-                    fetch("/gzc24/Anyday/post", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-
-                        body: JSON.stringify(veri20)
-
-
-                    })
-
-                    
-
-
-                    .then(async res => {
-                        const data = await res.json();
-
-                        if (!res.ok) {
-                            // ❌ Hatalı yanıt geldiyse buraya girer
-                            alert("Hata: " + data.message);
-                            return;
-                        }
-
-                        // ✅ Başarılıysa buraya girer
-                        alert("Başarılı: " + data.message);
-                        console.log("✔ sunucudan gelen cevap:", data);
-                    })
-                    .catch(err => {
-                        console.error("hata oluştu:", err);
-                        // alert("İstek sırasında bir hata oluştu.");
-                    });
-
-
-
-
-                }else if( days40.checked === true){
+                if(days40.checked === true){
 
                     let days40Checked ="40 DAY";
                     console.log("üretilen cihaz", üretilenCihazSayisi, "ADET", dateInputValue , days40Checked);
@@ -284,8 +225,9 @@
 
                     console.log(veri40);
 
+                    
 
-                    fetch("/gzc24/Anyday/post", {
+                    fetch("/casus/Anyday/post", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -296,6 +238,9 @@
 
                     })
 
+                    
+
+
                     .then(async res => {
                         const data = await res.json();
 
@@ -314,28 +259,32 @@
                         // alert("İstek sırasında bir hata oluştu.");
                     });
 
-                }else if(days60.checked === true){
 
-                    let days60Checked ="60 DAY";
-                    console.log("üretilen cihaz", üretilenCihazSayisi, "ADET", dateInputValue , days60Checked);
 
-                    let veri60 = {
+
+                }else if( days75.checked === true){
+
+                    let days75Checked ="75 DAY";
+                    console.log("üretilen cihaz", üretilenCihazSayisi, "ADET", dateInputValue , days75Checked);
+
+                    let veri75 = {
                         cihazKutu : barkodİnputValue,
                         date : dateInputValue,
                         adet : üretilenCihazSayisi,
-                        day : days60Checked,
+                        day : days75Checked,
 
                     }
 
-                    console.log(veri60);
+                    console.log(veri75);
 
-                    fetch("/gzc24/Anyday/post", {
+
+                    fetch("/casus/Anyday/post", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
 
-                        body: JSON.stringify(veri60)
+                        body: JSON.stringify(veri75)
 
 
                     })
@@ -358,7 +307,9 @@
                         // alert("İstek sırasında bir hata oluştu.");
                     });
 
+                }else{
 
+                    console.log("üretim kayıt hatası")
                 }
 
                 // Input alanlarını temizle
@@ -366,9 +317,9 @@
                 dateInput.value = "";
 
                 // Checkbox'ları temizle
-                days20.checked = false;
                 days40.checked = false;
-                days60.checked = false;
+                days75.checked = false;
+                
 
                
 
@@ -389,11 +340,11 @@
 
             try {
 
-                const response = await fetch("/gzc24/get/urun/kayit");
+                const response = await fetch("/casus/get/urun/kayit");
 
-                const gzc24UrunKayitList = await response.json();
+                const casusUrunKayitList = await response.json();
 
-                gzc24UrunKayitList.reverse().forEach((data , index) => {
+                casusUrunKayitList.reverse().forEach((data , index) => {
                     
                     const gzc24TableList = document.querySelector("#gzc24TableList");
 
@@ -402,12 +353,12 @@
 
                         <tr>
                            
-                            <th scope="row">${data.urun_İd}</th>
+                            <th scope="row">${data.casus_id}</th>
                             <td >GZC24</td>
-                            <td>${data.gzc24_kutu_sayisi}</td>
-                            <td>${data.gzc24_uretim_adet}</td>
-                            <td>${data.gzc24_uretim_day}</td>
-                            <td>${data.gzc24_uretim_date}</td>
+                            <td>${data.casus_uretim_kutu_adet}</td>
+                            <td>${data.casus_uretim_adet}</td>
+                            <td>${data.casus_uretim_day}</td>
+                            <td>${data.casus_uretim_date}</td>
                         </tr>
 
 

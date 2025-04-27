@@ -1204,16 +1204,149 @@ router.get("/etilen/jenerator/uretim/get", async function ( req, res)  {
 
 
 
-
-
-
-
-
-
-
-
-
 /////////////////////etilen-jeneratör//////////////////
+
+
+//////////////////////casus////////////////////////////
+
+
+router.post("/casus/Anyday/post", async (req, res) => {
+
+    const { cihazKutu, date, adet, day } = req.body;
+
+    console.log(`Kutu sayısı ${cihazKutu} tarih ${date} üretim adeti ${adet} gün ayarı ${day}`);
+
+    try {
+        const [rows] = await db.execute(
+            "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1005"
+        );
+
+        const [kutularEksiltme] = await db.execute(
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1005 AND malzeme_id IN (49, 50)"
+        );
+
+        
+
+
+        let ignoreMalzemeIds = []; // En başta tanımla
+
+        if (day === "40 DAY") {
+            ignoreMalzemeIds = [48,49,50];
+        } else if (day === "75 DAY") {
+            ignoreMalzemeIds = [47,49,50];
+        }else {
+            console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
+        }
+
+
+        
+
+        // Dışlananlar hariç malzemeleri filtrele
+        const hedefMalzemeler = rows.filter(row => !ignoreMalzemeIds.includes(row.malzeme_id));
+
+        // Her bir ürün 120 adet eksiltmeyi karşılayabiliyor mu kontrol et
+        const yetersizler = hedefMalzemeler.filter(row => row.urun_malzeme_adet < adet);
+
+        if (yetersizler.length > 0) {
+            throw new Error("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
+        }
+
+
+        for (let row of hedefMalzemeler) {
+
+        
+
+            await db.execute(
+                "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1005 AND malzeme_id = ?",
+                [adet, row.malzeme_id]
+            );
+
+            // console.log(`✔ ${row.malzeme_id} ID'li malzemeden ${adet} adet eksiltildi.`);
+            
+        }
+
+        console.log(`${ignoreMalzemeIds} ler hariç tüm malzemeler eksiltildi`);
+
+         // 49 ve 50 için özel eksiltme
+        for (let row of kutularEksiltme) {
+            if (row.malzeme_id === 49) {
+                await db.execute(
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1005 AND malzeme_id = ?",
+                    [cihazKutu, 49]
+                );
+                console.log(`✔ 49 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
+            } else if (row.malzeme_id === 50) {
+                const azaltmaAdeti = Math.floor(cihazKutu / 3);
+                await db.execute(
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1005 AND malzeme_id = ?",
+                    [azaltmaAdeti, 50]
+                );
+                console.log(`✔ 50 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
+            }
+        }
+        
+
+    } catch (error) {
+        console.log("❌ gzc24 Malzeme Çekme Hatası:", error.message);
+        return res.status(500).json({ message: error.message });
+
+    }
+    
+    //////////////////casus listeye ekleme //////////////////////
+    
+    try {
+        
+        await db.execute("INSERT INTO casus_uretim (casus_uretim_kutu_adet, casus_uretim_adet, casus_uretim_day, casus_uretim_date) VALUES (?,?,?,?)", [cihazKutu, adet, day, date])
+
+       
+
+        console.log("başarı ile kayıt edildi");
+
+        // Başarıyla işlem tamamlandığında sayfaya yönlendirme
+        // res.redirect("/gzc24-production");  // Yalnızca bu satır yeterli
+
+    } catch (error) {
+        console.log("casus üretim kayit", error);
+    }
+
+    ////////////////////////////////////////////////////////////
+
+});
+
+
+router.get("/casus/get/urun/kayit", async function (req, res) {
+
+    try {
+
+        const [casusUrunKayitList ] = await  db.execute("SELECT casus_id , casus_uretim_kutu_adet ,casus_uretim_adet, casus_uretim_day, casus_uretim_date FROM casus_uretim ")
+
+        res.json(casusUrunKayitList);
+
+
+        
+    } catch (error) {
+        console.log("casus urun kayıt çekme hatası", error);
+    }
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////casus////////////////////////////
 
 
 

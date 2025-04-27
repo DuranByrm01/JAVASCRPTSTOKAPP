@@ -9,6 +9,18 @@ const data = {
     cards:" rows"
 }
 
+router.get("/casus-production", async function (req, res) {
+    try {
+
+        res.render("users/casus-production", {
+            title: "STOCK APP",
+        })
+        
+    } catch (error) {
+        console.log("etilen sayfası hata" , error);
+    }
+})
+
 router.get("/etilen_jenerator", async function (req, res) {
     try {
 
