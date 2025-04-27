@@ -9,6 +9,43 @@ const data = {
     cards:" rows"
 }
 
+router.get("/luvinka-100-box", async function (req, res) {
+    try {
+
+        res.render("users/luvinka-100-box", {
+            title: "STOCK APP",
+        })
+        
+    } catch (error) {
+        console.log("luvinka-100-box sayfası hata" , error);
+    }
+})
+
+router.get("/luvinka-20-box", async function (req, res) {
+    try {
+
+        res.render("users/luvinka-20-box", {
+            title: "STOCK APP",
+        })
+        
+    } catch (error) {
+        console.log("luvinka-20-box sayfası hata" , error);
+    }
+})
+
+
+router.get("/luvinka-production", async function (req, res) {
+    try {
+
+        res.render("users/luvinka-production", {
+            title: "STOCK APP",
+        })
+        
+    } catch (error) {
+        console.log("luvinka-production sayfası hata" , error);
+    }
+})
+
 router.get("/casus-production", async function (req, res) {
     try {
 

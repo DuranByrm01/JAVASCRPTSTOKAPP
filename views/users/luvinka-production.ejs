@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <%- include("../partials/meta") %>
-    <title>TRC60 ÜRETİM</title>
+    <title>LUVİNKA ÜRETİM</title>
 </head>
 <body class="bg-dark">
     <%- include("../partials/nav") %>
@@ -11,15 +11,10 @@
 
         <%- include("../partials/uretımNav") %>
 
-        <h3 class="text-white text-center">TRC60 ÜRÜN KAYIT SAYFASI</h3>
+        <h3 class="text-white text-center">LUVİNKA ÜRÜN KAYIT SAYFASI</h3>
         <br>
         
-        <div class="d-flex justify-content-center align-items-center">
-            
-            <img style="width: 150px;" src="/trc60/trc60-temperature-logger.png" alt="">
-
-        </div>
-        <br>
+       
 
         <div class="container-xxl d-flex justify-content-center align-items-center flex-wrap  ">
             
@@ -44,8 +39,8 @@
 
                     <div class="offcanvas-body d-flex flex-column">
                         
-                        <a class="btn btn-primary mb-2 p-3" href="/trc60-20barkod">TRC60 20 li KUTU</a>
-                        <a class="btn btn-primary mb-2 p-3" href="/trc60-100-box-tabs">TRC60 100 LÜ KUTU</a>
+                        <a class="btn btn-primary mb-2 p-3" href="/luvinka-20-box">LUVİNKA 20 li KUTU</a>
+                        <a class="btn btn-primary mb-2 p-3" href="/luvinka-100-box">LUVİNKA 100 LÜ KUTU</a>
 
                         
                     </div>
@@ -126,11 +121,11 @@
 
             try {
                 // Mevcut barkodları çek
-                const response = await fetch("/barkod/data/save/get");
+                const response = await fetch("/luvinka/barkod/data/save/get");
                 const barkodList = await response.json();
 
                 // Barkodun listede olup olmadığını kontrol et
-                const exists = barkodList.some(item => item.trc60_20pcs_box_barkod === barkod);
+                const exists = barkodList.some(item => item.luvinka_20_box_barkod === barkod);
 
                 if (exists) {
                     alert("Bu barkod zaten kayıtlı!");
@@ -157,7 +152,7 @@
 
             try {
                 
-                let response = await fetch("barkod/data/save",{
+                let response = await fetch("/luvinka/20/pcsbox/barkod/save",{
                     method: "POST",
                     headers: {
                         "content-Type": "application/json",
@@ -172,8 +167,6 @@
                 
                 let responseData = {};
 
-                // console.log(responseData);
-
                 // JSON olup olmadığını kontrol et
                 try {
                     responseData = responseText ? JSON.parse(responseText) : {}; 
@@ -185,10 +178,7 @@
                 if (!response.ok) {
 
                     if (response.status === 400) {
-                        alert("EKSİK"+" "+ responseData.message);
-
-                        window.location.reload();
-
+                        alert("Stok yetersiz! LUVİNKA ve TRC60 alt malzemeleri eksik.");
                     } else if (response.status === 409) {
                         alert("Bu barkod zaten eklenmiş!");
                         barkodİnput.value = "";
@@ -235,19 +225,19 @@
 
 
 
-                const response = await fetch ("/barkod/data/save/get");
-                const barkod20pcsData = await response.json();
+                const response = await fetch ("/luvinka/barkod/data/save/get");
+                const Luvinkabarkod20pcsData = await response.json();
 
                 const barkodData20pcsList = document.querySelector("#barkodDataList20pcs");
 
                 barkodData20pcsList.innerHTML = "";
 
-                barkod20pcsData.reverse().forEach(barkodData => {
+                Luvinkabarkod20pcsData.reverse().forEach(barkodData => {
 
-                    
+                    // console.log(barkodData);
 
                     barkodData20pcsList.innerHTML += `
-                        <li class="form-control mb-1 w-auto">${barkodData.id_20_pcs} <strong>${barkodData.trc60_20pcs_box_barkod}</strong> ${barkodData.trc60_20pcs_box_date}</li>
+                        <li class="form-control mb-1 w-auto">${barkodData.id_luvinka_20_box} <strong>${barkodData.luvinka_20_box_barkod}</strong> ${barkodData.luvinka_20_box_date}</li>
                     `;
 
                     
@@ -263,7 +253,7 @@
 
 
 
-                const response = await fetch("/barkod/data/save/get/box/number");
+                const response = await fetch("/luvinka/barkod/data/save/get/box/number");
                 const stokadet = await response.json();
 
                 const uretimMiktari = document.querySelector("#uretimMiktari");
@@ -282,7 +272,7 @@
 
             try {
 
-                const response = await fetch("/urunler/uretimSayisi/get");
+                const response = await fetch("/urunler/uretimSayiluvinka/get");
 
                 const trc60ProductNumber = await response.json();
 
@@ -303,16 +293,16 @@
             try {
 
                
-                const response = await fetch("trc60/guncel/stok/trc6020pcs");
-                const trc60GuncelStok = await response.json();
+                const response = await fetch("luvinka/guncel/stok/trc6020pcs");
+                const luvinkaGuncelStok = await response.json();
 
                 const guncelStok = document.querySelector("#guncelStok");
 
-                let guncelStokTrc60 = trc60GuncelStok.length * 20;
+                let guncelStokLuvinka = luvinkaGuncelStok.length * 20;
 
                 
 
-                guncelStok.innerHTML = `TOPLAM ÜRETİLMİŞ ÜRÜN : <strong class=" bg-light text-black p-1 rounded me-auto">${guncelStokTrc60}</strong>`;
+                guncelStok.innerHTML = `TOPLAM ÜRETİLMİŞ ÜRÜN : <strong class=" bg-light text-black p-1 rounded me-auto">${guncelStokLuvinka}</strong>`;
 
                 
             } catch (error) {

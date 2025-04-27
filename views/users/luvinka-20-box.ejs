@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/meta") %>
+    <title>LUVİNKA BARKOD</title>
+</head>
+<body class="bg-dark">
+
+    <%- include("../partials/nav") %>
+
+
+    
+
+    <div class="container-xxl bg-primary mt-3 rounded w-100 p-3">
+        <%- include("../partials/uretımNav") %>
+        <h3 class="text-white font-weight-bold">LUVİNKA 20 Lİ KUTU LİSTESi</h3>
+
+        <div class=" container-xl d-flex justify-content-start align-items-center w-100   mb-2">
+            <button class="btn btn-warning   p-1 fs-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fa-solid fa-list mx-1 fs-5"></i> LİSTELER </button>
+
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">ÜRÜN KAYIT LİSTELERİ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body d-flex flex-column">
+                    
+                    <a class="btn btn-primary mb-2 p-3" href="/luvinka-20-box">LUVİNKA 20 li KUTU</a>
+                    <a class="btn btn-primary mb-2 p-3" href="/luvinka-100-box">LUVİNKA 100 LÜ KUTU</a>
+
+                    
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container-xl trc6020pcsboxList p-2">
+            <ul style="max-height: 500px; overflow-y: auto;" id="list20pcsBox">
+                <li class="form-control mb-1">item</li>
+                <li class="form-control mb-1">item</li>
+            </ul>
+        </div>
+    </div>
+    
+
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", async function () {
+
+            try {
+
+                const response = await fetch("/luvinka/20/box/barkod");
+
+                const luvinkaBox20List = await response.json();
+
+                list20pcsBox.innerHTML  ="";
+
+                luvinkaBox20List.forEach(luvinkapcsBoxListİtem => {
+                    
+                    const list20pcsBox = document.querySelector("#list20pcsBox");
+
+                    
+                    list20pcsBox.innerHTML += ` <li class="form-control mb-1 w-auto">${trc6020pcsBoxListİtem.id_luvinka_20_box_list} <strong>${trc6020pcsBoxListİtem.luvinka_20_box_list_barkod}</strong> ${trc6020pcsBoxListİtem.luvinka_20_box_list_date}</li> `;
+
+                    
+                });
+
+                
+
+
+                
+            } catch (error) {
+                console.log("trc60 20pcs box list çekme hatası ", error);
+            }
+
+
+
+
+            
+        });
+
+
+
+
+    </script>
+
+    
+</body>
+</html>

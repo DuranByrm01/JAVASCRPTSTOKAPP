@@ -47,13 +47,13 @@
 
         <%- include("../partials/uretımNav") %>
 
-        <br><br><br>
+        <br>
 
         <h2 class="text-white text-center">CASUS ÜRÜN KAYIT SAYFASI</h2>
 
-        <br><br>
+        <br>
 
-        <div class="container-xxl d-flex justify-content-center align-items-center flex-wrap  p-3">
+        <div class="container-xl d-flex justify-content-center align-items-center flex-wrap w-auto  p-3">
 
             <div class="d-flex flex-wrap mb-2">
     
@@ -75,7 +75,7 @@
                 
             </div>
 
-            <div class="container-xxl d-flex justify-content-start align-items-center saveCont">
+            <div class="container-xl d-flex justify-content-start align-items-center saveCont">
 
 
                 <input id="barkodİnput" class="form-control  w-auto me-1" type="text" placeholder="20 li kutu sayısı gir...">
@@ -106,16 +106,17 @@
                 <button id="saveButton" class="btn btn-warning saveBtn">KAYDET</button>
                 
             </div>
+        </div>
 
             
     
 
     </div>
 
-    <div class="bg-primary mt-3">
+    <div class="container-xxl w-auto bg-primary mt-2 rounded">
 
-        <br>
-        <div  class="bg-primary container-xxl rounded p-3">
+        
+        <div  class=" bg-primary  rounded p-3">
     
             <h2 class="text-white">ÜRETİLEN CASUS </h2>
             <br>
@@ -207,6 +208,8 @@
                 window.location.reload();
 
                 return;
+            }else if(barkodİnputValue === "" || dateInputValue === ""){
+                alert("Kutu sayısı ve Tarih boş bırakılamaz...")
             }else{
                 
                 
@@ -421,15 +424,15 @@
 
         document.addEventListener("DOMContentLoaded", async function () {
 
-            let response = await fetch("/urunler/uretimSayiGZC24/get");
+            let response = await fetch("/urunler/uretimSayiCasus/get");
 
-            let gzc24MalzemeSayısı = await response.json();
+            let casusMalzemeSayısı = await response.json();
 
             let uretimMalzeme = document.querySelector("#uretimMalzeme");
 
             
 
-            gzc24MalzemeSayısı.forEach(data => {
+            casusMalzemeSayısı.forEach(data => {
                 uretimMalzeme.innerHTML = `
 
                     ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">${data.urun_malzeme_adet}</strong>

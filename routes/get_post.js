@@ -323,23 +323,46 @@ router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
 
 });
 
+/////////////////////
+
 router.get('/urunler/uretimSayiCasus/get', async function (req, res) {
 
     try {
-        const [uretimSayiGZC24Gold] = await db.execute(
+        const [uretimSayicasus] = await db.execute(
             "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1005' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         );
         
         
-        res.json(uretimSayiGZC24Gold);
+        res.json(uretimSayicasus);
 
     } catch (error) {
 
-        console.error(error);
+        console.error("casus üretim sayısı çekme hatası",error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
     }
 
 });
+
+/////////////////////
+
+router.get('/urunler/uretimSayiluvinka/get', async function (req, res) {
+
+    try {
+        const [uretimSayiluvinka] = await db.execute(
+            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1006' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+        );
+        
+        
+        res.json(uretimSayiluvinka);
+
+    } catch (error) {
+
+        console.error("casus üretim sayısı çekme hatası",error);
+        res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
+    }
+
+});
+
 
 
 //////üretim sayısı///////////////////////////////////
@@ -396,6 +419,8 @@ router.get('/add/Remove', async function (req, res) {
 ///////////////////////////////////////////////////////////
 ///////////trc60 barkod kayıt ///////////////////////
 
+let barkodCountertrc60 = 0; // 5 barkod sayacı
+
 router.post("/barkod/data/save", async (req, res) => {
     const { barkod , barkodDateSave } = req.body;
 
@@ -404,7 +429,9 @@ router.post("/barkod/data/save", async (req, res) => {
     try {
 
         //ürünmalzemeleri tablosundan trc60 ın alt mazlemeleri çek
-        const [trc60urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1001");
+        // const [trc60urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1001");
+
+        const [urunMalzemeStoklari] = await db.execute("SELECT malzeme_id, urun_malzeme_adi , urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1001");
 
         const [midiBoxTrc60100Fınd] = await db.execute("SELECT TRC60_20PCS_BOX_LIST_BARKOD FROM trc60_20pcs_box_list WHERE TRC60_20PCS_BOX_LIST_BARKOD = ? ", [barkod]);
 
@@ -415,11 +442,23 @@ router.post("/barkod/data/save", async (req, res) => {
 
         }
 
-        //eğer stok 20 den az ise hata ver
-        if(trc60urunMalzemeStok.length === 0 || trc60urunMalzemeStok[0].urun_malzeme_adet < 20){
-            console.log("TRC60 ALT MALZEMELERİNDE STOK YETERSİZ");
-            // return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
-            return res.status(400).json({ success: false, message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        // //eğer stok 20 den az ise hata ver
+        // if(trc60urunMalzemeStok.length === 0 || trc60urunMalzemeStok[0].urun_malzeme_adet < 20){
+        //     console.log("TRC60 ALT MALZEMELERİNDE STOK YETERSİZ");
+        //     // return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        //     return res.status(400).json({ success: false, message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        // }
+
+        
+        // Her malzeme için stok kontrolü //eğer stok 20 den az ise hata ver
+        for (let malzeme of urunMalzemeStoklari) {
+            const { malzeme_id,urun_malzeme_adi, urun_malzeme_adet } = malzeme;
+            
+            // Eğer herhangi bir malzemenin stoğu 20'den azsa hata ver
+            if (urun_malzeme_adet < 20) {
+                console.log(`Malzeme ID: ${malzeme_id} için stok yetersiz: ${urun_malzeme_adet}`);
+                return res.status(400).json({ success: false, message: `MALZEME : ${urun_malzeme_adi} için stok yetersiz!` });
+            }
         }
 
         // barkod ekle
@@ -430,7 +469,38 @@ router.post("/barkod/data/save", async (req, res) => {
 
         //stok yeterliyse 20 azalt 
 
-        await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1001");
+        // 1- Normal malzemeler (id 3,5,8,9 HARİÇ) ➔ 20 azalt
+        await db.execute(`
+            UPDATE urunmalzemeleri 
+            SET urun_malzeme_adet = urun_malzeme_adet - 20 
+            WHERE urun_key = 1001 
+            AND malzeme_id NOT IN (8,9)
+        `);
+
+        // 2- id = 8 ➔ 1 azalt
+        await db.execute(`
+            UPDATE urunmalzemeleri 
+            SET urun_malzeme_adet = urun_malzeme_adet - 1 
+            WHERE urun_key = 1001 
+            AND malzeme_id = 8
+        `);
+
+        // 3- id = 9 ➔ 5 barkodda 1 azalt
+        barkodCountertrc60++;
+
+        if (barkodCountertrc60 >= 5) {
+            await db.execute(`
+                UPDATE urunmalzemeleri 
+                SET urun_malzeme_adet = urun_malzeme_adet - 1 
+                WHERE urun_key = 1001 
+                AND malzeme_id = 9
+            `);
+
+            barkodCountertrc60 = 0; // Sayaç sıfırlansın
+
+        }
+
+        // await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1001");
        
         
     } catch (error) {
@@ -632,9 +702,9 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
 
         //eğer stok 20 den az ise hata ver
         if(trc01urunMalzemeStok.length === 0 || trc01urunMalzemeStok[0].urun_malzeme_adet < 20){
-            console.log("TRC60 ALT MALZEMELERİNDE STOK YETERSİZ");
+            console.log("TRC01 ALT MALZEMELERİNDE STOK YETERSİZ");
             // return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
-            return res.status(400).json({ success: false, message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+            return res.status(400).json({ success: false, message: "TRC01 ALT MALZEMELERİNDE STOK YETERSİZ!" });
         }
 
         // barkod ekle
@@ -1140,16 +1210,6 @@ router.get("/etilen/uretim/get", async function ( req, res)  {
 
 
 
-
-
-
-
-
-
-
-
-
-
 /////////////////////etilen-sıvı//////////////////
 
 
@@ -1335,18 +1395,276 @@ router.get("/casus/get/urun/kayit", async function (req, res) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 //////////////////////casus////////////////////////////
+
+//////////////////////luvinka/////////////////////////
+
+// Sayaç için basit bir değişken
+let barkodCounter = 0;
+
+router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
+    const { barkod , barkodDateSave } = req.body;
+
+    
+
+    try {
+
+        //ürünmalzemeleri tablosundan TRC60 ın alt mazlemeleri çek
+        const [trc60urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1001");
+
+        //ürünmalzemeleri tablosundan Luvinka ın alt mazlemeleri çek
+        const [luvinkaUrunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1006");
+
+        // 20 lik ve 100 lük kutu kayıt kontrolü aynı barkodu eklememek için ///
+
+        const [midiBoxTrc60100Fınd] = await db.execute("SELECT luvinka_20_box_list_barkod FROM luvinka_20_box_list WHERE luvinka_20_box_list_barkod = ? ", [barkod]);
+
+        if(midiBoxTrc60100Fınd.length > 0){
+            // return res.json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
+            // return console.log("bu barkod zaten daha önceden eklenmiş");
+            return res.status(409).json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
+
+        }
+
+        //eğer stok 20 den az ise hata ver
+        if(luvinkaUrunMalzemeStok === 0 || trc60urunMalzemeStok.length === 0 || trc60urunMalzemeStok[0].urun_malzeme_adet < 20){
+            console.log("LUVİNKA ALT MALZEMELERİNDE STOK YETERSİZ");
+            // return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+            return res.status(400).json({ success: false, message: "LUVİNKA ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        }
+
+        // barkod ekle
+
+        await db.execute("INSERT INTO luvinka_20_box (luvinka_20_box_barkod, luvinka_20_box_date) VALUES (?,?)", [barkod, barkodDateSave])
+        res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
+        // res.status(200).send();
+
+        //stok yeterliyse 20 azalt 
+
+        // await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1001");
+
+        // Stok azaltmalar:
+
+        // 1- Normal malzemeler (id 3,5,8,9 HARİÇ) ➔ 20 azalt
+        await db.execute(`
+            UPDATE urunmalzemeleri 
+            SET urun_malzeme_adet = urun_malzeme_adet - 20 
+            WHERE urun_key = 1001 
+            AND malzeme_id NOT IN (3,5,8,9)
+        `);
+
+        // 2- id = 8 ➔ 1 azalt
+        await db.execute(`
+            UPDATE urunmalzemeleri 
+            SET urun_malzeme_adet = urun_malzeme_adet - 1 
+            WHERE urun_key = 1001 
+            AND malzeme_id = 8
+        `);
+
+        // 3- id = 9 ➔ 5 barkodda 1 azalt
+        barkodCounter++;
+
+        if (barkodCounter >= 5) {
+            await db.execute(`
+                UPDATE urunmalzemeleri 
+                SET urun_malzeme_adet = urun_malzeme_adet - 1 
+                WHERE urun_key = 1001 
+                AND malzeme_id = 9
+            `);
+
+            barkodCounter = 0; // Sayaç sıfırlansın
+
+        }
+
+        await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1006");
+       
+        
+    } catch (error) {
+        
+        console.log("Barkod 20 pcs kayıt hatası:", error);
+        res.status(500).json({ message: "Veri eklenirken hata oluştu!" });
+    }
+
+
+})
+
+
+router.get("/luvinka/barkod/data/save/get", async function (req, res) {
+
+    try {
+        
+        const [Luvinkabarkod20pcs,] = await db.execute("SELECT id_luvinka_20_box, luvinka_20_box_barkod , luvinka_20_box_date FROM luvinka_20_box");
+
+        res.json(Luvinkabarkod20pcs);
+
+        
+
+       
+
+
+    } catch (error) {
+
+        console.log("barkod data save hatası", error);
+        res.status(500).json({ message: "Veri getirme hatası!" });
+
+    }
+
+    
+
+
+});
+
+
+router.get("/luvinka/barkod/data/save/get/box/number", async function (req,res) {
+    
+   try {
+
+        const [luvinka20pcskutuAdet] = await db.execute ("SELECT luvinka_20_box_barkod FROM luvinka_20_box");
+
+
+        res.json(luvinka20pcskutuAdet)
+
+   } catch (error) {
+        console.log("number box", error);
+   }
+
+
+})
+
+
+////////////////////////////////////////////////////
+
+///////////luvinka/////////20////list/////
+
+
+    router.get("/luvinka/20/box/barkod", async function (req, res) {
+
+        try {
+
+            const [luvinkaBox20pcsListİtem ] = await db.execute("SELECT id_luvinka_20_box_list, luvinka_20_box_list_barkod, luvinka_20_box_list_date FROM luvinka_20_box_list");
+
+            res.json(luvinkaBox20pcsListİtem);
+
+            
+        } catch (error) {
+            console.log("luvinka 20lik liste hatası", error);
+        }
+        
+    });
+
+
+
+
+
+/////////////////////////////////////////////
+
+////////////luvinka///////guncel/////stok/////
+
+router.get("/luvinka/guncel/stok/trc6020pcs", async function (req, res) {
+    
+    try {
+
+        const [luvinkaguncelStock] = await db.execute ("SELECT  luvinka_20_box_list_barkod FROM luvinka_20_box_list");
+
+        res.json(luvinkaguncelStock);
+        
+    } catch (error) {
+        console.log("güncel stok çekme hatası ", error);
+        
+    }
+    
+
+});
+
+
+//////////////////////////100lük barkod
+
+router.get("/checkBarkod20/:barkod", async (req, res) => {
+    try {
+        const barkod = req.params.barkod;
+        console.log(`Barkod kontrol ediliyor: ${barkod}`);
+
+        // İlk tabloyu kontrol et
+        const [boxResult] = await db.execute(
+            "SELECT luvinka_20_box_barkod FROM luvinka_20_box WHERE luvinka_20_box_barkod = ?",
+            [barkod]
+        );
+
+        // İkinci tabloyu kontrol et
+        const [listResult] = await db.execute(
+            "SELECT luvinka_20_box_list_barkod FROM luvinka_20_box_list WHERE luvinka_20_box_list_barkod = ?",
+            [barkod]
+        );
+
+        // Eğer herhangi bir tabloda barkod varsa
+        if (boxResult.length > 0 || listResult.length > 0) {
+            console.log(`Barkod bulundu: ${barkod}`);
+            return res.json({ exists: true });
+        } else {
+            console.log(`Barkod bulunamadı: ${barkod}`);
+            return res.json({ exists: false });
+        }
+    } catch (err) {
+        console.error("Veritabanı hatası:", err);
+        return res.status(500).json({ message: "Veritabanı hatası" });
+    }
+});
+
+
+router.post("/luvinka/save100lukuBox", async (req, res) => {
+    const { barkod100, barkod20List ,barkodDateFormat } = req.body;
+
+    if (!barkod100 || barkod20List.length !== 5) {
+        return res.status(400).json({ success: false, message: "Eksik veri gönderildi!" });
+    }
+
+    try {
+        await db.execute(
+            "INSERT INTO luvinka_20_box_list (luvinka_100_box_barkod, luvinka_col_1, luvinka_col_2, luvinka_col_3, luvinka_col_4, luvinka_col_5,luvinka_100_box_list_date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [barkod100, ...barkod20List,barkodDateFormat]
+        );
+        res.json({ success: true });
+    } catch (err) {
+        console.error("Veritabanı hatası:", err);
+        res.status(500).json({ success: false, message: "Veritabanı hatası!" });
+    }
+});
+
+
+router.get("/luvinka/100/box/list/get", async function (req, res) {
+
+    try {
+
+        const [luvinka100boxlistitem ] = await db.execute("SELECT id_luvinka_100_box_list, luvinka_100_box_barkod, luvinka_col_1, luvinka_col_2, luvinka_col_3, luvinka_col_4, luvinka_col_5, luvinka_100_box_list_date FROM luvinka_100_box_list")
+
+        res.json(luvinka100boxlistitem);
+
+
+
+    } catch (error) {
+        console.log("100 lü liste veri çekme hatası", error)
+    }
+    
+})
+
+
+
+
+
+///////////////////////////////////////////////100lük barkod
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////luvinka/////////////////////////
 
 
 
