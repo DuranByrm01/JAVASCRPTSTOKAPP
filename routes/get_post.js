@@ -689,7 +689,9 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
     try {
 
         //ürünmalzemeleri tablosundan trc01 ın alt mazlemeleri çek
-        const [trc01urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1002");
+        // const [trc01urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1002");
+
+        const [trc01urunMalzemeStok] = await db.execute("SELECT malzeme_id, urun_malzeme_adi , urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1002");
 
         const [midiBoxTrc01100Fınd] = await db.execute("SELECT trc01_20pcs_box_list_barkod FROM trc01_20pcs_box_list WHERE trc01_20pcs_box_list_barkod = ? ", [barkod]);
 
@@ -701,11 +703,23 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
         }
 
         //eğer stok 20 den az ise hata ver
-        if(trc01urunMalzemeStok.length === 0 || trc01urunMalzemeStok[0].urun_malzeme_adet < 20){
-            console.log("TRC01 ALT MALZEMELERİNDE STOK YETERSİZ");
-            // return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
-            return res.status(400).json({ success: false, message: "TRC01 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        // if(trc01urunMalzemeStok.length === 0 || trc01urunMalzemeStok[0].urun_malzeme_adet < 20){
+        //     console.log("TRC01 ALT MALZEMELERİNDE STOK YETERSİZ");
+        //     // return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        //     return res.status(400).json({ success: false, message: "TRC01 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        // }
+
+        // Her malzeme için stok kontrolü //eğer stok 20 den az ise hata ver
+        for (let malzeme of trc01urunMalzemeStok) {
+            const { malzeme_id,urun_malzeme_adi, urun_malzeme_adet } = malzeme;
+            
+            // Eğer herhangi bir malzemenin stoğu 20'den azsa hata ver
+            if (urun_malzeme_adet < 20) {
+                console.log(`Malzeme ID: ${malzeme_id} için stok yetersiz: ${urun_malzeme_adet} MALZEME : ${urun_malzeme_adi} için stok yetersiz!  GİRİŞ YAPILAMAZ`);
+                return res.status(400).json({ success: false, message: `MALZEME : ${urun_malzeme_adi} için stok yetersiz!  GİRİŞ YAPILAMAZ` });
+            }
         }
+
 
         // barkod ekle
 
@@ -902,29 +916,46 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
 
     try {
         const [rows] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003"
+            "SELECT urun_key, urun_malzeme_adet, malzeme_id,urun_malzeme_adi  FROM urunmalzemeleri WHERE urun_key = 1003"
         );
 
         const [kutularEksiltme] = await db.execute(
             "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
         );
 
-        
+        const [tekliÜrünlerEksiltme] = await db.execute(
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (31, 32)"
+
+        );
+
+        const [gzc24TumMalzemeler] = await db.execute("SELECT urun_malzeme_adi,urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1003 ");
+
+        for(let malzeme of gzc24TumMalzemeler){
+            const {urun_malzeme_adi,urun_malzeme_adet} = malzeme;
+            console.log("malzemeler bulundu", urun_malzeme_adi);
+            if(urun_malzeme_adet < cihazKutu) {
+                throw new Error(`Malzeme : ${urun_malzeme_adi} için stok yetersiz işlem iptal edildi`);
+                // console.log(`Malzeme : ${urun_malzeme_adi} için stok yetersiz işlem iptal edildi`);
+                // return;
+                
+            }
+
+        }
 
 
         let ignoreMalzemeIds = []; // En başta tanımla
 
         if (day === "20 DAY") {
-            ignoreMalzemeIds = [29, 30, 24,25];
+            ignoreMalzemeIds = [29, 30, 24,25, 31,32];
         } else if (day === "40 DAY") {
-            ignoreMalzemeIds = [28, 30, 24,25];
+            ignoreMalzemeIds = [28, 30, 24,25, 31,32];
         } else if (day === "60 DAY") {
-            ignoreMalzemeIds = [28, 29, 24,25];
+            ignoreMalzemeIds = [28, 29, 24,25, 31,32];
         } else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
 
-
+       
         
 
         // Dışlananlar hariç malzemeleri filtrele
@@ -933,9 +964,16 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
         // Her bir ürün 120 adet eksiltmeyi karşılayabiliyor mu kontrol et
         const yetersizler = hedefMalzemeler.filter(row => row.urun_malzeme_adet < adet);
 
+       
+
         if (yetersizler.length > 0) {
-            throw new Error("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
+
+            throw new Error(`ÜRÜN MALZEME STOKLARI YETERSİZ`);
+            // console.log("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
+            // return;
         }
+
+        
 
 
         for (let row of hedefMalzemeler) {
@@ -968,6 +1006,18 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
                     [azaltmaAdeti, 25]
                 );
                 console.log(`✔ 25 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
+            }
+        }
+
+        for(let row of tekliÜrünlerEksiltme){
+            if(row.malzeme_id === 31) {
+                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 31]);
+                console.log(`GZC24 için 31 id li malzemeden ${cihazKutu} kadar azaltıldı`);
+            }else if (row.malzeme_id === 32) {
+                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 32])
+                console.log(`GZC24 için 32 id li malzemeden ${cihazKutu} kadar azaltıldı`);
+            }else{
+                console.log("31 ve 32 eksiltilemedi")
             }
         }
         
@@ -1410,10 +1460,10 @@ router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
     try {
 
         //ürünmalzemeleri tablosundan TRC60 ın alt mazlemeleri çek
-        const [trc60urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1001");
+        const [trc60urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet,urun_malzeme_adi FROM urunmalzemeleri WHERE urun_key = 1001");
 
         //ürünmalzemeleri tablosundan Luvinka ın alt mazlemeleri çek
-        const [luvinkaUrunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1006");
+        const [luvinkaUrunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet,urun_malzeme_adi FROM urunmalzemeleri WHERE urun_key = 1006");
 
         // 20 lik ve 100 lük kutu kayıt kontrolü aynı barkodu eklememek için ///
 
@@ -1426,12 +1476,26 @@ router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
 
         }
 
-        //eğer stok 20 den az ise hata ver
-        if(luvinkaUrunMalzemeStok === 0 || trc60urunMalzemeStok.length === 0 || trc60urunMalzemeStok[0].urun_malzeme_adet < 20){
-            console.log("LUVİNKA ALT MALZEMELERİNDE STOK YETERSİZ");
-            // return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
-            return res.status(400).json({ success: false, message: "LUVİNKA ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        // //eğer stok 20 den az ise hata ver
+        // if(luvinkaUrunMalzemeStok === 0 || trc60urunMalzemeStok.length === 0 || trc60urunMalzemeStok[0].urun_malzeme_adet < 20){
+        //     console.log("LUVİNKA ALT MALZEMELERİNDE STOK YETERSİZ");
+        //     // return res.json({ message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        //     return res.status(400).json({ success: false, message: "LUVİNKA ALT MALZEMELERİNDE STOK YETERSİZ!" });
+        // }
+
+        const luvinkatumMalzemeler = [...trc60urunMalzemeStok, ...luvinkaUrunMalzemeStok]; 
+
+         // Her malzeme için stok kontrolü //eğer stok 20 den az ise hata ver
+         for (let malzeme of luvinkatumMalzemeler ) {
+            const {urun_malzeme_adi, urun_malzeme_adet } = malzeme;
+            
+            // Eğer herhangi bir malzemenin stoğu 20'den azsa hata ver
+            if (urun_malzeme_adet < 20) {
+                console.log(`MALZEME : ${urun_malzeme_adi} için stok yetersiz`);
+                return res.status(400).json({ success: false, message: ` GİRİŞ YAPILAMAZ : ${urun_malzeme_adi} için stok yetersiz!` });
+            }
         }
+
 
         // barkod ekle
 

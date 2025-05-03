@@ -181,7 +181,7 @@
                 if (!response.ok) {
 
                     if (response.status === 400) {
-                        alert("Stok yetersiz! TRC60 alt malzemeleri eksik.");
+                        alert(responseData.message);
                     } else if (response.status === 409) {
                         alert("Bu barkod zaten eklenmiş!");
                         barkodİnput.value = "";

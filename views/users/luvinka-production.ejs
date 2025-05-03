@@ -178,7 +178,7 @@
                 if (!response.ok) {
 
                     if (response.status === 400) {
-                        alert("Stok yetersiz! LUVİNKA ve TRC60 alt malzemeleri eksik.");
+                        alert("HATA !"+" " + responseData.message);
                     } else if (response.status === 409) {
                         alert("Bu barkod zaten eklenmiş!");
                         barkodİnput.value = "";
