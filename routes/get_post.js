@@ -1663,7 +1663,7 @@ router.get("/checkBarkod20/:barkod", async (req, res) => {
         // Eğer herhangi bir tabloda barkod varsa
         if (boxResult.length > 0 || listResult.length > 0) {
             console.log(`Barkod bulundu: ${barkod}`);
-            return res.json({ exists: true });
+            return res.status(400).json({ exists: true });
         } else {
             console.log(`Barkod bulunamadı: ${barkod}`);
             return res.json({ exists: false });

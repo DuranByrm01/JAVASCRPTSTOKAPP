@@ -58,12 +58,12 @@
 
                 list20pcsBox.innerHTML  ="";
 
-                luvinkaBox20List.forEach(luvinkapcsBoxListİtem => {
+                luvinkaBox20List.reverse().forEach(luvinkapcsBoxListİtem => {
                     
                     const list20pcsBox = document.querySelector("#list20pcsBox");
 
                     
-                    list20pcsBox.innerHTML += ` <li class="form-control mb-1 w-auto">${trc6020pcsBoxListİtem.id_luvinka_20_box_list} <strong>${trc6020pcsBoxListİtem.luvinka_20_box_list_barkod}</strong> ${trc6020pcsBoxListİtem.luvinka_20_box_list_date}</li> `;
+                    list20pcsBox.innerHTML += ` <li class="form-control mb-1 w-auto">${luvinkapcsBoxListİtem.id_luvinka_20_box_list} <strong>${luvinkapcsBoxListİtem.luvinka_20_box_list_barkod}</strong> ${luvinkapcsBoxListİtem.luvinka_20_box_list_date}</li> `;
 
                     
                 });
