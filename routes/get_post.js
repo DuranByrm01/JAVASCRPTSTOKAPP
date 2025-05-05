@@ -348,16 +348,22 @@ router.get('/urunler/uretimSayiCasus/get', async function (req, res) {
 router.get('/urunler/uretimSayiluvinka/get', async function (req, res) {
 
     try {
+        // const [uretimSayiluvinka] = await db.execute(
+        //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1006' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+        // );
+
         const [uretimSayiluvinka] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1006' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key IN ('1006', '1001') ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         );
         
+
         
         res.json(uretimSayiluvinka);
+        
 
     } catch (error) {
 
-        console.error("casus üretim sayısı çekme hatası",error);
+        console.error("Luvinka üretim sayısı çekme hatası",error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
     }
 

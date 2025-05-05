@@ -159,13 +159,13 @@
 
                 let etilenTableList = document.querySelector("#etilenTableList");
 
-                etilenUretim.forEach(data => {
+                etilenUretim.reverse().forEach(data => {
 
                     etilenTableList.innerHTML += `
 
                         <tr>
                             <th scope="row">${data.jenerator_id}</th>
-                            <td >ETİLEN SIVI</td>
+                            <td >ETİLEN JENERATÖR</td>
                             <td >${data.etilen_jenerator_adet}</td>
                            
                             <td>${data.etilen_jenerator_date}</td>
