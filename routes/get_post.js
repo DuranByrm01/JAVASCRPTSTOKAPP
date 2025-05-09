@@ -2,7 +2,66 @@ const express = require("express");
 const router = express.Router();
 
 const db = require("../data/db"); 
-// const { route } = require("./get_post");
+
+const nodemailer = require("nodemailer");
+
+
+
+
+//////////////mail///////////////////////
+
+async function sendLowStockEmail(lowStockData) {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail', // örnek: Gmail kullanıyorsan
+        auth: {
+            user: 'duranb895@gmail.com',
+            pass: 'fted jwmw igmc bxsr'  // Gmail için uygulama şifresi kullan
+        },
+        
+        tls: {
+            rejectUnauthorized: false,
+        },
+
+    });
+
+    // lowStock verisini HTML tabloya dönüştür
+    const tableRows = lowStockData.map(item => `
+        <tr>
+            <td>${item.urun_malzeme_adi}</td>
+            <td>${item.urun_malzeme_adet}</td>
+            <td>${item.malzeme_id}</td>
+            <td>${item.checked}</td>
+        </tr>
+    `).join("");
+
+    const htmlContent = `
+        <h3>Stokta azalan ürünler</h3>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <tr>
+                <th>Ürün Malzeme Adı</th>
+                <th>Adet</th>
+                <th>Malzeme ID</th>
+                <th>Checked</th>
+            </tr>
+            ${tableRows}
+        </table>
+    `;
+
+    const mailOptions = {
+        from: 'duranb895@gmail.com',
+        to: 'bayramd693@gmail.com',
+        subject: 'Düşük Stok Bildirimi',
+        html: htmlContent
+    };
+
+  
+
+    await transporter.sendMail(mailOptions);
+}
+
+
+
+//////////////mail///////////////////////
 
 router.get('/lowStock/get', async function (req, res) {
 
@@ -16,6 +75,24 @@ router.get('/lowStock/get', async function (req, res) {
         const [lowStock] = await db.execute(
           "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
         );
+
+        try {
+
+            // setInterval(() => {
+            //        sendLowStockEmail(lowStock);
+            //     console.log("Mail başarıyla gönderildi.");
+            // }, 3000);
+
+            if(lowStock.length > 0){
+                sendLowStockEmail(lowStock);
+                console.log("Mail başarıyla gönderildi.");
+            }
+          
+        } catch (mailError) {
+            console.error("Mail gönderme hatası:", mailError);
+        }
+
+        
         res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
     } catch (error) {
         console.error("lowStock hatası",error);
