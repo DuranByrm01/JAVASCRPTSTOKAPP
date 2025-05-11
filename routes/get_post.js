@@ -10,7 +10,7 @@ const nodemailer = require("nodemailer");
 
 //////////////mail///////////////////////
 
-async function sendLowStockEmail(lowStockData) {
+async function sendLowStockEmail(lowStockData,gzc24mailRows) {
     const transporter = nodemailer.createTransport({
         service: 'gmail', // örnek: Gmail kullanıyorsan
         auth: {
@@ -34,7 +34,34 @@ async function sendLowStockEmail(lowStockData) {
         </tr>
     `).join("");
 
+      // lowStock verisini HTML tabloya dönüştür
+    const gzc24rows = gzc24mailRows.map(item => `
+        <tr>
+            <td>GZC24 GOLD</td>
+            <td>${item.gzc24_kutu_sayisi}</td>
+            <td>${item.gzc24_uretim_adet}</td>
+            <td>${item.gzc24_uretim_day}</td>
+            <td>${item.gzc24_uretim_date}</td>
+        </tr>
+    `).join("");
+
     const htmlContent = `
+
+         <h3>BU GÜN ÜRETİLEN MALZEMELER</h3>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <tr>
+                <th>Ürün Malzeme Adı</th>
+                <th>Kutu sayısı</th>
+                <th>Adet</th>
+                <th>Malzeme GÜN</th>
+                <th>TARİH</th>
+            </tr>
+            ${gzc24rows}
+            
+        </table>
+        
+        <br>
+
         <h3>Stokta azalan ürünler</h3>
         <table border="1" cellpadding="5" cellspacing="0">
             <tr>
@@ -44,13 +71,20 @@ async function sendLowStockEmail(lowStockData) {
                 <th>Checked</th>
             </tr>
             ${tableRows}
+            
         </table>
+        
+       
     `;
+
+   
+
+   
 
     const mailOptions = {
         from: 'duranb895@gmail.com',
         to: 'bayramd693@gmail.com',
-        subject: 'Düşük Stok Bildirimi',
+        subject: 'GÜNLÜK STOK BİLDİRİMİ v2',
         html: htmlContent
     };
 
@@ -58,6 +92,47 @@ async function sendLowStockEmail(lowStockData) {
 
     await transporter.sendMail(mailOptions);
 }
+
+/////////////////////////////////////
+
+router.get('/get/mail/rows', async function (req, res) {
+  try {
+
+    try {
+        const [lowStockrows] = await db.execute(
+          "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
+        );
+
+        const [gzc24mailRows] = await db.execute(
+          "SELECT gzc24_kutu_sayisi,gzc24_uretim_adet,gzc24_uretim_day,gzc24_uretim_date FROM gzc24_uretim_kayit WHERE DATE(gzc24_uretim_date) = CURDATE();"
+        );
+
+        if (lowStockrows.length > 0) {
+          sendLowStockEmail(lowStockrows, gzc24mailRows);
+          console.log("Mail başarıyla gönderildi.");
+        } else {
+          console.log("Gönderilecek düşük stok yok.");
+        }
+
+        // setInterval(async () => {
+        //     sendLowStockEmail(lowStockrows,gzc24mailRows)
+        //     console.log("Mail başarıyla gönderildi.");
+        // }, 3000);
+
+      } catch (mailError) {
+        console.error("Mail gönderme hatası:", mailError);
+    }
+
+    
+
+    res.json({ message: "Mail kontrol servisi başlatıldı." });
+
+  } catch (error) {
+    console.log("mail verisi çekme hatası", error);
+    res.status(500).json({ message: 'Sunucu hatası.' });
+  }
+});
+
 
 
 
@@ -76,23 +151,14 @@ router.get('/lowStock/get', async function (req, res) {
           "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
         );
 
-        try {
 
-            // setInterval(() => {
-            //        sendLowStockEmail(lowStock);
-            //     console.log("Mail başarıyla gönderildi.");
-            // }, 3000);
+        //  const  [gzc24mailRows] = await db.execute("SELECT gzc24_kutu_sayisi,gzc24_uretim_adet,gzc24_uretim_day,gzc24_uretim_date FROM gzc24_uretim_kayit WHERE DATE(gzc24_uretim_date) = CURDATE(); ");
 
-            if(lowStock.length > 0){
-                sendLowStockEmail(lowStock);
-                console.log("Mail başarıyla gönderildi.");
-            }
-          
-        } catch (mailError) {
-            console.error("Mail gönderme hatası:", mailError);
-        }
-
-        
+        // if(lowStock.length > 0){
+        //         sendLowStockEmail(lowStock,gzc24mailRows);
+        //         console.log("Mail başarıyla gönderildi.");
+        // }
+       
         res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
     } catch (error) {
         console.error("lowStock hatası",error);
@@ -1726,7 +1792,7 @@ router.get("/luvinka/guncel/stok/trc6020pcs", async function (req, res) {
 
 //////////////////////////100lük barkod
 
-router.get("/checkBarkod20/:barkod", async (req, res) => {
+router.get("/luvinka/checkBarkod20/:barkod", async (req, res) => {
     try {
         const barkod = req.params.barkod;
         console.log(`Barkod kontrol ediliyor: ${barkod}`);
@@ -1737,16 +1803,19 @@ router.get("/checkBarkod20/:barkod", async (req, res) => {
             [barkod]
         );
 
+
         // İkinci tabloyu kontrol et
         const [listResult] = await db.execute(
             "SELECT luvinka_20_box_list_barkod FROM luvinka_20_box_list WHERE luvinka_20_box_list_barkod = ?",
             [barkod]
         );
 
+        
+
         // Eğer herhangi bir tabloda barkod varsa
         if (boxResult.length > 0 || listResult.length > 0) {
             console.log(`Barkod bulundu: ${barkod}`);
-            return res.status(400).json({ exists: true });
+            return res.status(200).json({ exists: true });
         } else {
             console.log(`Barkod bulunamadı: ${barkod}`);
             return res.json({ exists: false });
@@ -1758,6 +1827,7 @@ router.get("/checkBarkod20/:barkod", async (req, res) => {
 });
 
 
+
 router.post("/luvinka/save100lukuBox", async (req, res) => {
     const { barkod100, barkod20List ,barkodDateFormat } = req.body;
 
@@ -1767,7 +1837,7 @@ router.post("/luvinka/save100lukuBox", async (req, res) => {
 
     try {
         await db.execute(
-            "INSERT INTO luvinka_20_box_list (luvinka_100_box_barkod, luvinka_col_1, luvinka_col_2, luvinka_col_3, luvinka_col_4, luvinka_col_5,luvinka_100_box_list_date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO luvinka_100_box_list (luvinka_100_box_barkod, luvinka_col_1, luvinka_col_2, luvinka_col_3, luvinka_col_4, luvinka_col_5,luvinka_100_box_list_date) VALUES (?, ?, ?, ?, ?, ?, ?)",
             [barkod100, ...barkod20List,barkodDateFormat]
         );
         res.json({ success: true });

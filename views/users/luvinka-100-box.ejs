@@ -89,7 +89,7 @@
 
     <div class="container-xxl bg-primary mt-3 rounded w-100 p-3">
         
-        <h3 class="text-white font-weight-bold">TRC60 100 LÜ KUTU LİSTESi</h3>
+        <h3 class="text-white font-weight-bold">LUVİNKA 100 LÜ KUTU LİSTESi</h3>
 
         
 
@@ -135,7 +135,9 @@
                 const barkod20 = event.target.value.trim();
                 if (barkod20 === "") return alert("Barkod alanı boş olamaz!");
 
-                fetch(`/checkBarkod20/${barkod20}`)
+                
+
+                fetch(`/luvinka/checkBarkod20/${barkod20}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.exists) {
@@ -145,6 +147,10 @@
                                     <li class="form-control mb-1 w-auto"><strong>${barkodDataList20pcs.length + 0}. ${barkod20}</strong></li> 
                                 `;
                             }
+
+                            
+
+
                             if (barkodDataList20pcs.length === 5) {
                                 document.getElementById("barkodİnput100").disabled = false;
                             }
