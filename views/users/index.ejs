@@ -315,9 +315,40 @@
 
 
       });
+
+      
+
+        
+
     </script>
 
+    <script>
+      
+       window.addEventListener("DOMContentLoaded", () => {
+          const role = localStorage.getItem("role");
+          const userAllowedPages = ["/liveScreen", "/urunList"];
+          const currentPath = window.location.pathname;
 
+          if (role === "user" && !userAllowedPages.includes(currentPath)) {
+            alert("Bu sayfaya erişiminiz yok.");
+            window.location.href = "/liveScreen";
+          }
+
+          document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.clear();
+            window.location.href = "/login";
+          });
+
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (user && user.expires < Date.now()) {
+            localStorage.clear();
+            alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
+            window.location.href = "/login";
+          }
+        });
+
+
+    </script>
 
 
 </body>

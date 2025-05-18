@@ -36,8 +36,14 @@
             </div>
         </div>
 
+        <div class="container-xl">
+            <input class="form-control w-auto" oninput="searchBox()" type="text" id="boxSearchInput" placeholder="barkod ara">
+        </div>
+
+        
+
         <div class="container-xl trc6020pcsboxList p-2">
-            <ul style="max-height: 500px; overflow-y: auto;" id="list20pcsBox">
+            <ul class="trc60borkodList" style="max-height: 500px; overflow-y: auto;" id="list20pcsBox">
                 <li class="form-control mb-1">item</li>
                 <li class="form-control mb-1">item</li>
             </ul>
@@ -76,11 +82,42 @@
                 console.log("trc60 20pcs box list çekme hatası ", error);
             }
 
+            
+
+
 
 
 
             
         });
+
+
+        function searchBox(){
+                try {
+
+                    const boxSearchInput = document.querySelector("#boxSearchInput").value.toLowerCase().trim();
+
+                    const dataListItem = document.querySelectorAll(".trc60borkodList li");
+
+                    dataListItem.forEach((item) => {
+                        const datatext = item.textContent.toLowerCase().trim();
+
+                        if(!boxSearchInput || datatext.includes(boxSearchInput)) {
+                            item.style.display = "";
+
+                        }else {
+                            item.style.display = "none";
+                        }
+                    })
+
+
+
+
+                    
+                } catch (error) {
+                    console.log("arama hatası ", error);
+                }
+             }
 
 
 

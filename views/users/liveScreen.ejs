@@ -19,9 +19,10 @@
     
     <div class="d-flex flex-wrap justify-content-center align-items-center p-3 w-100">
 
-        
+        <!-- <button id="logoutBtn" class="btn btn-danger">Çıkış Yap</button> -->
 
-        <div style="max-height: 50vh; overflow-y: auto;" class="bg-primary mt-5 w-100  p-3">
+
+        <div style="max-height: 100vh; overflow-y: auto;" class="bg-primary mt-5 w-100  p-3">
 
             <h3 class="text-white">SİPARİŞ EDİLECEK MALZEMELER</h3>
 
@@ -69,7 +70,7 @@
 
 
         </div>
-        <div style="max-height: 50vh; overflow-y: auto; " class="bg-warning mt-5 w-100  p-3">
+        <!-- <div style="max-height: 50vh; overflow-y: auto; " class="bg-warning mt-5 w-100  p-3">
             <h3>ATÖLYE İÇİN HAFTALIK ALINACAKLAR</h3>
             <ul>
                 <li>malzeme 1</li>
@@ -79,7 +80,7 @@
                 <li>malzeme 1</li>
                 
             </ul>
-        </div>
+        </div> -->
     </div>
 
     
@@ -230,11 +231,30 @@
             //     }
             // });
 
+         document.getElementById("logoutBtn").addEventListener("click", () => {
+            // LocalStorage'daki bilgileri temizle
+            localStorage.removeItem("user");
+            localStorage.removeItem("role");
+            localStorage.removeItem("expires");
 
+            // Login sayfasına yönlendir
+            window.location.href = "/login";
+        });
+
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user && user.expires < Date.now()) {
+            // Süresi geçmiş, logout
+            localStorage.clear();
+            alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
+            window.location.href = "/login";
+        }
         
 
 
     </script>
+
+   
+
 
 </body>
 </html>

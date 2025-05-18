@@ -56,10 +56,10 @@
         <h1 class="logoLogin">STOCKAPP</h1>
     </div>
     <br>
-    <form class="loginForm">
+    <form id="loginForm"  class="loginForm">
         <div class="form-group">
           <label for="exampleInputEmail1">User Name</label>
-          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Kullanıcı Adınızı Giriniz...">
+          <input type="text" class="form-control" id="exampleInputUserName1" aria-describedby="emailHelp" placeholder="Kullanıcı Adınızı Giriniz...">
           
         </div>
         <br>
@@ -74,6 +74,52 @@
         <br>
         <button type="submit" class="btn btn-primary w-100">GİRİŞ YAP</button>
     </form>
+
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById("exampleInputUserName1").value;
+            const password = document.getElementById("exampleInputPassword1").value;
+
+            const res = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await res.json();
+            console.log("Sunucudan gelen veri:", data);
+
+            if (data.success) {
+                const expiresAt = Date.now() + 60 * 60 * 1000;
+
+                localStorage.setItem("user", JSON.stringify({
+                    username: data.username,
+                    role: data.role,
+                    expires: expiresAt
+                }));
+
+                localStorage.setItem("role", data.role);
+                localStorage.setItem("expires", expiresAt);
+
+                console.log("user giriş yapıldı...");
+
+                // role'e göre yönlendir
+                if (data.role === "admin") {
+                    window.location.href = "/index";
+                } else {
+                    window.location.href = "/liveScreen";
+                }
+            } else {
+                alert("Hatalı kullanıcı adı veya şifre!");
+            }
+        });
+
+
+    </script>
+
 
 
 </body>

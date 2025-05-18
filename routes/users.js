@@ -350,6 +350,36 @@ router.get("/login", async function(req, res){
 
 })
 
+router.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const [results] = await db.query(
+            "SELECT * FROM users WHERE user_name = ? AND user_password = ?",
+            [username, password]
+        );
+
+        if (results.length > 0) {
+            const user = results[0];
+
+            // BURADA role ve username döndürmelisin
+            res.json({
+                success: true,
+                username: user.user_name,
+                role: user.role // <-- Bunu eklemezsen frontend undefined alır
+            });
+        } else {
+            res.json({ success: false });
+        }
+    } catch (err) {
+        console.error("Login error:", err);
+        res.status(500).json({ success: false, error: "Sunucu hatası" });
+    }
+});
+
+
+
+
 
 
 

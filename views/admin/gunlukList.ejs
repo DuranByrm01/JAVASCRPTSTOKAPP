@@ -15,17 +15,74 @@
 
         <div class="d-flex justify-content-center align-items-center flex-wrap">
 
-            <div class="d-flex">
+            <!-- <div class="d-flex">
 
                 <input class="form-control" type="text" placeholder="Ara...">
                 <button class="btn btn-warning mx-2">ARA</button>
     
-            </div>
+            </div> -->
+
+
             
 
         </div>
 
     </div>
+
+    <br>
+
+    <div class="container-xl w-100 bg-primary rounded d-flex justify-content-center align-items-center flex-column">
+        <h3 class="text-white">Giriş yapılacak malzemeyi ürün listesinden seçiniz...</h3>
+        <img style="width: 500px; opacity: 0.6;" src="/box.png" alt="">
+    </div>
+
+
+    <script>
+        // localStorage'dan role bilgisini alıyoruz (login olurken yazmıştık)
+        const role = localStorage.getItem("role");
+
+        // Kullanıcının girmesine izin verilen sayfalar
+        const userAllowedPages = ["/liveScreen", "/urunList"];
+
+        // Şu anki sayfanın adresini al (örnek: /gunlukUretim)
+        const currentPath = window.location.pathname;
+
+        // Eğer role user ise ve bu sayfa izin verilen sayfalardan biri değilse
+        if (role === "user" && !userAllowedPages.includes(currentPath)) {
+            alert("Bu sayfaya erişiminiz yok.");
+            // Kullanıcıyı izin verilen bir sayfaya geri gönder
+            window.location.href = "/liveScreen";
+        }
+    </script>
+
+    <script>
+      
+       window.addEventListener("DOMContentLoaded", () => {
+          const role = localStorage.getItem("role");
+          const userAllowedPages = ["/liveScreen", "/urunList"];
+          const currentPath = window.location.pathname;
+
+          if (role === "user" && !userAllowedPages.includes(currentPath)) {
+            alert("Bu sayfaya erişiminiz yok.");
+            window.location.href = "/liveScreen";
+          }
+
+          document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.clear();
+            window.location.href = "/login";
+          });
+
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (user && user.expires < Date.now()) {
+            localStorage.clear();
+            alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
+            window.location.href = "/login";
+          }
+        });
+
+
+    </script>
+
 
 
 </body>

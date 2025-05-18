@@ -59,7 +59,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <a href="/index" class="navbar-brand bg-warning p-2 rounded text-black fw-bold">
+        <a href="/index" class="navbar-brand bg-warning p-2 rounded text-black fw-bold auth-link" data-roles="admin,user">
             <%=title  %>
         </a>
       <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,22 +71,22 @@
             <a href="/StockScreen" class="nav-link">ÜRÜN STOKLARI</a>
           </li> -->
           <li class="nav-item">
-            <a href="/urunList" class="nav-link">ÜRÜN MALZEME STOKLARI</a>
+            <a href="/urunList" class="nav-link auth-link" data-roles="admin,user">ÜRÜN MALZEME STOKLARI</a>
           </li>
           <li class="nav-item">
-            <a href="/urunKayit" class="nav-link">MALZEME GİRİŞ/ÇIKIŞ</a>
+            <a href="/urunKayit" class="nav-link auth-link" data-roles="admin">MALZEME GİRİŞ/ÇIKIŞ</a>
           </li>
           <li class="nav-item">
-            <a href="/gunlukUretim" class="nav-link">GÜNLÜK KAYIT</a>
+            <a href="/gunlukUretim" class="nav-link auth-link" data-roles="admin">GÜNLÜK KAYIT</a>
           </li>
           <li class="nav-item">
-            <a href="/admin/save" class="nav-link">MALZEME EKLE</a>
+            <a href="/admin/save" class="nav-link auth-link" data-roles="admin">MALZEME EKLE</a>
           </li>
           <li class="nav-item">
-            <a href="/admin/gunlukList" class="nav-link">ÜRETİM KAYITLARI</a>
+            <a href="/admin/gunlukList" class="nav-link auth-link" data-roles="admin">ÜRETİM KAYITLARI</a>
           </li>
           <li class="nav-item">
-            <a href="/liveScreen" class="nav-link">İZLEME EKRANI</a>
+            <a href="/liveScreen" class="nav-link auth-link" data-roles="admin,user">İZLEME EKRANI</a>
           </li>
 
           <li class="nav-item">
@@ -94,7 +94,9 @@
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">ÇIKIŞ YAP</a>
+
+            <a id="logoutBtn" href="#" class="nav-link">ÇIKIŞ YAP</a>
+            
           </li>
 
         </ul>
@@ -103,7 +105,16 @@
     </div>
   </nav>
 
+  <script>
+    const role = localStorage.getItem("role");
 
+    document.querySelectorAll(".auth-link").forEach(link => {
+      const allowedRoles = link.dataset.roles.split(",");
+      if (!allowedRoles.includes(role)) {
+        link.style.display = "none";
+      }
+    });
+  </script>
 
   <!-- <script>
     document.addEventListener("DOMContentLoaded", function () {
