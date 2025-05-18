@@ -374,6 +374,8 @@ router.post("/login", async (req, res) => {
     } catch (err) {
         console.error("Login error:", err);
         res.status(500).json({ success: false, error: "Sunucu hatası" });
+        console.error("Login error:", err.sqlMessage || err.message);
+
     }
 });
 
