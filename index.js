@@ -55,6 +55,12 @@
 //     console.log(`Uygulama çalışıyor: http://localhost:${PORT}`);
 // });
 
+require("dotenv").config(); // Bu EN ÜSTTE olacak
+
+const config = require("./config");
+
+console.log("process.env.MYSQLHOST:", process.env.MYSQLHOST);
+
 
 const express = require("express");
 const app = express();

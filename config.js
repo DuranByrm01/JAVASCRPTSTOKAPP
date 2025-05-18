@@ -42,18 +42,34 @@
 // module.exports = config;
 
 
-require("dotenv").config();
+// require("dotenv").config();
+
+// const config = {
+//   db: {
+//     host: process.env.MYSQLHOST,
+//     user: process.env.MYSQLUSER,
+//     password: process.env.MYSQLPASSWORD,
+//     database: process.env.MYSQLDATABASE,
+//     port: Number(process.env.MYSQLPORT) || 3306
+//   }
+// };
+
+// console.log("DB config canlıda:", config.db);
+
+// module.exports = config;
+
 
 const config = {
   db: {
-    host: process.env.MYSQLHOST,
-    user: process.env.MYSQLUSER,
-    password: process.env.MYSQLPASSWORD,
-    database: process.env.MYSQLDATABASE,
-    port: Number(process.env.MYSQLPORT) || 3306
+    host: "mysql.railway.internal",
+    user: "root",
+    password: "krXAOdGGShBPwlZWITYAsSTMJMJKkQGl",
+    database: "railway",
+    port: 3306
   }
 };
 
 console.log("DB config canlıda:", config.db);
 
 module.exports = config;
+
