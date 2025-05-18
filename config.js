@@ -54,4 +54,6 @@ const config = {
   }
 };
 
+console.log("DB config canlıda:", config.db);
+
 module.exports = config;
