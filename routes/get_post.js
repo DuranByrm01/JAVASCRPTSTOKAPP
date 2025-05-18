@@ -3,320 +3,320 @@ const router = express.Router();
 
 const db = require("../data/db"); 
 
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
 
 
-const sendLowStockEmail = require("../send/mail"); // veya yol doğruysa "../mail" olabilir
+// const sendLowStockEmail = require("../send/mail"); // veya yol doğruysa "../mail" olabilir
 
 
 
-//////////////mail///////////////////////
+// //////////////mail///////////////////////
 
-// async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows) {
-//     const transporter = nodemailer.createTransport({
-//         service: 'gmail', // örnek: Gmail kullanıyorsan
-//         auth: {
-//             user: 'duranb895@gmail.com',
-//             pass: 'fted jwmw igmc bxsr'  // Gmail için uygulama şifresi kullan
-//         },
+// // async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows) {
+// //     const transporter = nodemailer.createTransport({
+// //         service: 'gmail', // örnek: Gmail kullanıyorsan
+// //         auth: {
+// //             user: 'duranb895@gmail.com',
+// //             pass: 'fted jwmw igmc bxsr'  // Gmail için uygulama şifresi kullan
+// //         },
         
-//         tls: {
-//             rejectUnauthorized: false,
-//         },
+// //         tls: {
+// //             rejectUnauthorized: false,
+// //         },
 
-//     });
+// //     });
 
-//     // lowStock verisini HTML tabloya dönüştür
-//     const tableRows = lowStockData.map(item => `
-//         <tr>
-//             <td>${item.urun_malzeme_adi}</td>
-//             <td>${item.urun_malzeme_adet}</td>
-//             <td>${item.malzeme_id}</td>
-//             <td>${item.checked}</td>
-//         </tr>
-//     `).join("");
+// //     // lowStock verisini HTML tabloya dönüştür
+// //     const tableRows = lowStockData.map(item => `
+// //         <tr>
+// //             <td>${item.urun_malzeme_adi}</td>
+// //             <td>${item.urun_malzeme_adet}</td>
+// //             <td>${item.malzeme_id}</td>
+// //             <td>${item.checked}</td>
+// //         </tr>
+// //     `).join("");
 
-//       // lowStock verisini HTML tabloya dönüştür
-//     const gzc24rows = gzc24mailRows.map(item => `
-//         <tr>
-//             <td>GZC24 GOLD</td>
-//             <td>${item.gzc24_kutu_sayisi}</td>
-//             <td>${item.gzc24_uretim_adet}</td>
-//             <td>${item.gzc24_uretim_day}</td>
-//             <td>${item.gzc24_uretim_date}</td>
-//         </tr>
-//     `).join("");
+// //       // lowStock verisini HTML tabloya dönüştür
+// //     const gzc24rows = gzc24mailRows.map(item => `
+// //         <tr>
+// //             <td>GZC24 GOLD</td>
+// //             <td>${item.gzc24_kutu_sayisi}</td>
+// //             <td>${item.gzc24_uretim_adet}</td>
+// //             <td>${item.gzc24_uretim_day}</td>
+// //             <td>${item.gzc24_uretim_date}</td>
+// //         </tr>
+// //     `).join("");
 
-//         // lowStock verisini HTML tabloya dönüştür
-//     const trc60rows = trc60MailRows.map(item => `
-//         <tr>
-//             <td>TRC60</td>
-//             <td>${item.TRC60_20PCS_BOX_LIST_BARKOD}</td>
-//             <td>${item.TRC60_20PCS_BOX_LIST_date}</td>
+// //         // lowStock verisini HTML tabloya dönüştür
+// //     const trc60rows = trc60MailRows.map(item => `
+// //         <tr>
+// //             <td>TRC60</td>
+// //             <td>${item.TRC60_20PCS_BOX_LIST_BARKOD}</td>
+// //             <td>${item.TRC60_20PCS_BOX_LIST_date}</td>
             
-//         </tr>
-//     `).join("");
+// //         </tr>
+// //     `).join("");
 
-//          // lowStock verisini HTML tabloya dönüştür
-//     const trc01rows = trc01MailRows.map(item => `
-//         <tr>
-//             <td>TRC01</td>
-//             <td>${item.trc01_20pcs_box_list_barkod}</td>
-//             <td>${item.trc01_20pcs_box_list_date}</td>
+// //          // lowStock verisini HTML tabloya dönüştür
+// //     const trc01rows = trc01MailRows.map(item => `
+// //         <tr>
+// //             <td>TRC01</td>
+// //             <td>${item.trc01_20pcs_box_list_barkod}</td>
+// //             <td>${item.trc01_20pcs_box_list_date}</td>
             
-//         </tr>
-//     `).join("");
+// //         </tr>
+// //     `).join("");
 
-//            // lowStock verisini HTML tabloya dönüştür
-//     const luvinkaMail = luvinkaMailRows.map(item => `
-//         <tr>
-//             <td>LUVİNKA</td>
-//             <td>${item.luvinka_20_box_list_barkod}</td>
-//             <td>${item.luvinka_20_box_list_date}</td>
+// //            // lowStock verisini HTML tabloya dönüştür
+// //     const luvinkaMail = luvinkaMailRows.map(item => `
+// //         <tr>
+// //             <td>LUVİNKA</td>
+// //             <td>${item.luvinka_20_box_list_barkod}</td>
+// //             <td>${item.luvinka_20_box_list_date}</td>
             
-//         </tr>
-//     `).join("");
+// //         </tr>
+// //     `).join("");
 
-//              // lowStock verisini HTML tabloya dönüştür
-//     const casusMail = casusmailRows.map(item => `
-//         <tr>
-//             <td>CASUS</td>
-//             <td>${item.casus_uretim_kutu_adet}</td>
-//             <td>${item.casus_uretim_adet}</td>
-//             <td>${item.casus_uretim_day}</td>
-//             <td>${item.casus_uretim_date}</td>
+// //              // lowStock verisini HTML tabloya dönüştür
+// //     const casusMail = casusmailRows.map(item => `
+// //         <tr>
+// //             <td>CASUS</td>
+// //             <td>${item.casus_uretim_kutu_adet}</td>
+// //             <td>${item.casus_uretim_adet}</td>
+// //             <td>${item.casus_uretim_day}</td>
+// //             <td>${item.casus_uretim_date}</td>
             
-//         </tr>
-//     `).join("");
+// //         </tr>
+// //     `).join("");
 
-//                // lowStock verisini HTML tabloya dönüştür
-//     const EtilenSiviMail = etilenSivimailRows.map(item => `
-//         <tr>
-//             <td>ETİLEN SIVI</td>
-//             <td>${item.etilen_uretim_kutu}</td>
-//             <td>${item.etilen_uretim_adet}</td>
-//             <td>${item.etilen_uretim_tarih}</td>
+// //                // lowStock verisini HTML tabloya dönüştür
+// //     const EtilenSiviMail = etilenSivimailRows.map(item => `
+// //         <tr>
+// //             <td>ETİLEN SIVI</td>
+// //             <td>${item.etilen_uretim_kutu}</td>
+// //             <td>${item.etilen_uretim_adet}</td>
+// //             <td>${item.etilen_uretim_tarih}</td>
            
             
-//         </tr>
-//     `).join("");
+// //         </tr>
+// //     `).join("");
 
-//                 // lowStock verisini HTML tabloya dönüştür
-//     const EtilenjeneratorMail = etilenJeneratorMailRows.map(item => `
-//         <tr>
-//             <td>ETİLEN JENERATÖR</td>
-//             <td>${item.etilen_jenerator_adet}</td>
-//             <td>${item.etilen_jenerator_date}</td>
+// //                 // lowStock verisini HTML tabloya dönüştür
+// //     const EtilenjeneratorMail = etilenJeneratorMailRows.map(item => `
+// //         <tr>
+// //             <td>ETİLEN JENERATÖR</td>
+// //             <td>${item.etilen_jenerator_adet}</td>
+// //             <td>${item.etilen_jenerator_date}</td>
             
-//         </tr>
-//     `).join("");
+// //         </tr>
+// //     `).join("");
 
 
 
-//     const htmlContent = `
+// //     const htmlContent = `
 
-//          <h3>BU GÜN ÜRETİLEN MALZEMELER</h3>
-//         <table border="1" cellpadding="5" cellspacing="0">
-//             <tr>
-//                 <th>Ürün Malzeme Adı</th>
-//                 <th>Kutu sayısı</th>
-//                 <th>Adet</th>
-//                 <th>Malzeme GÜN</th>
-//                 <th>TARİH</th>
-//             </tr>
-//             ${gzc24rows}
+// //          <h3>BU GÜN ÜRETİLEN MALZEMELER</h3>
+// //         <table border="1" cellpadding="5" cellspacing="0">
+// //             <tr>
+// //                 <th>Ürün Malzeme Adı</th>
+// //                 <th>Kutu sayısı</th>
+// //                 <th>Adet</th>
+// //                 <th>Malzeme GÜN</th>
+// //                 <th>TARİH</th>
+// //             </tr>
+// //             ${gzc24rows}
             
-//         </table>
-//         <br>
-//         <table border="1" cellpadding="5" cellspacing="0">
-//             <tr>
-//                 <th>Ürün Malzeme Adı</th>
-//                 <th>Kutu Barkod</th>
-//                 <th>Tarih</th>
+// //         </table>
+// //         <br>
+// //         <table border="1" cellpadding="5" cellspacing="0">
+// //             <tr>
+// //                 <th>Ürün Malzeme Adı</th>
+// //                 <th>Kutu Barkod</th>
+// //                 <th>Tarih</th>
                 
-//             </tr>
-//             ${trc60rows}
+// //             </tr>
+// //             ${trc60rows}
             
-//         </table>
+// //         </table>
        
-//         <br>
-//         <table border="1" cellpadding="5" cellspacing="0">
-//             <tr>
-//                 <th>Ürün Malzeme Adı</th>
-//                 <th>Kutu Barkod</th>
-//                 <th>Tarih</th>
+// //         <br>
+// //         <table border="1" cellpadding="5" cellspacing="0">
+// //             <tr>
+// //                 <th>Ürün Malzeme Adı</th>
+// //                 <th>Kutu Barkod</th>
+// //                 <th>Tarih</th>
                 
-//             </tr>
-//             ${trc01rows}
+// //             </tr>
+// //             ${trc01rows}
             
-//         </table>
-//         <br>
-//         <table border="1" cellpadding="5" cellspacing="0">
-//             <tr>
-//                 <th>Ürün Malzeme Adı</th>
-//                 <th>Kutu Barkod</th>
-//                 <th>Tarih</th>
+// //         </table>
+// //         <br>
+// //         <table border="1" cellpadding="5" cellspacing="0">
+// //             <tr>
+// //                 <th>Ürün Malzeme Adı</th>
+// //                 <th>Kutu Barkod</th>
+// //                 <th>Tarih</th>
                 
-//             </tr>
-//             ${luvinkaMail}
+// //             </tr>
+// //             ${luvinkaMail}
             
-//         </table>
-//         <br>
-//         <table border="1" cellpadding="5" cellspacing="0">
-//             <tr>
-//                 <th>Ürün Malzeme Adı</th>
-//                 <th>Kutu sayısı</th>
-//                 <th>Adet</th>
-//                 <th>Malzeme GÜN</th>
-//                 <th>TARİH</th>
-//             </tr>
-//             ${casusMail}
+// //         </table>
+// //         <br>
+// //         <table border="1" cellpadding="5" cellspacing="0">
+// //             <tr>
+// //                 <th>Ürün Malzeme Adı</th>
+// //                 <th>Kutu sayısı</th>
+// //                 <th>Adet</th>
+// //                 <th>Malzeme GÜN</th>
+// //                 <th>TARİH</th>
+// //             </tr>
+// //             ${casusMail}
             
-//         </table>
+// //         </table>
 
-//          <br>
-//         <table border="1" cellpadding="5" cellspacing="0">
-//             <tr>
-//                 <th>Ürün Malzeme Adı</th>
-//                 <th>Kutu Sayısı</th>
-//                 <th>Adet</th>
-//                 <th>Tarih</th>
+// //          <br>
+// //         <table border="1" cellpadding="5" cellspacing="0">
+// //             <tr>
+// //                 <th>Ürün Malzeme Adı</th>
+// //                 <th>Kutu Sayısı</th>
+// //                 <th>Adet</th>
+// //                 <th>Tarih</th>
                 
-//             </tr>
-//             ${EtilenSiviMail}
+// //             </tr>
+// //             ${EtilenSiviMail}
             
-//         </table>
+// //         </table>
 
-//           <br>
-//         <table border="1" cellpadding="5" cellspacing="0">
-//             <tr>
-//                 <th>Ürün Malzeme Adı</th>
-//                 <th>ÜRÜN ADET</th>
-//                 <th>Tarih</th>
+// //           <br>
+// //         <table border="1" cellpadding="5" cellspacing="0">
+// //             <tr>
+// //                 <th>Ürün Malzeme Adı</th>
+// //                 <th>ÜRÜN ADET</th>
+// //                 <th>Tarih</th>
                 
-//             </tr>
-//             ${EtilenjeneratorMail}
+// //             </tr>
+// //             ${EtilenjeneratorMail}
             
-//         </table>
+// //         </table>
         
-//         <br>
+// //         <br>
 
-//         <h3>Stokta azalan ürünler</h3>
-//         <table border="1" cellpadding="5" cellspacing="0">
-//             <tr>
-//                 <th>Ürün Malzeme Adı</th>
-//                 <th>Adet</th>
-//                 <th>Malzeme ID</th>
-//                 <th>Checked</th>
-//             </tr>
-//             ${tableRows}
+// //         <h3>Stokta azalan ürünler</h3>
+// //         <table border="1" cellpadding="5" cellspacing="0">
+// //             <tr>
+// //                 <th>Ürün Malzeme Adı</th>
+// //                 <th>Adet</th>
+// //                 <th>Malzeme ID</th>
+// //                 <th>Checked</th>
+// //             </tr>
+// //             ${tableRows}
             
-//         </table>
+// //         </table>
 
        
         
        
-//     `;
+// //     `;
 
    
 
    
 
-//     const mailOptions = {
-//         from: 'duranb895@gmail.com',
-//         to: 'bayramd693@gmail.com',
-//         subject: 'GÜNLÜK STOK BİLDİRİMİ v2',
-//         html: htmlContent
-//     };
+// //     const mailOptions = {
+// //         from: 'duranb895@gmail.com',
+// //         to: 'bayramd693@gmail.com',
+// //         subject: 'GÜNLÜK STOK BİLDİRİMİ v2',
+// //         html: htmlContent
+// //     };
 
   
 
-//     await transporter.sendMail(mailOptions);
-// }
+// //     await transporter.sendMail(mailOptions);
+// // }
 
 
 
 
-/////////////////////////////////////
+// /////////////////////////////////////
 
-router.get('/get/mail/rows', async function (req, res) {
-  try {
+// router.get('/get/mail/rows', async function (req, res) {
+//   try {
 
-    try {
-        const [lowStockrows] = await db.execute(
-          "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
-        );
+//     try {
+//         const [lowStockrows] = await db.execute(
+//           "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
+//         );
 
-        const [gzc24mailRows] = await db.execute(
-          "SELECT gzc24_kutu_sayisi,gzc24_uretim_adet,gzc24_uretim_day,gzc24_uretim_date FROM gzc24_uretim_kayit WHERE DATE(gzc24_uretim_date) = CURDATE();"
-        );
+//         const [gzc24mailRows] = await db.execute(
+//           "SELECT gzc24_kutu_sayisi,gzc24_uretim_adet,gzc24_uretim_day,gzc24_uretim_date FROM gzc24_uretim_kayit WHERE DATE(gzc24_uretim_date) = CURDATE();"
+//         );
 
-        const [trc60MailRows] = await db.execute(
-            `SELECT TRC60_20PCS_BOX_LIST_BARKOD, TRC60_20PCS_BOX_LIST_date 
-            FROM trc60_20pcs_box_list 
-            WHERE STR_TO_DATE(TRC60_20PCS_BOX_LIST_date, '%d.%m.%Y') = CURDATE();`
-        );
-
-
-       const [trc01MailRows] = await db.execute(
-            `SELECT trc01_20pcs_box_list_barkod, trc01_20pcs_box_list_date 
-            FROM trc01_20pcs_box_list 
-            WHERE STR_TO_DATE(trc01_20pcs_box_list_date, '%d.%m.%Y') = CURDATE();`
-        );
+//         const [trc60MailRows] = await db.execute(
+//             `SELECT TRC60_20PCS_BOX_LIST_BARKOD, TRC60_20PCS_BOX_LIST_date 
+//             FROM trc60_20pcs_box_list 
+//             WHERE STR_TO_DATE(TRC60_20PCS_BOX_LIST_date, '%d.%m.%Y') = CURDATE();`
+//         );
 
 
-       const [luvinkaMailRows] = await db.execute(
-            `SELECT luvinka_20_box_list_barkod, luvinka_20_box_list_date 
-            FROM luvinka_20_box_list 
-            WHERE STR_TO_DATE(luvinka_20_box_list_date, '%d.%m.%Y') = CURDATE();`
-        );
+//        const [trc01MailRows] = await db.execute(
+//             `SELECT trc01_20pcs_box_list_barkod, trc01_20pcs_box_list_date 
+//             FROM trc01_20pcs_box_list 
+//             WHERE STR_TO_DATE(trc01_20pcs_box_list_date, '%d.%m.%Y') = CURDATE();`
+//         );
 
 
-        const [casusmailRows] = await db.execute(
-          "SELECT casus_uretim_kutu_adet,casus_uretim_adet,casus_uretim_day,casus_uretim_date FROM casus_uretim WHERE DATE(casus_uretim_date) = CURDATE();"
-        );
-
-        const [etilenSivimailRows] = await db.execute(
-          "SELECT etilen_uretim_kutu, etilen_uretim_adet, etilen_uretim_tarih FROM etilen_s WHERE DATE(etilen_uretim_tarih) = CURDATE();"
-        );
-
-        const [etilenJeneratorMailRows] = await db.execute(
-            "SELECT etilen_jenerator_adet, etilen_jenerator_date FROM etilen_jenerator WHERE DATE (etilen_jenerator_date) = CURDATE();"
-
-        );
-
-        // if (lowStockrows.length > 0) {
-        //   sendLowStockEmail(lowStockrows, gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows);
-
-        //   console.log("Mail başarıyla gönderildi.");
-
-        // } else {
-
-        //   console.log("Gönderilecek düşük stok yok.");
-
-        // }
-
-        sendLowStockEmail(lowStockrows, gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows);
+//        const [luvinkaMailRows] = await db.execute(
+//             `SELECT luvinka_20_box_list_barkod, luvinka_20_box_list_date 
+//             FROM luvinka_20_box_list 
+//             WHERE STR_TO_DATE(luvinka_20_box_list_date, '%d.%m.%Y') = CURDATE();`
+//         );
 
 
-        // setInterval(async () => {
-        //     sendLowStockEmail(lowStockrows,gzc24mailRows)
-        //     console.log("Mail başarıyla gönderildi.");
-        // }, 3000);
+//         const [casusmailRows] = await db.execute(
+//           "SELECT casus_uretim_kutu_adet,casus_uretim_adet,casus_uretim_day,casus_uretim_date FROM casus_uretim WHERE DATE(casus_uretim_date) = CURDATE();"
+//         );
 
-      } catch (mailError) {
-        console.error("Mail gönderme hatası:", mailError);
-    }
+//         const [etilenSivimailRows] = await db.execute(
+//           "SELECT etilen_uretim_kutu, etilen_uretim_adet, etilen_uretim_tarih FROM etilen_s WHERE DATE(etilen_uretim_tarih) = CURDATE();"
+//         );
+
+//         const [etilenJeneratorMailRows] = await db.execute(
+//             "SELECT etilen_jenerator_adet, etilen_jenerator_date FROM etilen_jenerator WHERE DATE (etilen_jenerator_date) = CURDATE();"
+
+//         );
+
+//         // if (lowStockrows.length > 0) {
+//         //   sendLowStockEmail(lowStockrows, gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows);
+
+//         //   console.log("Mail başarıyla gönderildi.");
+
+//         // } else {
+
+//         //   console.log("Gönderilecek düşük stok yok.");
+
+//         // }
+
+//         sendLowStockEmail(lowStockrows, gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows);
+
+
+//         // setInterval(async () => {
+//         //     sendLowStockEmail(lowStockrows,gzc24mailRows)
+//         //     console.log("Mail başarıyla gönderildi.");
+//         // }, 3000);
+
+//       } catch (mailError) {
+//         console.error("Mail gönderme hatası:", mailError);
+//     }
 
     
 
-    res.json({ message: "Mail kontrol servisi başlatıldı." });
+//     res.json({ message: "Mail kontrol servisi başlatıldı." });
 
-  } catch (error) {
-    console.log("mail verisi çekme hatası", error);
-    res.status(500).json({ message: 'Sunucu hatası.' });
-  }
-});
+//   } catch (error) {
+//     console.log("mail verisi çekme hatası", error);
+//     res.status(500).json({ message: 'Sunucu hatası.' });
+//   }
+// });
 
 
 

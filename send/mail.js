@@ -4,6 +4,8 @@ const db = require("../data/db");
 const nodemailer = require("nodemailer");
 
 
+
+
 //////////////mail///////////////////////
 
 async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows) {
@@ -19,6 +21,8 @@ async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01M
         },
 
     });
+
+    console.log("mail gönderildi");
 
     let stockTable = "";
 
@@ -287,7 +291,6 @@ async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01M
         <br>
         ${etilenjeneratorlist}
         <br>
-
         ${stockTable}
         
         
