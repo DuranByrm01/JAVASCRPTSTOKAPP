@@ -450,6 +450,40 @@
 
     </script>
 
+    <script>
+
+      document.addEventListener("DOMContentLoaded", () => {
+          const role = localStorage.getItem("role");
+          const userAllowedPages = ["/liveScreen", "/urunList"];
+          const currentPath = window.location.pathname;
+
+          if (role === "user" && !userAllowedPages.includes(currentPath)) {
+            alert("Bu sayfaya erişiminiz yok.");
+            window.location.href = "/liveScreen";
+          }
+
+          // logoutBtn varsa event ekle
+          const logoutBtn = document.getElementById("logoutBtn");
+          if (logoutBtn) {
+            logoutBtn.addEventListener("click", (e) => {
+              e.preventDefault();
+              localStorage.clear();
+              window.location.href = "/login";
+            });
+          }
+
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (user && user.expires < Date.now()) {
+            localStorage.clear();
+            alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
+            window.location.href = "/login";
+          }
+      });
+
+
+
+    </script>
+
 
     
 </body>

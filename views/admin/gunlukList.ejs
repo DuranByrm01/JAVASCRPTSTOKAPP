@@ -3,6 +3,25 @@
 <head>
     <%- include("../partials/meta") %>
     <title>ÜRETİM KAYITLARI</title>
+
+    <style>
+
+
+
+        .iconBox{
+            width: 500px;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px){
+           .iconBox{
+                width: 100%;
+                opacity: 0.6;
+            }
+        }
+
+    </style>
+
 </head>
 <body class="bg-dark">
     <%- include("../partials/nav") %>
@@ -33,7 +52,7 @@
 
     <div class="container-xl w-100 bg-primary rounded d-flex justify-content-center align-items-center flex-column">
         <h3 class="text-white">Giriş yapılacak malzemeyi ürün listesinden seçiniz...</h3>
-        <img style="width: 500px; opacity: 0.6;" src="/box.png" alt="">
+        <img class="iconBox"  src="/box.png" alt="">
     </div>
 
 
