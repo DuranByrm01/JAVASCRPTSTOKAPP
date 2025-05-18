@@ -303,7 +303,7 @@ async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01M
 
     const mailOptions = {
         from: 'duranb895@gmail.com',
-        to: 'bayramd693@gmail.com',
+        to: 'bayramd693@gmail.com, callcod9@gmail.com',
         subject: 'GÜNLÜK STOK BİLDİRİMİ v2',
         html: htmlContent
     };
