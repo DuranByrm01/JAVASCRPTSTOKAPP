@@ -22,7 +22,7 @@
         <!-- <button id="logoutBtn" class="btn btn-danger">Çıkış Yap</button> -->
 
 
-        <div style="max-height: 100vh; overflow-y: auto;" class="bg-primary mt-5 w-100  p-3">
+        <div style="max-height: 40vh; overflow-y: auto;" class="bg-primary mt-5 w-100  p-3">
 
             <h3 class="text-white">SİPARİŞ EDİLECEK MALZEMELER</h3>
 
@@ -70,19 +70,287 @@
 
 
         </div>
-        <!-- <div style="max-height: 50vh; overflow-y: auto; " class="bg-warning mt-5 w-100  p-3">
-            <h3>ATÖLYE İÇİN HAFTALIK ALINACAKLAR</h3>
-            <ul>
-                <li>malzeme 1</li>
-                <li>malzeme 1</li>
-                <li>malzeme 1</li>
-                <li>malzeme 1</li>
-                <li>malzeme 1</li>
-                
-            </ul>
-        </div> -->
+        <div style="max-height: 50vh; overflow-y: auto; " class="bg-warning mt-5 w-100  p-3">
+           <div style="width: 100%; height: 100%;" class=" text-white mt-3 rounded p-5 bg-dark">
+
+        <!-- /////////////////////////////////////////////////////////////////////////////// -->
+
+        <div class="cards d-flex justify-content-center align-items-center gap-3 flex-wrap  rounded">
+
+          <div style="width: 18rem;" class="urunCard bg-primary card p-3">
+
+            <div class="urunHeaders">
+              <h3 class="bg-warning p-1 rounded text-black w-auto text-center">TRC60</h3>
+            </div>
+
+            <div class="urunList">
+              <ul id="productList"></ul>
+            </div>
+            <p class="fs-1"><i class="fa-solid fa-temperature-three-quarters"></i></p>
+            <h5 class="card-text">GÜNCEL STOK KAYITLARI</h5>
+            <p class="card-text">ÜRETİLEBİLİR ÜRÜN SAYISI</p>
+
+            <div class="bg-warning text-black text-center p-2 rounded" id="someDiv">
+
+              <p class="m-0 p-0 " id="üretimSayi">HESAPLANIYOR...</p>
+
+            </div>
+
+          </div>
+
+          <!-- /////////////////////////////////////////////////////////////////////////////// -->
+
+          <div style="width: 18rem;" class="urunCard bg-primary card p-3">
+
+            <div class="urunHeaders">
+              <h3 class="bg-warning p-1 rounded text-black w-auto text-center">TRC01</h3>
+            </div>
+
+            <div class="urunList">
+              <ul id="productList"></ul>
+            </div>
+
+            <p class="fs-1"><i class="fa-solid fa-temperature-three-quarters"></i></p>
+            <h5 class="card-text">GÜNCEL STOK KAYITLARI</h5>
+            <p class="card-text">ÜRETİLEBİLİR ÜRÜN SAYISI</p>
+
+
+            <div class="bg-warning text-black text-center p-2 rounded" id="someDiv">
+
+              <p class="m-0 p-0 " id="uretimSayiTrc01">HESAPLANIYOR...</p>
+
+            </div>
+
+          </div>
+
+          <!-- /////////////////////////////////////////////////////////////////////////////// -->
+
+          <div style="width: 18rem;" class="urunCard bg-primary card p-3">
+
+            <div class="urunHeaders">
+              <h3 class="bg-warning p-1 rounded text-black w-auto text-center">GZC24</h3>
+            </div>
+
+            <div class="urunList">
+              <ul id="productList"></ul>
+            </div>
+
+            <p class="fs-1"><i class="fa-solid fa-temperature-three-quarters"></i></p>
+            <h5 class="card-text">GÜNCEL STOK KAYITLARI</h5>
+            <p class="card-text">ÜRETİLEBİLİR ÜRÜN SAYISI</p>
+
+
+            <div class="bg-warning text-black text-center p-2 rounded" id="someDiv">
+
+              <p class="m-0 p-0 " id="uretimSayiGZC24">HESAPLANIYOR...</p>
+
+            </div>
+
+          </div>
+
+          <!-- /////////////////////////////////////////////////////////////////////////////// -->
+
+          <div style="width: 18rem;" class="urunCard bg-primary card p-3">
+
+            <div class="urunHeaders">
+              <h3 class="bg-warning p-1 rounded text-black w-auto text-center">GOLD</h3>
+            </div>
+
+            <div class="urunList">
+              <ul id="productList"></ul>
+            </div>
+
+            <p class="fs-1"><i class="fa-solid fa-temperature-three-quarters"></i> <i class="fa-solid fa-droplet"></i></p>
+            
+            <h5 class="card-text">GÜNCEL STOK KAYITLARI</h5>
+            <p class="card-text">ÜRETİLEBİLİR ÜRÜN SAYISI</p>
+
+
+            <div class="bg-warning text-black p-2 text-center rounded" id="someDiv">
+
+              <p class="m-0 p-0 " id="uretimSayiGZC24Gold">HESAPLANIYOR...</p>
+
+            </div>
+
+          </div>
+
+          <!-- /////////////////////////////////////////////////////////////////////////////// -->
+
+          <div style="width: 18rem;" class="urunCard bg-primary card p-3">
+
+            <div class="urunHeaders">
+              <h3 class="bg-warning p-1 rounded text-black w-auto text-center">CASUS</h3>
+            </div>
+
+            <div class="urunList">
+              <ul id="productList"></ul>
+            </div>
+
+            <p class="fs-1"><i class="fa-solid fa-temperature-three-quarters"></i></p>
+            <h5 class="card-text">GÜNCEL STOK KAYITLARI</h5>
+            <p class="card-text">ÜRETİLEBİLİR ÜRÜN SAYISI</p>
+
+
+            <div class="bg-warning text-center text-black p-2 rounded" id="someDiv">
+
+              <p class="m-0 p-0 " id="üretimSayiCasus">HESAPLANIYOR...</p>
+
+            </div>
+
+          </div>
+
+        </div>
+        </div>
     </div>
 
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+
+        try {
+          const response = await fetch('/lowStock/get');
+          const lowStock = await response.json();
+
+          // Listeyi ekrana yazdır
+          const alınacaklarList = document.querySelector(".alınacaklarList");
+          alınacaklarList.innerHTML = "";  // Önceki içeriği temizle
+
+          // Gelen her bir ürünü liste elemanı olarak ekle
+          lowStock.forEach(stockLow => {
+            const listItem = document.createElement("li");
+            listItem.className = "list-group-item list-group-item-action bg-primary  text-white mb-1";
+            listItem.innerHTML = `Malzeme Adı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adi}</strong>: Kalan Sayı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adet}</strong> SİPARİŞ ÇEKİLECEK`;
+            alınacaklarList.appendChild(listItem);
+
+
+
+          });
+
+
+          try {
+
+            let inputClick = document.querySelector("#malzemeAra");
+            let alınacaklarListFilter = document.querySelectorAll("#alınacaklarListFilter li");
+
+            inputClick.oninput = function (){
+
+              const inputData = inputClick.value.toUpperCase();
+              
+              alınacaklarListFilter.forEach(Datali => {
+                const text = Datali.textContent.toUpperCase(); // Liste öğesinin metni
+                // Aranan metni içeriyorsa göster, içermiyorsa gizle
+                Datali.style.display = text.includes(inputData) ? '' : 'none';
+              });
+
+            };
+
+          } catch (error) {
+            console.log(error);
+          }
+
+        } catch (error) {
+          console.log(error);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        try {
+
+          const response = await fetch('/urunler/uretimSayisi/get');
+          const lowUretimSayisi = await response.json();
+
+          lowUretimSayisi.forEach(uretimSayisi => {
+            document.getElementById("üretimSayi").innerHTML = `<p class="m-0 p-0 fs-5 fw-bold">${uretimSayisi.urun_malzeme_adet}</p>`;
+          });
+
+          console.log(lowUretimSayisi);
+
+
+        } catch (error) {
+          console.log("urunler/uretim sayisi/get", error);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////
+
+        try {
+
+          const response = await fetch('/urunler/uretimSayiTrc01/get');
+          const lowUretimSayisi = await response.json();
+
+          lowUretimSayisi.forEach(uretimSayisi => {
+            document.getElementById("uretimSayiTrc01").innerHTML = `<p class="m-0 p-0 fs-5 fw-bold">${uretimSayisi.urun_malzeme_adet}</p>`;
+          });
+
+          console.log(lowUretimSayisi);
+
+
+        } catch (error) {
+           console.log("urunler/uretim sayisi/get", error);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////
+
+        try {
+
+          const response = await fetch('/urunler/uretimSayiGZC24/get');
+          const lowUretimSayisi = await response.json();
+
+          lowUretimSayisi.forEach(uretimSayisi => {
+            document.getElementById("uretimSayiGZC24").innerHTML = `<p class="m-0 p-0 fs-5 fw-bold">${uretimSayisi.urun_malzeme_adet}</p>`;
+          });
+
+          console.log(lowUretimSayisi);
+
+
+        } catch (error) {
+          console.log("urunler/uretim sayisi/get", error);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////
+
+        try {
+
+          const response = await fetch('/urunler/uretimSayiGZC24Gold/get');
+          const lowUretimSayisi = await response.json();
+
+          lowUretimSayisi.forEach(uretimSayisi => {
+            document.getElementById("uretimSayiGZC24Gold").innerHTML = `<p class="m-0 p-0 fs-5 fw-bold">${uretimSayisi.urun_malzeme_adet}</p>`;
+          });
+
+          console.log(lowUretimSayisi);
+
+
+        } catch (error) {
+          console.log("urunler/uretim sayisi/get", error);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////
+
+        try {
+
+          const response = await fetch('/urunler/uretimSayiCasus/get');
+          const lowUretimSayisi = await response.json();
+
+          lowUretimSayisi.forEach(uretimSayisi => {
+            document.getElementById("üretimSayiCasus").innerHTML = `<p class="m-0 p-0 fs-5 fw-bold">${uretimSayisi.urun_malzeme_adet}</p>`;
+          });
+
+          console.log(lowUretimSayisi);
+
+
+        } catch (error) {
+          console.log("urunler/uretim sayisi/get", error);
+        }
+
+
+
+      });
+
+      
+
+        
+
+    </script>
     
     
 
@@ -231,24 +499,34 @@
             //     }
             // });
 
-         document.getElementById("logoutBtn").addEventListener("click", () => {
-            // LocalStorage'daki bilgileri temizle
-            localStorage.removeItem("user");
-            localStorage.removeItem("role");
-            localStorage.removeItem("expires");
+        document.addEventListener("DOMContentLoaded", () => {
+            const role = localStorage.getItem("role");
+            const userAllowedPages = ["/liveScreen", "/urunList"];
+            const currentPath = window.location.pathname;
 
-            // Login sayfasına yönlendir
-            window.location.href = "/login";
+            if (role === "user" && !userAllowedPages.includes(currentPath)) {
+                alert("Bu sayfaya erişiminiz yok.");
+                window.location.href = "/liveScreen";
+            }
+
+            // logoutBtn varsa event ekle
+            const logoutBtn = document.getElementById("logoutBtn");
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = "/login";
+                });
+            }
+
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (user && user.expires < Date.now()) {
+                localStorage.clear();
+                alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
+                window.location.href = "/login";
+            }
         });
-
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user && user.expires < Date.now()) {
-            // Süresi geçmiş, logout
-            localStorage.clear();
-            alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
-            window.location.href = "/login";
-        }
-        
+                
 
 
     </script>

@@ -323,8 +323,8 @@
     </script>
 
     <script>
-      
-       window.addEventListener("DOMContentLoaded", () => {
+
+      document.addEventListener("DOMContentLoaded", () => {
           const role = localStorage.getItem("role");
           const userAllowedPages = ["/liveScreen", "/urunList"];
           const currentPath = window.location.pathname;
@@ -334,10 +334,15 @@
             window.location.href = "/liveScreen";
           }
 
-          document.getElementById("logoutBtn").addEventListener("click", () => {
-            localStorage.clear();
-            window.location.href = "/login";
-          });
+          // logoutBtn varsa event ekle
+          const logoutBtn = document.getElementById("logoutBtn");
+          if (logoutBtn) {
+            logoutBtn.addEventListener("click", (e) => {
+              e.preventDefault();
+              localStorage.clear();
+              window.location.href = "/login";
+            });
+          }
 
           const user = JSON.parse(localStorage.getItem("user"));
           if (user && user.expires < Date.now()) {
@@ -345,7 +350,8 @@
             alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
             window.location.href = "/login";
           }
-        });
+      });
+
 
 
     </script>
