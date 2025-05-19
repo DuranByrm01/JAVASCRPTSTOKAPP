@@ -121,8 +121,13 @@
 
             saveButton.addEventListener("click", function () {
 
-                let barkodİnputV = barkodİnput.value;
-                let dateInputV = dateInput.value;
+                let barkodİnputV = barkodİnput.value.trim();
+                let dateInputV = dateInput.value.trim();
+
+                if(barkodİnputV === "" || dateInputV === ""){
+                    alert("Alanlar boş bırakılamaz...")
+                    return;
+                }
                 
                 // let üretimAdet = barkodİnputV * 12;
 
