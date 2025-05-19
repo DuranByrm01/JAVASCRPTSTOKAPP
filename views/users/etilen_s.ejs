@@ -118,45 +118,43 @@
             let barkodİnput = document.querySelector("#barkodİnput");
             let dateInput = document.querySelector("#dateInput");
             let saveButton = document.querySelector("#saveButton");
+            
 
-            if(barkodİnput === "" || dateInput === ""){
-                alert("lütfen alanları boş bırakmayınız...");
-            }else {
+            saveButton.addEventListener("click", function () {
+
+                let barkodİnputV = barkodİnput.value.trim();
+                let dateInputV = dateInput.value.trim();
+
+                if (barkodİnputV === "" || dateInputV === "") {
+                    alert("Lütfen alanları boş bırakmayınız...");
+                    return;
+                }
                 
-                saveButton.addEventListener("click", function () {
+                let üretimAdet = barkodİnputV * 12;
 
-                    let barkodİnputV = barkodİnput.value;
-                    let dateInputV = dateInput.value;
-                    
-                    let üretimAdet = barkodİnputV * 12;
+                let veri = {
+                    uretimKutu : barkodİnputV,
+                    uretim : üretimAdet,
+                    date : dateInputV,
+                }
 
-                    let veri = {
-                        uretimKutu : barkodİnputV,
-                        uretim : üretimAdet,
-                        date : dateInputV,
-                    }
+                fetch("/etilen/uretim/post", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type" : "application/Json"
+                    },
 
-                    fetch("/etilen/uretim/post", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type" : "application/Json"
-                        },
-
-                        body: JSON.stringify(veri)
-
-                    })
-
-                    window.location.reload();
-
-                    console.log(veri);
-
-                    
+                    body: JSON.stringify(veri)
 
                 })
 
-            }
+                window.location.reload();
 
-            
+                 console.log(veri);
+
+                 
+
+            })
 
 
             document.addEventListener("DOMContentLoaded", async function () {
