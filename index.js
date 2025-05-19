@@ -83,9 +83,9 @@ app.use(get_post);
 
 // 👇 BUNU EKLEDİN
 app.get('/', (req, res) => {
-    // res.send('Stok Uygulaması API çalışıyor 🚀');
-    res.redirect("/login");
+    res.render("users/login");  // views/users/login.ejs dosyasını render eder
 });
+
 
 // ✅ PORT ayarını Railway'e uygun hale getir
 const PORT = process.env.PORT || 3000;
