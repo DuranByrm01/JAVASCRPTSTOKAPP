@@ -392,8 +392,18 @@ router.post("/gunlukUretim", async function(req,res){
     const urunDate =  req.body.urunDate;
      
     try{
-         await db.execute("INSERT INTO savedata(urunName,urunDetay,urunAdet,urunDate) VALUES (?,?,?,?)", [urunName, urunDetay, urunAdet, urunDate])
-         res.redirect("/gunlukUretim");
+
+        // Herhangi bir alan boşsa
+        if (!urunName || !urunDetay || !urunAdet || !urunDate) {
+            console.log("Alanlar boş bırakılamaz...");
+            // Hata mesajı JSON olarak dönülüyor
+            return res.redirect("/gunlukUretim?error=Alanlar%20boş%20bırakılamaz");
+        }
+
+
+        await db.execute("INSERT INTO savedata(urunName,urunDetay,urunAdet,urunDate) VALUES (?,?,?,?)", [urunName, urunDetay, urunAdet, urunDate])
+
+        res.redirect("/gunlukUretim");
     }
     catch(err){
          console.log("günlük üretim hatası",err);
