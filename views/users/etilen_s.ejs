@@ -119,36 +119,44 @@
             let dateInput = document.querySelector("#dateInput");
             let saveButton = document.querySelector("#saveButton");
 
-            saveButton.addEventListener("click", function () {
-
-                let barkodİnputV = barkodİnput.value;
-                let dateInputV = dateInput.value;
+            if(barkodİnput === "" || dateInput === ""){
+                alert("lütfen alanları boş bırakmayınız...");
+            }else {
                 
-                let üretimAdet = barkodİnputV * 12;
+                saveButton.addEventListener("click", function () {
 
-                let veri = {
-                    uretimKutu : barkodİnputV,
-                    uretim : üretimAdet,
-                    date : dateInputV,
-                }
+                    let barkodİnputV = barkodİnput.value;
+                    let dateInputV = dateInput.value;
+                    
+                    let üretimAdet = barkodİnputV * 12;
 
-                fetch("/etilen/uretim/post", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type" : "application/Json"
-                    },
+                    let veri = {
+                        uretimKutu : barkodİnputV,
+                        uretim : üretimAdet,
+                        date : dateInputV,
+                    }
 
-                    body: JSON.stringify(veri)
+                    fetch("/etilen/uretim/post", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type" : "application/Json"
+                        },
+
+                        body: JSON.stringify(veri)
+
+                    })
+
+                    window.location.reload();
+
+                    console.log(veri);
+
+                    
 
                 })
 
-                window.location.reload();
+            }
 
-                 console.log(veri);
-
-                 
-
-            })
+            
 
 
             document.addEventListener("DOMContentLoaded", async function () {
