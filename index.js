@@ -83,7 +83,8 @@ app.use(get_post);
 
 // 👇 BUNU EKLEDİN
 app.get('/', (req, res) => {
-    res.send('Stok Uygulaması API çalışıyor 🚀');
+    // res.send('Stok Uygulaması API çalışıyor 🚀');
+    res.redirect("/login");
 });
 
 // ✅ PORT ayarını Railway'e uygun hale getir
