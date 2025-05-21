@@ -86,6 +86,9 @@ app.get('/', (req, res) => {
     res.render("users/login");  // views/users/login.ejs dosyasını render eder
 });
 
+const cronReportRoute = require("./routes/cronReport");
+app.use("/", cronReportRoute); // ana dizine ekleniyor
+
 
 // ✅ PORT ayarını Railway'e uygun hale getir
 const PORT = process.env.PORT || 3000;
