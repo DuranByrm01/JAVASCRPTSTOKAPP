@@ -278,10 +278,12 @@ async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01M
 
 
     const htmlContent = `
-        
-        ${gzc24list}
+
+        ${trc60list}
+        <br> 
+        ${trc01list}   
         <br>
-        ${trc01list}
+        ${gzc24list}
         <br>
         ${luvinkalist}
         <br>
