@@ -1517,6 +1517,19 @@ router.post("/gold/Anyday/post", async (req, res) => {
 
             }
 
+            for (let row of hedefMalzemeler) {
+
+        
+
+            await db.execute(
+                "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1004 AND malzeme_id = ?",
+                [adet, row.malzeme_id]
+            );
+
+            // console.log(`✔ ${row.malzeme_id} ID'li malzemeden ${adet} adet eksiltildi.`);
+            
+        }
+
         } catch (error) {
             return res.status(400).json({ message: error.message });
         }
@@ -1532,18 +1545,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
         // }
 
 
-        for (let row of hedefMalzemeler) {
-
         
-
-            await db.execute(
-                "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1004 AND malzeme_id = ?",
-                [adet, row.malzeme_id]
-            );
-
-            // console.log(`✔ ${row.malzeme_id} ID'li malzemeden ${adet} adet eksiltildi.`);
-            
-        }
 
         console.log(`${ignoreMalzemeIds} ler hariç tüm malzemeler eksiltildi`);
 
