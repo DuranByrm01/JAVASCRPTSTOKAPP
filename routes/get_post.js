@@ -651,9 +651,23 @@ router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
         //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1004' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         // );
 
-        const [uretimSayiGZC24Gold] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key IN ('1003', '1004') ORDER BY urun_malzeme_adet ASC LIMIT 1;"
-        );
+       const [uretimSayiGZC24Gold] = await db.execute(`
+            (
+                SELECT urun_key, urun_malzeme_adet 
+                FROM urunmalzemeleri 
+                WHERE urun_key = '1003' 
+                AND malzeme_id IN (24, 25, 27, 28, 29, 30, 31, 32)
+            )
+            UNION ALL
+            (
+                SELECT urun_key, urun_malzeme_adet 
+                FROM urunmalzemeleri 
+                WHERE urun_key = '1004'
+            )
+            ORDER BY urun_malzeme_adet ASC
+            LIMIT 1;
+        `);
+
         
         
         res.json(uretimSayiGZC24Gold);
