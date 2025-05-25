@@ -1451,12 +1451,29 @@ router.post("/gold/Anyday/post", async (req, res) => {
     console.log(`Kutu sayısı ${cihazKutu} tarih ${date} üretim adeti ${adet} gün ayarı ${day}`);
 
     try {
-        const [rows] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004"
-        );
+        // const [rows] = await db.execute(
+        //     "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004"
+        // );
+
+        const [rows] = await db.execute(`
+            (
+                SELECT urun_key, urun_malzeme_adet, malzeme_id 
+                FROM urunmalzemeleri 
+                WHERE urun_key = 1004
+            )
+            UNION ALL
+            (
+                SELECT urun_key, urun_malzeme_adet, malzeme_id 
+                FROM urunmalzemeleri 
+                WHERE urun_key = 1003 
+                AND malzeme_id IN (23, 24, 25, 27, 28, 29, 30, 31, 32)
+            )
+        `);
+
+        
 
         const [tekliÜrünlerEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (27, 28, 29, 30)"
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (23,27, 28, 29, 30)"
 
         );
 
@@ -1475,11 +1492,11 @@ router.post("/gold/Anyday/post", async (req, res) => {
         let ignoreMalzemeIds = []; // En başta tanımla
 
         if (day === "20 DAY") {
-            ignoreMalzemeIds = [29, 30, 24,25];
+            ignoreMalzemeIds = [29, 30, 24,25, 31,32];
         } else if (day === "40 DAY") {
-            ignoreMalzemeIds = [28, 30, 24,25];
+            ignoreMalzemeIds = [28, 30, 24,25, 31,32];
         } else if (day === "60 DAY") {
-            ignoreMalzemeIds = [28, 29, 24,25];
+            ignoreMalzemeIds = [28, 29, 24,25, 31,32];
         } else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
@@ -1533,9 +1550,9 @@ router.post("/gold/Anyday/post", async (req, res) => {
 
         for(let row of tekliÜrünlerEksiltme){
 
-            if(row.malzeme_id === 27) {
-                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 27]);
-                console.log(`GOLD için 27 id li malzemeden ${adet} kadar azaltıldı`);
+            if(row.malzeme_id === 27 || row.malzeme_id === 23) {
+                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, row.malzeme_id]);
+                console.log(`GOLD için 27 ve 23 id li malzemeden ${adet} kadar azaltıldı`);
             }else if (day === "20 DAY" && row.malzeme_id === 28) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 28])
                 console.log(`GOLD için 28 id li malzemeden ${adet} kadar azaltıldı`);
