@@ -1437,11 +1437,11 @@ router.post("/gold/Anyday/post", async (req, res) => {
         );
 
          const [etiket] = await db.execute(
-             "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
+             "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (28, 29, 30)"
         );
 
         const [kutularEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (28, 29, 30)"
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
         );
 
         
@@ -1546,7 +1546,7 @@ router.get("/gold/get/urun/kayit", async function (req, res) {
 
         
     } catch (error) {
-        console.log("gzc24 urun kayıt çekme hatası", error);
+        console.log("GOLD urun kayıt çekme hatası", error);
     }
 
 
