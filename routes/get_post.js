@@ -1535,7 +1535,7 @@ router.get("/gold/get/urun/kayit", async function (req, res) {
 
     try {
 
-        const [goldUrunKayitList ] = await  db.execute("SELECT urun_İd , gzc24_kutu_sayisi ,gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date FROM gzc24_uretim_kayit ")
+        const [goldUrunKayitList ] = await  db.execute("SELECT urun_İd , gold_kutu_sayisi ,gold_uretim_adet, gold_uretim_day, gold_uretim_date FROM gold_uretim_kayit ")
 
         res.json(goldUrunKayitList);
 
