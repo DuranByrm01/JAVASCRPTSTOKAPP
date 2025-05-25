@@ -24,6 +24,12 @@ router.get("/run-daily-report", async (req, res) => {
       WHERE DATE(gzc24_uretim_date) = CURDATE();
     `);
 
+    const [GOLDmailRows] = await db.execute(`
+      SELECT gold_kutu_sayisi,gold_uretim_adet,gold_uretim_day,gold_uretim_date 
+      FROM gold_uretim_kayit 
+      WHERE DATE(gold_uretim_date) = CURDATE();
+    `);
+
     const [trc60MailRows] = await db.execute(`
       SELECT TRC60_20PCS_BOX_LIST_BARKOD, TRC60_20PCS_BOX_LIST_date 
       FROM trc60_20pcs_box_list 

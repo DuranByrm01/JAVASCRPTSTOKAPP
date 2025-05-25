@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
 
 //////////////mail///////////////////////
 
-async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows) {
+async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows,GOLDmailRows) {
     const transporter = nodemailer.createTransport({
         service: 'gmail', // örnek: Gmail kullanıyorsan
         auth: {
@@ -63,7 +63,7 @@ async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01M
            // gzc24rows verisini HTML tabloya dönüştür
         const gzc24rows = gzc24mailRows.map(item => `
             <tr>
-                <td>GZC24 GOLD</td>
+                <td>GZC24</td>
                 <td>${item.gzc24_kutu_sayisi}</td>
                 <td>${item.gzc24_uretim_adet}</td>
                 <td>${item.gzc24_uretim_day}</td>
@@ -83,6 +83,43 @@ async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01M
                     <th>TARİH</th>
                 </tr>
                 ${gzc24rows}
+                
+            </table>
+
+
+        `;
+
+
+
+    }
+
+
+    let goldlist = "";
+
+    if (GOLDmailRows.length > 0) {
+           // gzc24rows verisini HTML tabloya dönüştür
+        const goldrows = GOLDmailRows.map(item => `
+            <tr>
+                <td>GOLD</td>
+                <td>${item.gold_kutu_sayisi}</td>
+                <td>${item.gold_uretim_adet}</td>
+                <td>${item.gold_uretim_day}</td>
+                <td>${item.gold_uretim_date}</td>
+            </tr>
+        `).join("");
+
+        goldlist +=`
+            
+             <h3>BU GÜN ÜRETİLEN MALZEMELER</h3>
+            <table border="1" cellpadding="5" cellspacing="0">
+                <tr>
+                    <th>Ürün Malzeme Adı</th>
+                    <th>Kutu sayısı</th>
+                    <th>Adet</th>
+                    <th>Malzeme GÜN</th>
+                    <th>TARİH</th>
+                </tr>
+                ${goldrows}
                 
             </table>
 
@@ -284,6 +321,8 @@ async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01M
         ${trc01list}   
         <br>
         ${gzc24list}
+        <br>
+        ${goldlist}
         <br>
         ${luvinkalist}
         <br>
