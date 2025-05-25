@@ -646,8 +646,13 @@ router.get('/urunler/uretimSayiGZC24/get', async function (req, res) {
 router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
 
     try {
+
+        // const [uretimSayiGZC24Gold] = await db.execute(
+        //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1004' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+        // );
+
         const [uretimSayiGZC24Gold] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1004' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key IN ('1003', '1004') ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         );
         
         
@@ -655,7 +660,7 @@ router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
 
     } catch (error) {
 
-        console.error(error);
+        console.error("gold üretim sayısı çekme hatası",error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
     }
 
