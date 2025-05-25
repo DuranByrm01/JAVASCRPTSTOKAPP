@@ -1512,19 +1512,19 @@ router.post("/gold/Anyday/post", async (req, res) => {
             if(row.malzeme_id === 27) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 27]);
                 console.log(`GOLD için 27 id li malzemeden ${adet} kadar azaltıldı`);
-            }else if (row.malzeme_id === 28) {
+            }else if (day === 20 && row.malzeme_id === 28) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 28])
                 console.log(`GOLD için 28 id li malzemeden ${adet} kadar azaltıldı`);
-            }else if (row.malzeme_id === 29) {
+            }else if (day === 40 && row.malzeme_id === 29) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 29])
                 console.log(`GOLD için 29 id li malzemeden ${adet} kadar azaltıldı`);
-            }else if (row.malzeme_id === 30) {
+            }else if (day === 60 && row.malzeme_id === 30) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 30])
                 console.log(`GOLD için 30 id li malzemeden ${adet} kadar azaltıldı`);
             }else {
                 console.log("27,28,29 ve 30 eksiltilemedi")
             }
-            
+
         }
 
         
