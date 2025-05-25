@@ -1441,6 +1441,11 @@ router.post("/gold/Anyday/post", async (req, res) => {
 
         );
 
+         const [tekliEtketEksiltme] = await db.execute(
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (31, 32)"
+
+        );
+
         const [kutularEksiltme] = await db.execute(
             "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
         );
@@ -1525,6 +1530,20 @@ router.post("/gold/Anyday/post", async (req, res) => {
                 console.log("27,28,29 ve 30 eksiltilemedi")
             }
 
+        }
+
+        /////////////////////////////////////////////////////////
+
+        for(let row of tekliEtketEksiltme){
+            if(row.malzeme_id === 31) {
+                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 31]);
+                console.log(`GZC24 için 31 id li malzemeden ${cihazKutu} kadar azaltıldı`);
+            }else if (row.malzeme_id === 32) {
+                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 32])
+                console.log(`GZC24 için 32 id li malzemeden ${cihazKutu} kadar azaltıldı`);
+            }else{
+                console.log("31 ve 32 eksiltilemedi")
+            }
         }
 
         
