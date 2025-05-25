@@ -1512,7 +1512,9 @@ router.post("/gold/Anyday/post", async (req, res) => {
 
             if (yetersizler.length > 0) {
                 console.log("🚫 Yetersiz malzeme var:", yetersizler);
-                throw new Error("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
+                // throw new Error("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
+                return res.status(400).json({ message: "Bazı malzemelerde yeterli adet yok! İşlem iptal edildi." });
+
             }
 
         } catch (error) {
