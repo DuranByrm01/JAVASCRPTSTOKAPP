@@ -73,7 +73,8 @@ router.get("/run-daily-report", async (req, res) => {
       luvinkaMailRows.length === 0 &&
       casusmailRows.length === 0 &&
       etilenSivimailRows.length === 0 &&
-      etilenJeneratorMailRows.length === 0;
+      etilenJeneratorMailRows.length === 0 &&
+      GOLDmailRows.length === 0;
 
     if (allDataEmpty) {
       console.log("Bugüne ait hiçbir veri yok, mail gönderilmiyor.");
@@ -88,7 +89,8 @@ router.get("/run-daily-report", async (req, res) => {
       luvinkaMailRows,
       casusmailRows,
       etilenSivimailRows,
-      etilenJeneratorMailRows
+      etilenJeneratorMailRows,
+      GOLDmailRows
     );
 
     console.log("Rapor gönderildi.");
