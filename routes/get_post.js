@@ -1511,7 +1511,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
             const yetersizler = hedefMalzemeler.filter(row => row.urun_malzeme_adet < adet);
 
             if (yetersizler.length > 0) {
-                console.log("🚫 Yetersiz malzeme var:", yetersizler);
+                console.log(" Yetersiz malzeme var:", yetersizler);
                 // throw new Error("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
                 return res.status(400).json({ message: "Bazı malzemelerde yeterli adet yok! İşlem iptal edildi." });
 
@@ -1521,15 +1521,15 @@ router.post("/gold/Anyday/post", async (req, res) => {
             return res.status(400).json({ message: error.message });
         }
 
-        // Dışlananlar hariç malzemeleri filtrele
-        const hedefMalzemeler = rows.filter(row => !ignoreMalzemeIds.includes(row.malzeme_id));
+        // // Dışlananlar hariç malzemeleri filtrele
+        // const hedefMalzemeler = rows.filter(row => !ignoreMalzemeIds.includes(row.malzeme_id));
 
-        // Her bir ürün 120 adet eksiltmeyi karşılayabiliyor mu kontrol et
-        const yetersizler = hedefMalzemeler.filter(row => row.urun_malzeme_adet < adet);
+        // // Her bir ürün 120 adet eksiltmeyi karşılayabiliyor mu kontrol et
+        // const yetersizler = hedefMalzemeler.filter(row => row.urun_malzeme_adet < adet);
 
-        if (yetersizler.length > 0) {
-            throw new Error("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
-        }
+        // if (yetersizler.length > 0) {
+        //     throw new Error("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
+        // }
 
 
         for (let row of hedefMalzemeler) {
