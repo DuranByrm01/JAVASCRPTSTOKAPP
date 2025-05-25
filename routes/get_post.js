@@ -1511,6 +1511,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
             const yetersizler = hedefMalzemeler.filter(row => row.urun_malzeme_adet < adet);
 
             if (yetersizler.length > 0) {
+                console.log("🚫 Yetersiz malzeme var:", yetersizler);
                 throw new Error("Bazı malzemelerde yeterli adet yok! İşlem iptal edildi.");
             }
 
