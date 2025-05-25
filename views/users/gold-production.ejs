@@ -60,9 +60,9 @@
     
                     
     
-                <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
+                <!-- <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5> -->
                 <h5 id="uretimMalzeme" class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
-                <h5 id="guncelStok" class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
+                <!-- <h5 id="guncelStok" class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5> -->
     
                 
                 
@@ -142,7 +142,7 @@
                     <th scope="col">TARİH</th>
                   </tr>
                 </thead>
-                <tbody class="toplam"  id="gzc24TableList">
+                <tbody class="toplam"  id="GOLDTableList">
                   <!-- <tr>
                     <th scope="row">1</th>
                     <td >Mark</td>
@@ -374,19 +374,19 @@
 
                 const response = await fetch("/gzc24/get/urun/kayit");
 
-                const gzc24UrunKayitList = await response.json();
+                const goldUrunKayitList = await response.json();
 
-                gzc24UrunKayitList.reverse().forEach((data , index) => {
+                goldUrunKayitList.reverse().forEach((data , index) => {
                     
-                    const gzc24TableList = document.querySelector("#gzc24TableList");
+                    const goldTableList = document.querySelector("#GOLDTableList");
 
 
-                    gzc24TableList.innerHTML += `
+                    goldTableList.innerHTML += `
 
                         <tr>
                            
                             <th scope="row">${data.urun_İd}</th>
-                            <td >GZC24</td>
+                            <td >GOLD</td>
                             <td>${data.gzc24_kutu_sayisi}</td>
                             <td>${data.gzc24_uretim_adet}</td>
                             <td>${data.gzc24_uretim_day}</td>
@@ -418,7 +418,7 @@
 
                 const boxSearchInput = document.querySelector("#boxSearchInput").value.toLowerCase().trim();
 
-                const dataListItem = document.querySelectorAll("#gzc24TableList tr");
+                const dataListItem = document.querySelectorAll("#GOLDTableList tr");
 
                 let gorunenSatirSayisi = 0;
                 let toplam = document.querySelector(".toplam");

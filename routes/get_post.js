@@ -1437,7 +1437,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
         );
 
         const [kutularEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004 AND malzeme_id IN (24, 25)"
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
         );
 
         
@@ -1488,7 +1488,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
         for (let row of kutularEksiltme) {
             if (row.malzeme_id === 24) {
                 await db.execute(
-                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1004 AND malzeme_id = ?",
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
                     [cihazKutu, 24]
                 );
                 console.log(`✔ 24 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
@@ -1504,16 +1504,16 @@ router.post("/gold/Anyday/post", async (req, res) => {
         
 
     } catch (error) {
-        console.log("❌ gzc24 Malzeme Çekme Hatası:", error.message);
+        console.log("❌ gold Malzeme Çekme Hatası:", error.message);
         return res.status(500).json({ message: error.message });
 
     }
     
-    //////////////////gzc24 listeye ekleme //////////////////////
+    //////////////////gold listeye ekleme //////////////////////
     
     try {
         
-        await db.execute("INSERT INTO gzc24_uretim_kayit (gzc24_kutu_sayisi, gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date) VALUES (?,?,?,?)", [cihazKutu, adet, day, date])
+        await db.execute("INSERT INTO gold_uretim_kayit (gold_kutu_sayisi, gold_uretim_adet, gold_uretim_day, gold_uretim_date) VALUES (?,?,?,?)", [cihazKutu, adet, day, date])
 
        
 
@@ -1523,7 +1523,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
         // res.redirect("/gzc24-production");  // Yalnızca bu satır yeterli
 
     } catch (error) {
-        console.log("gzc24 üretim kayit", error);
+        console.log("GOLD üretim kayit", error);
     }
 
     ////////////////////////////////////////////////////////////
@@ -1531,13 +1531,13 @@ router.post("/gold/Anyday/post", async (req, res) => {
 });
 
 
-router.get("/gzc24/get/urun/kayit", async function (req, res) {
+router.get("/gold/get/urun/kayit", async function (req, res) {
 
     try {
 
-        const [gzc24UrunKayitList ] = await  db.execute("SELECT urun_İd , gzc24_kutu_sayisi ,gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date FROM gzc24_uretim_kayit ")
+        const [goldUrunKayitList ] = await  db.execute("SELECT urun_İd , gzc24_kutu_sayisi ,gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date FROM gzc24_uretim_kayit ")
 
-        res.json(gzc24UrunKayitList);
+        res.json(goldUrunKayitList);
 
 
         
