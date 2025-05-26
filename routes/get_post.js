@@ -1455,7 +1455,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
         //     "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004"
         // );
         console.log("🛬 İstek alındı:", req.body);
-        
+
         const [rows] = await db.execute(`
             (
                 SELECT urun_key, urun_malzeme_adet, malzeme_id 
@@ -1628,6 +1628,10 @@ router.post("/gold/Anyday/post", async (req, res) => {
     }
 
     ////////////////////////////////////////////////////////////
+
+    return res.status(200).json({ message: "Üretim işlemi başarıyla tamamlandı" });
+
+
 
 });
 
