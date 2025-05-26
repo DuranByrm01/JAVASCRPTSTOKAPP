@@ -266,47 +266,6 @@
 
                     
 
-
-                    // .then(async res => {
-                    //     const data = await res.json();
-
-                    //     if (!res.ok) {
-                    //         // ❌ Hatalı yanıt geldiyse buraya girer
-                    //         alert("Hata: " + data.message);
-                    //         console.log(data.message);
-                    //         return;
-                    //     }
-
-
-                    //     if(res.status === 200){
-
-                    //         // ✅ Başarılıysa buraya girer
-                    //         alert("Başarılı: " + data.message);
-                    //         console.log("✔ sunucudan gelen cevap:", data);
-
-                    //         // ✅ Temizlik işlemleri burada yapılmalı
-                    //         barkodİnput.value = "";
-                    //         dateInput.value = "";
-                    //         days20.checked = false;
-                    //         days40.checked = false;
-                    //         days60.checked = false;
-
-                    //         window.location.reload()
-                            
-                    //     }
-
-                        
-                        
-
-                    // })
-                    // .catch(err => {
-                    //     console.error("hata oluştu:", err);
-                    //     // alert("İstek sırasında bir hata oluştu.");
-                    // });
-
-
-
-
                 }else if( days40.checked === true){
 
                     let days40Checked ="40 DAY";
@@ -334,35 +293,33 @@
 
                     })
 
-                    .then(async res => {
-                        const data = await res.json();
+                     .then(async res => {
+                        try {
+                            const data = await res.json();
 
-                        if (!res.ok) {
-                            // ❌ Hatalı yanıt geldiyse buraya girer
-                            alert("Hata: " + data.message);
-                            console.log(data.message);
-                            return;
+                            if (!res.ok) {
+                                alert("Hata: " + data.message);
+                                console.log("❌ Hata:", data.message);
+                                return;
+                            }
+
+                            alert("Başarılı: " + data.message);
+                            console.log("✔ Sunucudan gelen cevap:", data);
+
+                            barkodİnput.value = "";
+                            dateInput.value = "";
+                            days20.checked = false;
+                            days40.checked = false;
+                            days60.checked = false;
+
+                            window.location.reload();
+
+                        } catch (error) {
+                            console.error("Yanıt JSON değil:", error);
                         }
-
-
-                        // ✅ Başarılıysa buraya girer
-                        alert("Başarılı: " + data.message);
-                        console.log("✔ sunucudan gelen cevap:", data);
-
-                         // ✅ Temizlik işlemleri burada yapılmalı
-                        barkodİnput.value = "";
-                        dateInput.value = "";
-                        days20.checked = false;
-                        days40.checked = false;
-                        days60.checked = false;
-
-                        window.location.reload()
-                        
-
                     })
                     .catch(err => {
-                        console.error("hata oluştu:", err);
-                        // alert("İstek sırasında bir hata oluştu.");
+                        console.error("❗ İstek sırasında bir hata oluştu:", err);
                     });
 
                 }else if(days60.checked === true){
@@ -391,48 +348,39 @@
 
                     })
 
-                    .then(async res => {
-                        const data = await res.json();
+                     .then(async res => {
+                        try {
+                            const data = await res.json();
 
-                        if (!res.ok) {
-                            // ❌ Hatalı yanıt geldiyse buraya girer
-                            alert("Hata: " + data.message);
-                            console.log(data.message);
-                            return;
+                            if (!res.ok) {
+                                alert("Hata: " + data.message);
+                                console.log("❌ Hata:", data.message);
+                                return;
+                            }
+
+                            alert("Başarılı: " + data.message);
+                            console.log("✔ Sunucudan gelen cevap:", data);
+
+                            barkodİnput.value = "";
+                            dateInput.value = "";
+                            days20.checked = false;
+                            days40.checked = false;
+                            days60.checked = false;
+
+                            window.location.reload();
+
+                        } catch (error) {
+                            console.error("Yanıt JSON değil:", error);
                         }
-
-
-                        // ✅ Başarılıysa buraya girer
-                        alert("Başarılı: " + data.message);
-                        console.log("✔ sunucudan gelen cevap:", data);
-
-                         // ✅ Temizlik işlemleri burada yapılmalı
-                        barkodİnput.value = "";
-                        dateInput.value = "";
-                        days20.checked = false;
-                        days40.checked = false;
-                        days60.checked = false;
-
-                         window.location.reload()
-                       
-
                     })
                     .catch(err => {
-                        console.error("hata oluştu:", err);
-                        // alert("İstek sırasında bir hata oluştu.");
+                        console.error("❗ İstek sırasında bir hata oluştu:", err);
                     });
 
 
                 }
 
-                // // Input alanlarını temizle
-                // barkodİnput.value = "";
-                // dateInput.value = "";
-
-                // // Checkbox'ları temizle
-                // days20.checked = false;
-                // days40.checked = false;
-                // days60.checked = false;
+            
 
                
                 
