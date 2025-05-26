@@ -247,25 +247,36 @@
                             return;
                         }
 
+                         // ✅ Başarılıysa buraya girer
+                            alert("Başarılı: " + data.message);
+                            console.log("✔ sunucudan gelen cevap:", data);
 
-                        // ✅ Başarılıysa buraya girer
-                        alert("Başarılı: " + data.message);
-                        console.log("✔ sunucudan gelen cevap:", data);
 
-                         // ✅ Temizlik işlemleri burada yapılmalı
-                        barkodİnput.value = "";
-                        dateInput.value = "";
-                        days20.checked = false;
-                        days40.checked = false;
-                        days60.checked = false;
+                        // if(res.status === 200){
 
-                        window.location.reload()
+                        //     // ✅ Başarılıysa buraya girer
+                        //     alert("Başarılı: " + data.message);
+                        //     console.log("✔ sunucudan gelen cevap:", data);
+
+                        //     // ✅ Temizlik işlemleri burada yapılmalı
+                        //     barkodİnput.value = "";
+                        //     dateInput.value = "";
+                        //     days20.checked = false;
+                        //     days40.checked = false;
+                        //     days60.checked = false;
+
+                        //     window.location.reload()
+
+                        // }
+
+                        
                         
 
                     })
                     .catch(err => {
                         console.error("hata oluştu:", err);
                         // alert("İstek sırasında bir hata oluştu.");
+                         window.location.reload()
                     });
 
 
