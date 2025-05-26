@@ -1454,7 +1454,8 @@ router.post("/gold/Anyday/post", async (req, res) => {
         // const [rows] = await db.execute(
         //     "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004"
         // );
-
+        console.log("🛬 İstek alındı:", req.body);
+        
         const [rows] = await db.execute(`
             (
                 SELECT urun_key, urun_malzeme_adet, malzeme_id 
