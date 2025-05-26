@@ -1410,6 +1410,9 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
 
     ////////////////////////////////////////////////////////////
 
+
+    return res.status(200).json({ message: "Üretim işlemi başarıyla tamamlandı" });
+
 });
 
 
