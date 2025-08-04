@@ -219,6 +219,17 @@
           }
       });
 
+      //////////////////////////////////////////////////////////////////////////////
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user || user.expires < Date.now()) {
+          localStorage.clear();
+          alert("Lütfen giriş yapınız.");
+          window.location.href = "/login";
+        }
+      });
+
 
 
     </script>
