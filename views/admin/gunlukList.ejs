@@ -105,6 +105,44 @@
         });
 
 
+
+        //////////////////////////////////////////////////////////////////////////////
+
+      document.addEventListener("DOMContentLoaded", () => {
+          const userStr = localStorage.getItem("user");
+          if (!userStr) {
+            // user yoksa direk login
+            window.location.href = "/login";
+            return;
+          }
+
+          let user = null;
+          try {
+            user = JSON.parse(userStr);
+          } catch (e) {
+            // parse hatası olursa da login
+            window.location.href = "/login";
+            return;
+          }
+
+          // expires kontrolü
+          if (!user.expires || user.expires < Date.now()) {
+            localStorage.clear();
+            window.location.href = "/login";
+            return;
+          }
+
+          // role kontrolü
+          if (user.role !== "admin" && user.role !== "user") {
+            window.location.href = "/login";
+            return;
+          }
+
+          // Tüm kontroller geçerse sayfada kal, gerekirse devam et
+          console.log("Giriş doğrulandı:", user.username, user.role);
+      });
+
+
     </script>
 
 

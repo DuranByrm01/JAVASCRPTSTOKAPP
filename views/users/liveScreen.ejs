@@ -457,89 +457,7 @@
 
             });
 
-            //////////////////////////////////////////////////////////////////////////////
-
-            // document.addEventListener("DOMContentLoaded", async () => {
-            //     try {
-            //         const response = await fetch("/lowStock/get");
-            //         const siparisListesi = await response.json();
-
-            //         const itemsPerPage = 5; // Sayfa başına gösterilecek öğe sayısı
-            //         let currentPage = 1;
-            //         const canlıStokList = document.querySelector("#canlıStokList");
-
-            //         function renderTable(page) {
-            //             canlıStokList.innerHTML = ""; // Önceki veriyi temizle
-            //             const start = (page - 1) * itemsPerPage;
-            //             const end = start + itemsPerPage;
-            //             const paginatedItems = siparisListesi.slice(start, end);
-
-            //             paginatedItems.forEach(siparisİtem => {
-            //                 canlıStokList.innerHTML += `
-            //                     <tr data-id="${siparisİtem.malzeme_id}" style="text-decoration: ${siparisİtem.checked ? "line-through" : "none"};">
-            //                         <th scope="row">${siparisİtem.malzeme_id}</th>
-            //                         <td>${siparisİtem.urun_malzeme_adi}</td>
-            //                         <td>${siparisİtem.urun_malzeme_adet}</td>
-            //                         <td style="width: 20px;">
-            //                             <input type="checkbox" class="malzeme-checkbox" ${siparisİtem.checked ? "checked" : ""} />
-            //                         </td>
-            //                     </tr>
-            //                 `;
-            //             });
-
-            //             // Checkbox olaylarını tekrar ekle
-            //             document.querySelectorAll(".malzeme-checkbox").forEach(checkbox => {
-            //                 checkbox.addEventListener("change", async (event) => {
-            //                     const row = event.target.closest("tr");
-            //                     const malzemeId = row.dataset.id;
-
-            //                     try {
-            //                         const updateResponse = await fetch("/lowStock/update", {
-            //                             method: "POST",
-            //                             headers: { "Content-Type": "application/json" },
-            //                             body: JSON.stringify({ malzeme_id: malzemeId, checked: event.target.checked }),
-            //                         });
-
-            //                         if (updateResponse.ok) {
-            //                             row.style.textDecoration = event.target.checked ? "line-through" : "none";
-            //                         } else {
-            //                             console.error("Güncelleme başarısız");
-            //                         }
-            //                     } catch (error) {
-            //                         console.error("Checkbox güncelleme hatası:", error);
-            //                     }
-            //                 });
-            //             });
-
-            //             // Sayfa butonlarını kontrol et
-            //             document.getElementById("prevPage").parentElement.classList.toggle("disabled", currentPage === 1);
-            //             document.getElementById("nextPage").parentElement.classList.toggle("disabled", end >= siparisListesi.length);
-            //         }
-
-            //         // İlk sayfayı yükle
-            //         renderTable(currentPage);
-
-            //         // Sayfa değiştirme butonlarına olay ekleyelim
-            //         document.getElementById("prevPage").addEventListener("click", (event) => {
-            //             event.preventDefault();
-            //             if (currentPage > 1) {
-            //                 currentPage--;
-            //                 renderTable(currentPage);
-            //             }
-            //         });
-
-            //         document.getElementById("nextPage").addEventListener("click", (event) => {
-            //             event.preventDefault();
-            //             if (currentPage * itemsPerPage < siparisListesi.length) {
-            //                 currentPage++;
-            //                 renderTable(currentPage);
-            //             }
-            //         });
-
-            //     } catch (error) {
-            //         console.log("Canlı alınacak hata:", error);
-            //     }
-            // });
+            
 
         document.addEventListener("DOMContentLoaded", () => {
             const role = localStorage.getItem("role");
@@ -569,6 +487,43 @@
             }
         });
                 
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+      document.addEventListener("DOMContentLoaded", () => {
+          const userStr = localStorage.getItem("user");
+          if (!userStr) {
+            // user yoksa direk login
+            window.location.href = "/login";
+            return;
+          }
+
+          let user = null;
+          try {
+            user = JSON.parse(userStr);
+          } catch (e) {
+            // parse hatası olursa da login
+            window.location.href = "/login";
+            return;
+          }
+
+          // expires kontrolü
+          if (!user.expires || user.expires < Date.now()) {
+            localStorage.clear();
+            window.location.href = "/login";
+            return;
+          }
+
+          // role kontrolü
+          if (user.role !== "admin" && user.role !== "user") {
+            window.location.href = "/login";
+            return;
+          }
+
+          // Tüm kontroller geçerse sayfada kal, gerekirse devam et
+          console.log("Giriş doğrulandı:", user.username, user.role);
+      });
 
 
     </script>
