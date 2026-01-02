@@ -13,7 +13,7 @@ const config = {
   }
 };
 
-console.log("DB config canlıda:", config.db);
+console.log("DB config canlıda:");
 
 module.exports = config;
 

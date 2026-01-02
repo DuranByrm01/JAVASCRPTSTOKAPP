@@ -24,7 +24,6 @@ router.get('/lowStock/get', async function (req, res) {
 
     try {
 
-        console.log("low çalıştı")
         // Önce 1000'in üzerinde olanların checked değerini sıfırla
         await db.execute(
             "UPDATE urunmalzemeleri SET checked = 0 WHERE urun_malzeme_adet >= 1000"
