@@ -19,6 +19,7 @@ router.get('/lowstocklimit/get', async function (req, res) {
 
     } catch (error) {
         console.log("lowlimit çalışmıyor")
+        res.status(500).json({ message: "Low stock limit alınamadı" });
     }
 
 
