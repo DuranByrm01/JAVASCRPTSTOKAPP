@@ -8,7 +8,7 @@ router.get('/lowstocklimit/get', async function (req, res) {
     try {
 
         const [lowstockLimit] = await db.execute(
-            "SELECT urun_malzeme_adi FROM urunmalzemeleri;"
+            "SELECT lowstock FROM urunmalzemeleri;"
         );
 
 
