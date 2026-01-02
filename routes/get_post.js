@@ -11,7 +11,11 @@ router.get('/lowstocklimit/get', async function (req, res) {
             "SELECT urun_malzeme_adi FROM urunmalzemeleri;"
         );
 
+
+        res.json(lowstockLimit);
+
         console.log("lowstockLimit çekildi", lowstockLimit);
+
 
     } catch (error) {
         console.log("lowlimit çalışmıyor")
