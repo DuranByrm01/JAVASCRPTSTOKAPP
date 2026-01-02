@@ -35,14 +35,14 @@ router.get('/lowStock/get', async function (req, res) {
 
         // Önce 1000'in üzerinde olanların checked değerini sıfırla
         await db.execute(
-            "UPDATE urunmalzemeleri SET checked = 0 WHERE urun_malzeme_adet >= lowstockLimit"
+            "UPDATE urunmalzemeleri SET checked = 0 WHERE urun_malzeme_adet >= lowstock"
         );
 
 
 
 
         const [lowStock] = await db.execute(
-            "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < lowstockLimit ORDER BY urun_malzeme_adet ASC;"
+            "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < lowstock ORDER BY urun_malzeme_adet ASC;"
         );
 
         res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
