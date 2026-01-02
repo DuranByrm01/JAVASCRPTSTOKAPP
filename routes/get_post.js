@@ -26,7 +26,7 @@ router.get('/lowStock/get', async function (req, res) {
 
         // console.log(lowstockLimit);
 
-        res.json(lowStock,);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
+        res.json({ lowStock, lowstockLimit });  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
 
     } catch (error) {
 
