@@ -1,327 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const db = require("../data/db"); 
-
-// const nodemailer = require("nodemailer");
+const db = require("../data/db");
 
 
-// const sendLowStockEmail = require("../send/mail"); // veya yol doğruysa "../mail" olabilir
-
-
-
-// //////////////mail///////////////////////
-
-// // async function sendLowStockEmail(lowStockData,gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows) {
-// //     const transporter = nodemailer.createTransport({
-// //         service: 'gmail', // örnek: Gmail kullanıyorsan
-// //         auth: {
-// //             user: 'duranb895@gmail.com',
-// //             pass: 'fted jwmw igmc bxsr'  // Gmail için uygulama şifresi kullan
-// //         },
-        
-// //         tls: {
-// //             rejectUnauthorized: false,
-// //         },
-
-// //     });
-
-// //     // lowStock verisini HTML tabloya dönüştür
-// //     const tableRows = lowStockData.map(item => `
-// //         <tr>
-// //             <td>${item.urun_malzeme_adi}</td>
-// //             <td>${item.urun_malzeme_adet}</td>
-// //             <td>${item.malzeme_id}</td>
-// //             <td>${item.checked}</td>
-// //         </tr>
-// //     `).join("");
-
-// //       // lowStock verisini HTML tabloya dönüştür
-// //     const gzc24rows = gzc24mailRows.map(item => `
-// //         <tr>
-// //             <td>GZC24 GOLD</td>
-// //             <td>${item.gzc24_kutu_sayisi}</td>
-// //             <td>${item.gzc24_uretim_adet}</td>
-// //             <td>${item.gzc24_uretim_day}</td>
-// //             <td>${item.gzc24_uretim_date}</td>
-// //         </tr>
-// //     `).join("");
-
-// //         // lowStock verisini HTML tabloya dönüştür
-// //     const trc60rows = trc60MailRows.map(item => `
-// //         <tr>
-// //             <td>TRC60</td>
-// //             <td>${item.TRC60_20PCS_BOX_LIST_BARKOD}</td>
-// //             <td>${item.TRC60_20PCS_BOX_LIST_date}</td>
-            
-// //         </tr>
-// //     `).join("");
-
-// //          // lowStock verisini HTML tabloya dönüştür
-// //     const trc01rows = trc01MailRows.map(item => `
-// //         <tr>
-// //             <td>TRC01</td>
-// //             <td>${item.trc01_20pcs_box_list_barkod}</td>
-// //             <td>${item.trc01_20pcs_box_list_date}</td>
-            
-// //         </tr>
-// //     `).join("");
-
-// //            // lowStock verisini HTML tabloya dönüştür
-// //     const luvinkaMail = luvinkaMailRows.map(item => `
-// //         <tr>
-// //             <td>LUVİNKA</td>
-// //             <td>${item.luvinka_20_box_list_barkod}</td>
-// //             <td>${item.luvinka_20_box_list_date}</td>
-            
-// //         </tr>
-// //     `).join("");
-
-// //              // lowStock verisini HTML tabloya dönüştür
-// //     const casusMail = casusmailRows.map(item => `
-// //         <tr>
-// //             <td>CASUS</td>
-// //             <td>${item.casus_uretim_kutu_adet}</td>
-// //             <td>${item.casus_uretim_adet}</td>
-// //             <td>${item.casus_uretim_day}</td>
-// //             <td>${item.casus_uretim_date}</td>
-            
-// //         </tr>
-// //     `).join("");
-
-// //                // lowStock verisini HTML tabloya dönüştür
-// //     const EtilenSiviMail = etilenSivimailRows.map(item => `
-// //         <tr>
-// //             <td>ETİLEN SIVI</td>
-// //             <td>${item.etilen_uretim_kutu}</td>
-// //             <td>${item.etilen_uretim_adet}</td>
-// //             <td>${item.etilen_uretim_tarih}</td>
-           
-            
-// //         </tr>
-// //     `).join("");
-
-// //                 // lowStock verisini HTML tabloya dönüştür
-// //     const EtilenjeneratorMail = etilenJeneratorMailRows.map(item => `
-// //         <tr>
-// //             <td>ETİLEN JENERATÖR</td>
-// //             <td>${item.etilen_jenerator_adet}</td>
-// //             <td>${item.etilen_jenerator_date}</td>
-            
-// //         </tr>
-// //     `).join("");
-
-
-
-// //     const htmlContent = `
-
-// //          <h3>BU GÜN ÜRETİLEN MALZEMELER</h3>
-// //         <table border="1" cellpadding="5" cellspacing="0">
-// //             <tr>
-// //                 <th>Ürün Malzeme Adı</th>
-// //                 <th>Kutu sayısı</th>
-// //                 <th>Adet</th>
-// //                 <th>Malzeme GÜN</th>
-// //                 <th>TARİH</th>
-// //             </tr>
-// //             ${gzc24rows}
-            
-// //         </table>
-// //         <br>
-// //         <table border="1" cellpadding="5" cellspacing="0">
-// //             <tr>
-// //                 <th>Ürün Malzeme Adı</th>
-// //                 <th>Kutu Barkod</th>
-// //                 <th>Tarih</th>
-                
-// //             </tr>
-// //             ${trc60rows}
-            
-// //         </table>
-       
-// //         <br>
-// //         <table border="1" cellpadding="5" cellspacing="0">
-// //             <tr>
-// //                 <th>Ürün Malzeme Adı</th>
-// //                 <th>Kutu Barkod</th>
-// //                 <th>Tarih</th>
-                
-// //             </tr>
-// //             ${trc01rows}
-            
-// //         </table>
-// //         <br>
-// //         <table border="1" cellpadding="5" cellspacing="0">
-// //             <tr>
-// //                 <th>Ürün Malzeme Adı</th>
-// //                 <th>Kutu Barkod</th>
-// //                 <th>Tarih</th>
-                
-// //             </tr>
-// //             ${luvinkaMail}
-            
-// //         </table>
-// //         <br>
-// //         <table border="1" cellpadding="5" cellspacing="0">
-// //             <tr>
-// //                 <th>Ürün Malzeme Adı</th>
-// //                 <th>Kutu sayısı</th>
-// //                 <th>Adet</th>
-// //                 <th>Malzeme GÜN</th>
-// //                 <th>TARİH</th>
-// //             </tr>
-// //             ${casusMail}
-            
-// //         </table>
-
-// //          <br>
-// //         <table border="1" cellpadding="5" cellspacing="0">
-// //             <tr>
-// //                 <th>Ürün Malzeme Adı</th>
-// //                 <th>Kutu Sayısı</th>
-// //                 <th>Adet</th>
-// //                 <th>Tarih</th>
-                
-// //             </tr>
-// //             ${EtilenSiviMail}
-            
-// //         </table>
-
-// //           <br>
-// //         <table border="1" cellpadding="5" cellspacing="0">
-// //             <tr>
-// //                 <th>Ürün Malzeme Adı</th>
-// //                 <th>ÜRÜN ADET</th>
-// //                 <th>Tarih</th>
-                
-// //             </tr>
-// //             ${EtilenjeneratorMail}
-            
-// //         </table>
-        
-// //         <br>
-
-// //         <h3>Stokta azalan ürünler</h3>
-// //         <table border="1" cellpadding="5" cellspacing="0">
-// //             <tr>
-// //                 <th>Ürün Malzeme Adı</th>
-// //                 <th>Adet</th>
-// //                 <th>Malzeme ID</th>
-// //                 <th>Checked</th>
-// //             </tr>
-// //             ${tableRows}
-            
-// //         </table>
-
-       
-        
-       
-// //     `;
-
-   
-
-   
-
-// //     const mailOptions = {
-// //         from: 'duranb895@gmail.com',
-// //         to: 'bayramd693@gmail.com',
-// //         subject: 'GÜNLÜK STOK BİLDİRİMİ v2',
-// //         html: htmlContent
-// //     };
-
-  
-
-// //     await transporter.sendMail(mailOptions);
-// // }
-
-
-
-
-// /////////////////////////////////////
-
-// router.get('/get/mail/rows', async function (req, res) {
-//   try {
-
-//     try {
-//         const [lowStockrows] = await db.execute(
-//           "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
-//         );
-
-//         const [gzc24mailRows] = await db.execute(
-//           "SELECT gzc24_kutu_sayisi,gzc24_uretim_adet,gzc24_uretim_day,gzc24_uretim_date FROM gzc24_uretim_kayit WHERE DATE(gzc24_uretim_date) = CURDATE();"
-//         );
-
-//         const [trc60MailRows] = await db.execute(
-//             `SELECT TRC60_20PCS_BOX_LIST_BARKOD, TRC60_20PCS_BOX_LIST_date 
-//             FROM trc60_20pcs_box_list 
-//             WHERE STR_TO_DATE(TRC60_20PCS_BOX_LIST_date, '%d.%m.%Y') = CURDATE();`
-//         );
-
-
-//        const [trc01MailRows] = await db.execute(
-//             `SELECT trc01_20pcs_box_list_barkod, trc01_20pcs_box_list_date 
-//             FROM trc01_20pcs_box_list 
-//             WHERE STR_TO_DATE(trc01_20pcs_box_list_date, '%d.%m.%Y') = CURDATE();`
-//         );
-
-
-//        const [luvinkaMailRows] = await db.execute(
-//             `SELECT luvinka_20_box_list_barkod, luvinka_20_box_list_date 
-//             FROM luvinka_20_box_list 
-//             WHERE STR_TO_DATE(luvinka_20_box_list_date, '%d.%m.%Y') = CURDATE();`
-//         );
-
-
-//         const [casusmailRows] = await db.execute(
-//           "SELECT casus_uretim_kutu_adet,casus_uretim_adet,casus_uretim_day,casus_uretim_date FROM casus_uretim WHERE DATE(casus_uretim_date) = CURDATE();"
-//         );
-
-//         const [etilenSivimailRows] = await db.execute(
-//           "SELECT etilen_uretim_kutu, etilen_uretim_adet, etilen_uretim_tarih FROM etilen_s WHERE DATE(etilen_uretim_tarih) = CURDATE();"
-//         );
-
-//         const [etilenJeneratorMailRows] = await db.execute(
-//             "SELECT etilen_jenerator_adet, etilen_jenerator_date FROM etilen_jenerator WHERE DATE (etilen_jenerator_date) = CURDATE();"
-
-//         );
-
-//         // if (lowStockrows.length > 0) {
-//         //   sendLowStockEmail(lowStockrows, gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows);
-
-//         //   console.log("Mail başarıyla gönderildi.");
-
-//         // } else {
-
-//         //   console.log("Gönderilecek düşük stok yok.");
-
-//         // }
-
-//         sendLowStockEmail(lowStockrows, gzc24mailRows,trc60MailRows,trc01MailRows,luvinkaMailRows,casusmailRows,etilenSivimailRows,etilenJeneratorMailRows);
-
-
-//         // setInterval(async () => {
-//         //     sendLowStockEmail(lowStockrows,gzc24mailRows)
-//         //     console.log("Mail başarıyla gönderildi.");
-//         // }, 3000);
-
-//       } catch (mailError) {
-//         console.error("Mail gönderme hatası:", mailError);
-//     }
-
-    
-
-//     res.json({ message: "Mail kontrol servisi başlatıldı." });
-
-//   } catch (error) {
-//     console.log("mail verisi çekme hatası", error);
-//     res.status(500).json({ message: 'Sunucu hatası.' });
-//   }
-// });
-
-
-
-
-//////////////mail///////////////////////
 
 router.get('/lowStock/get', async function (req, res) {
 
@@ -333,7 +15,7 @@ router.get('/lowStock/get', async function (req, res) {
         );
 
         const [lowStock] = await db.execute(
-          "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
+            "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
         );
 
 
@@ -343,10 +25,10 @@ router.get('/lowStock/get', async function (req, res) {
         //         sendLowStockEmail(lowStock,gzc24mailRows);
         //         console.log("Mail başarıyla gönderildi.");
         // }
-       
+
         res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
     } catch (error) {
-        console.error("lowStock hatası",error);
+        console.error("lowStock hatası", error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
     }
 
@@ -355,7 +37,7 @@ router.get('/lowStock/get', async function (req, res) {
 router.post('/lowStock/update', async function (req, res) {
     const { malzeme_id, checked } = req.body;
 
-    
+
 
     // Gelen veriyi kontrol et
     if (!malzeme_id || typeof checked === "undefined") {
@@ -385,13 +67,13 @@ router.post('/lowStock/update', async function (req, res) {
 
 
 
-router.post("/gunlukUretim", async function(req,res){
-    const urunName =  req.body.urunName;
-    const urunDetay =  req.body.urunDetay;
-    const urunAdet =  req.body.urunAdet;
-    const urunDate =  req.body.urunDate;
-     
-    try{
+router.post("/gunlukUretim", async function (req, res) {
+    const urunName = req.body.urunName;
+    const urunDetay = req.body.urunDetay;
+    const urunAdet = req.body.urunAdet;
+    const urunDate = req.body.urunDate;
+
+    try {
 
         // Herhangi bir alan boşsa
         if (!urunName || !urunDetay || !urunAdet || !urunDate) {
@@ -405,11 +87,11 @@ router.post("/gunlukUretim", async function(req,res){
 
         res.redirect("/gunlukUretim");
     }
-    catch(err){
-         console.log("günlük üretim hatası",err);
+    catch (err) {
+        console.log("günlük üretim hatası", err);
     }
- 
- });
+
+});
 
 
 
@@ -417,10 +99,10 @@ router.post("/gunlukUretim", async function(req,res){
 router.get('/urunler/get', async function (req, res) {
 
     try {
-        const [urnList] = await db.execute( "SELECT urun_key, urun_Name FROM urunler;");
+        const [urnList] = await db.execute("SELECT urun_key, urun_Name FROM urunler;");
 
-        res.json(urnList); 
-        
+        res.json(urnList);
+
     } catch (error) {
 
         console.error(error);
@@ -434,8 +116,8 @@ router.get('/urunler/malzeme/get/:urun_malzeme_PK', async function (req, res) {
     try {
         const [urunMalzeme] = await db.execute("SELECT * FROM urunmalzemeleri WHERE urun_malzeme_PK = ?", [req.params.urun_malzeme_PK]);
 
-        res.json(urunMalzeme); 
-        
+        res.json(urunMalzeme);
+
     } catch (error) {
 
         console.error(error);
@@ -453,10 +135,10 @@ router.get('/urunler/malzeme/get/:urun_malzeme_PK', async function (req, res) {
 
 
 router.post('/urunler/stok/post', async (req, res) => {
-    const { product, material, amount, action , date } = req.body;
+    const { product, material, amount, action, date } = req.body;
 
     console.log("Gönderilen Veriler:", req.body);
-    
+
     try {
         // Eğer amount boşsa, işlem yapılmasın
         if (!amount || isNaN(amount) || amount <= 0) {
@@ -508,11 +190,11 @@ router.post('/urunler/stok/post', async (req, res) => {
             if (currentAmount < amountToUpdate) {
                 console.log("return a gelik");
                 return res.status(400).send('Yeterli stok yok!');
-                
-            }else{
+
+            } else {
                 newAmount = currentAmount - amountToUpdate;
             }
-            
+
         }
 
         // Malzeme miktarını güncelle
@@ -521,28 +203,28 @@ router.post('/urunler/stok/post', async (req, res) => {
             [newAmount, material, productKey]
         );
 
-        if(action === "GİRDİ"){
+        if (action === "GİRDİ") {
 
             addMesage = (`Ürün adı ${product} malzeme adı ${material} eklenen malzeme miktarı: ${amount} GÜNCEL ADET : ${newAmount} `);
 
             console.log(addMesage);
 
-            
-        }else{
+
+        } else {
 
             removeMesage = (`Ürün adı ${product} malzeme adı ${material} çıkarılan malzeme miktarı: ${amount} GÜNCEL ADET : ${newAmount} `);
 
             console.log(removeMesage);
-            
+
         }
 
-        
+
         // loglama 
-        
-        await db.execute(`INSERT INTO urun_malzeme_kayıtları (urun_adi, malzeme_adi, amount, action, date) VALUES (?,?,?,?,?)`, [product,material,amount,action,date]);
-        
+
+        await db.execute(`INSERT INTO urun_malzeme_kayıtları (urun_adi, malzeme_adi, amount, action, date) VALUES (?,?,?,?,?)`, [product, material, amount, action, date]);
+
         ///////
-        
+
         // Yönlendirme işlemini en son yapıyoruz
         res.redirect('/index');
 
@@ -574,9 +256,9 @@ router.get('/add/remove/log', async function (req, res) {
         console.log("add/remove", error);
     }
 
-    
+
 });
-  
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -589,8 +271,8 @@ router.get('/urunler/uretimSayisi/get', async function (req, res) {
         const [trc60UretimSayisi] = await db.execute(
             "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1001' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         );
-        
-        
+
+
         res.json(trc60UretimSayisi);
 
     } catch (error) {
@@ -609,8 +291,8 @@ router.get('/urunler/uretimSayiTrc01/get', async function (req, res) {
         const [trc01UretimSayisi] = await db.execute(
             "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1002' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         );
-        
-        
+
+
         res.json(trc01UretimSayisi);
 
     } catch (error) {
@@ -629,8 +311,8 @@ router.get('/urunler/uretimSayiGZC24/get', async function (req, res) {
         const [uretimSayiGZC24] = await db.execute(
             "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1003' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         );
-        
-        
+
+
         res.json(uretimSayiGZC24);
 
     } catch (error) {
@@ -651,7 +333,7 @@ router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
         //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1004' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         // );
 
-       const [uretimSayiGZC24Gold] = await db.execute(`
+        const [uretimSayiGZC24Gold] = await db.execute(`
             (
                 SELECT urun_key, urun_malzeme_adet 
                 FROM urunmalzemeleri 
@@ -668,13 +350,13 @@ router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
             LIMIT 1;
         `);
 
-        
-        
+
+
         res.json(uretimSayiGZC24Gold);
 
     } catch (error) {
 
-        console.error("gold üretim sayısı çekme hatası",error);
+        console.error("gold üretim sayısı çekme hatası", error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
     }
 
@@ -688,13 +370,13 @@ router.get('/urunler/uretimSayiCasus/get', async function (req, res) {
         const [uretimSayicasus] = await db.execute(
             "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1005' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         );
-        
-        
+
+
         res.json(uretimSayicasus);
 
     } catch (error) {
 
-        console.error("casus üretim sayısı çekme hatası",error);
+        console.error("casus üretim sayısı çekme hatası", error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
     }
 
@@ -712,15 +394,15 @@ router.get('/urunler/uretimSayiluvinka/get', async function (req, res) {
         const [uretimSayiluvinka] = await db.execute(
             "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key IN ('1006', '1001') ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         );
-        
 
-        
+
+
         res.json(uretimSayiluvinka);
-        
+
 
     } catch (error) {
 
-        console.error("Luvinka üretim sayısı çekme hatası",error);
+        console.error("Luvinka üretim sayısı çekme hatası", error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
     }
 
@@ -734,15 +416,15 @@ router.get('/urunler/uretimSayiluvinka/get', async function (req, res) {
 ////////malzeme ekleme save page //////////////////////
 
 
-router.post('/urun/malzeme', async (req, res) =>{
+router.post('/urun/malzeme', async (req, res) => {
 
     const { urunAdi, urunAdet, urunPK, urunKey, } = req.body;
 
     // aynı üründen varsa ekleme diye kod yazılacak 
-    
+
 
     try {
-        await db.execute("INSERT INTO urunmalzemeleri(urun_malzeme_adi,urun_malzeme_adet,urun_malzeme_PK,urun_key) VALUES (?,?,?,?)", [urunAdi,urunAdet,urunPK,urunKey])
+        await db.execute("INSERT INTO urunmalzemeleri(urun_malzeme_adi,urun_malzeme_adet,urun_malzeme_PK,urun_key) VALUES (?,?,?,?)", [urunAdi, urunAdet, urunPK, urunKey])
         res.redirect("/urunKayit");
     } catch (error) {
         console.log(error);
@@ -766,16 +448,16 @@ router.get('/add/Remove', async function (req, res) {
 
     try {
 
-        const [addRemove, ] = await db.execute("select * from urun_malzeme_kayıtları")
+        const [addRemove,] = await db.execute("select * from urun_malzeme_kayıtları")
 
         res.json(addRemove);
 
     } catch (error) {
-        console.log("backend add/remove hatası :",error);
+        console.log("backend add/remove hatası :", error);
     }
-    
 
-    
+
+
 })
 
 
@@ -785,9 +467,9 @@ router.get('/add/Remove', async function (req, res) {
 let barkodCountertrc60 = 0; // 5 barkod sayacı
 
 router.post("/barkod/data/save", async (req, res) => {
-    const { barkod , barkodDateSave } = req.body;
+    const { barkod, barkodDateSave } = req.body;
 
-    
+
 
     try {
 
@@ -798,7 +480,7 @@ router.post("/barkod/data/save", async (req, res) => {
 
         const [midiBoxTrc60100Fınd] = await db.execute("SELECT TRC60_20PCS_BOX_LIST_BARKOD FROM trc60_20pcs_box_list WHERE TRC60_20PCS_BOX_LIST_BARKOD = ? ", [barkod]);
 
-        if(midiBoxTrc60100Fınd.length > 0){
+        if (midiBoxTrc60100Fınd.length > 0) {
             // return res.json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
             // return console.log("bu barkod zaten daha önceden eklenmiş");
             return res.status(409).json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
@@ -812,11 +494,11 @@ router.post("/barkod/data/save", async (req, res) => {
         //     return res.status(400).json({ success: false, message: "TRC60 ALT MALZEMELERİNDE STOK YETERSİZ!" });
         // }
 
-        
+
         // Her malzeme için stok kontrolü //eğer stok 20 den az ise hata ver
         for (let malzeme of urunMalzemeStoklari) {
-            const { malzeme_id,urun_malzeme_adi, urun_malzeme_adet } = malzeme;
-            
+            const { malzeme_id, urun_malzeme_adi, urun_malzeme_adet } = malzeme;
+
             // Eğer herhangi bir malzemenin stoğu 20'den azsa hata ver
             if (urun_malzeme_adet < 20) {
                 console.log(`Malzeme ID: ${malzeme_id} için stok yetersiz: ${urun_malzeme_adet}`);
@@ -864,10 +546,10 @@ router.post("/barkod/data/save", async (req, res) => {
         }
 
         // await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1001");
-       
-        
+
+
     } catch (error) {
-        
+
         console.log("Barkod 20 pcs kayıt hatası:", error);
         res.status(500).json({ message: "Veri eklenirken hata oluştu!" });
     }
@@ -879,14 +561,14 @@ router.post("/barkod/data/save", async (req, res) => {
 router.get("/barkod/data/save/get", async function (req, res) {
 
     try {
-        
+
         const [barkod20pcs,] = await db.execute("SELECT id_20_pcs, trc60_20pcs_box_barkod , trc60_20pcs_box_date FROM trc60_20pcs_box");
 
         res.json(barkod20pcs);
 
-        
 
-       
+
+
 
 
     } catch (error) {
@@ -896,24 +578,24 @@ router.get("/barkod/data/save/get", async function (req, res) {
 
     }
 
-    
+
 
 
 });
 
 
-router.get("/barkod/data/save/get/box/number", async function (req,res) {
-    
-   try {
+router.get("/barkod/data/save/get/box/number", async function (req, res) {
 
-        const [trc6020pcskutuAdet] = await db.execute ("SELECT trc60_20pcs_box_barkod FROM trc60_20pcs_box");
+    try {
+
+        const [trc6020pcskutuAdet] = await db.execute("SELECT trc60_20pcs_box_barkod FROM trc60_20pcs_box");
 
 
         res.json(trc6020pcskutuAdet)
 
-   } catch (error) {
+    } catch (error) {
         console.log("number box", error);
-   }
+    }
 
 
 })
@@ -924,20 +606,20 @@ router.get("/barkod/data/save/get/box/number", async function (req,res) {
 ///////////trc60/////////20////list/////
 
 
-    router.get("/trc60/20/box/barkod", async function (req, res) {
+router.get("/trc60/20/box/barkod", async function (req, res) {
 
-        try {
+    try {
 
-            const [trc60Box20pcsListİtem ] = await db.execute("SELECT id, TRC60_20PCS_BOX_LIST_BARKOD, TRC60_20PCS_BOX_LIST_date FROM trc60_20pcs_box_list");
+        const [trc60Box20pcsListİtem] = await db.execute("SELECT id, TRC60_20PCS_BOX_LIST_BARKOD, TRC60_20PCS_BOX_LIST_date FROM trc60_20pcs_box_list");
 
-            res.json(trc60Box20pcsListİtem);
+        res.json(trc60Box20pcsListİtem);
 
-            
-        } catch (error) {
-            console.log("trc60 20lik liste hatası", error);
-        }
-        
-    });
+
+    } catch (error) {
+        console.log("trc60 20lik liste hatası", error);
+    }
+
+});
 
 
 
@@ -948,18 +630,18 @@ router.get("/barkod/data/save/get/box/number", async function (req,res) {
 ////////////trc60///////guncel/////stok/////
 
 router.get("/trc60/guncel/stok/trc6020pcs", async function (req, res) {
-    
+
     try {
 
-        const [trc60guncelStock] = await db.execute ("SELECT  TRC60_20PCS_BOX_LIST_BARKOD FROM trc60_20pcs_box_list");
+        const [trc60guncelStock] = await db.execute("SELECT  TRC60_20PCS_BOX_LIST_BARKOD FROM trc60_20pcs_box_list");
 
         res.json(trc60guncelStock);
-        
+
     } catch (error) {
         console.log("güncel stok çekme hatası ", error);
-        
+
     }
-    
+
 
 });
 
@@ -999,7 +681,7 @@ router.get("/checkBarkod20/:barkod", async (req, res) => {
 
 
 router.post("/save100lukuBox", async (req, res) => {
-    const { barkod100, barkod20List ,barkodDateFormat } = req.body;
+    const { barkod100, barkod20List, barkodDateFormat } = req.body;
 
     if (!barkod100 || barkod20List.length !== 5) {
         return res.status(400).json({ success: false, message: "Eksik veri gönderildi!" });
@@ -1008,7 +690,7 @@ router.post("/save100lukuBox", async (req, res) => {
     try {
         await db.execute(
             "INSERT INTO trc60_100_lu_box_lıst (trc60100lukutubarkod, trc6020col1, trc6020col2, trc6020col3, trc6020col4, trc6020col5,trc60100BoxDate) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [barkod100, ...barkod20List,barkodDateFormat]
+            [barkod100, ...barkod20List, barkodDateFormat]
         );
         res.json({ success: true });
     } catch (err) {
@@ -1022,7 +704,7 @@ router.get("/trc60/100/box/list/get", async function (req, res) {
 
     try {
 
-        const [trc60100boxlistitem ] = await db.execute("SELECT id, trc60100lukutubarkod, trc6020col1, trc6020col2, trc6020col3, trc6020col4, trc6020col5, trc60100BoxDate FROM trc60_100_lu_box_lıst")
+        const [trc60100boxlistitem] = await db.execute("SELECT id, trc60100lukutubarkod, trc6020col1, trc6020col2, trc6020col3, trc6020col4, trc6020col5, trc60100BoxDate FROM trc60_100_lu_box_lıst")
 
         res.json(trc60100boxlistitem);
 
@@ -1031,7 +713,7 @@ router.get("/trc60/100/box/list/get", async function (req, res) {
     } catch (error) {
         console.log("100 lü liste veri çekme hatası", error)
     }
-    
+
 })
 
 
@@ -1045,9 +727,9 @@ router.get("/trc60/100/box/list/get", async function (req, res) {
 ///////////trc01 barkod kayıt ///////////////////////
 
 router.post("/barkod/data/save/trc01", async (req, res) => {
-    const { barkod , barkodDateSave } = req.body;
+    const { barkod, barkodDateSave } = req.body;
 
-    
+
 
     try {
 
@@ -1058,7 +740,7 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
 
         const [midiBoxTrc01100Fınd] = await db.execute("SELECT trc01_20pcs_box_list_barkod FROM trc01_20pcs_box_list WHERE trc01_20pcs_box_list_barkod = ? ", [barkod]);
 
-        if(midiBoxTrc01100Fınd.length > 0){
+        if (midiBoxTrc01100Fınd.length > 0) {
             // return res.json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
             // return console.log("bu barkod zaten daha önceden eklenmiş");
             return res.status(409).json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
@@ -1074,8 +756,8 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
 
         // Her malzeme için stok kontrolü //eğer stok 20 den az ise hata ver
         for (let malzeme of trc01urunMalzemeStok) {
-            const { malzeme_id,urun_malzeme_adi, urun_malzeme_adet } = malzeme;
-            
+            const { malzeme_id, urun_malzeme_adi, urun_malzeme_adet } = malzeme;
+
             // Eğer herhangi bir malzemenin stoğu 20'den azsa hata ver
             if (urun_malzeme_adet < 20) {
                 console.log(`Malzeme ID: ${malzeme_id} için stok yetersiz: ${urun_malzeme_adet} MALZEME : ${urun_malzeme_adi} için stok yetersiz!  GİRİŞ YAPILAMAZ`);
@@ -1093,10 +775,10 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
         //stok yeterliyse 20 azalt 
 
         await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1002");
-       
-        
+
+
     } catch (error) {
-        
+
         console.log("Barkod 20 pcs kayıt hatası:", error);
         res.status(500).json({ message: "Veri eklenirken hata oluştu!" });
     }
@@ -1108,14 +790,14 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
 router.get("/barkod/data/save/get/trc01", async function (req, res) {
 
     try {
-        
+
         const [trc01barkod20pcs,] = await db.execute("SELECT id_trc01_20pcs_box, trc01_20pcs_box_barkod , trc01_20pcs_box_date FROM trc01_20pcs_box");
 
         res.json(trc01barkod20pcs);
 
-        
 
-       
+
+
 
 
     } catch (error) {
@@ -1125,24 +807,24 @@ router.get("/barkod/data/save/get/trc01", async function (req, res) {
 
     }
 
-    
+
 
 
 });
 
 
-router.get("/barkod/data/save/get/box/number/trc01", async function (req,res) {
-    
-   try {
+router.get("/barkod/data/save/get/box/number/trc01", async function (req, res) {
 
-        const [trc0120pcskutuAdet] = await db.execute ("SELECT trc01_20pcs_box_barkod FROM trc01_20pcs_box");
+    try {
+
+        const [trc0120pcskutuAdet] = await db.execute("SELECT trc01_20pcs_box_barkod FROM trc01_20pcs_box");
 
 
         res.json(trc0120pcskutuAdet)
 
-   } catch (error) {
+    } catch (error) {
         console.log("number box", error);
-   }
+    }
 
 
 })
@@ -1153,20 +835,20 @@ router.get("/barkod/data/save/get/box/number/trc01", async function (req,res) {
 ///////////trc60/////////20////list/////
 
 
-    router.get("/trc01/20/box/barkod", async function (req, res) {
+router.get("/trc01/20/box/barkod", async function (req, res) {
 
-        try {
+    try {
 
-            const [trc01Box20pcsListİtem ] = await db.execute("SELECT id_trc01, trc01_20pcs_box_list_barkod, trc01_20pcs_box_list_date FROM trc01_20pcs_box_list");
+        const [trc01Box20pcsListİtem] = await db.execute("SELECT id_trc01, trc01_20pcs_box_list_barkod, trc01_20pcs_box_list_date FROM trc01_20pcs_box_list");
 
-            res.json(trc01Box20pcsListİtem);
+        res.json(trc01Box20pcsListİtem);
 
-            
-        } catch (error) {
-            console.log("trc01 20lik liste hatası", error);
-        }
-        
-    });
+
+    } catch (error) {
+        console.log("trc01 20lik liste hatası", error);
+    }
+
+});
 
 
 
@@ -1177,18 +859,18 @@ router.get("/barkod/data/save/get/box/number/trc01", async function (req,res) {
 ////////////trc60///////guncel/////stok/////
 
 router.get("/trc01/guncel/stok/trc0120pcs", async function (req, res) {
-    
+
     try {
 
-        const [trc01guncelStock] = await db.execute ("SELECT  trc01_20pcs_box_list_barkod FROM trc01_20pcs_box_list");
+        const [trc01guncelStock] = await db.execute("SELECT  trc01_20pcs_box_list_barkod FROM trc01_20pcs_box_list");
 
         res.json(trc01guncelStock);
-        
+
     } catch (error) {
         console.log("güncel stok çekme hatası ", error);
-        
+
     }
-    
+
 
 });
 
@@ -1228,7 +910,7 @@ router.get("/checkBarkod20/trc01/:barkod", async (req, res) => {
 
 
 router.post("/save100lukuBox/trc01", async (req, res) => {
-    const { barkod100, barkod20List ,barkodDateFormat } = req.body;
+    const { barkod100, barkod20List, barkodDateFormat } = req.body;
 
     if (!barkod100 || barkod20List.length !== 5) {
         return res.status(400).json({ success: false, message: "Eksik veri gönderildi!" });
@@ -1237,7 +919,7 @@ router.post("/save100lukuBox/trc01", async (req, res) => {
     try {
         await db.execute(
             "INSERT INTO trc01_100pcs_box_list (trc01_100pcs_box_barkod, trc01_100pcs_col_1, trc01_100pcs_col_2, trc01_100pcs_col_3, trc01_100pcs_col_4, trc01_100pcs_col_5,trc01_100pcs_date) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [barkod100, ...barkod20List,barkodDateFormat]
+            [barkod100, ...barkod20List, barkodDateFormat]
         );
         res.json({ success: true });
     } catch (err) {
@@ -1251,7 +933,7 @@ router.get("/trc01/100/box/list/get", async function (req, res) {
 
     try {
 
-        const [trc01100boxlistitem ] = await db.execute("SELECT id_trc01_100pcs, trc01_100pcs_box_barkod, trc01_100pcs_col_1, trc01_100pcs_col_2, trc01_100pcs_col_3, trc01_100pcs_col_4, trc01_100pcs_col_5, trc01_100pcs_date FROM trc01_100pcs_box_list")
+        const [trc01100boxlistitem] = await db.execute("SELECT id_trc01_100pcs, trc01_100pcs_box_barkod, trc01_100pcs_col_1, trc01_100pcs_col_2, trc01_100pcs_col_3, trc01_100pcs_col_4, trc01_100pcs_col_5, trc01_100pcs_date FROM trc01_100pcs_box_list")
 
         res.json(trc01100boxlistitem);
 
@@ -1260,7 +942,7 @@ router.get("/trc01/100/box/list/get", async function (req, res) {
     } catch (error) {
         console.log("TRC01 100 lü liste veri çekme hatası", error);
     }
-    
+
 })
 
 
@@ -1293,14 +975,14 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
 
         const [gzc24TumMalzemeler] = await db.execute("SELECT urun_malzeme_adi,urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1003 ");
 
-        for(let malzeme of gzc24TumMalzemeler){
-            const {urun_malzeme_adi,urun_malzeme_adet} = malzeme;
+        for (let malzeme of gzc24TumMalzemeler) {
+            const { urun_malzeme_adi, urun_malzeme_adet } = malzeme;
             console.log("malzemeler bulundu", urun_malzeme_adi);
-            if(urun_malzeme_adet < cihazKutu) {
+            if (urun_malzeme_adet < cihazKutu) {
                 throw new Error(`Malzeme : ${urun_malzeme_adi} için stok yetersiz işlem iptal edildi`);
                 // console.log(`Malzeme : ${urun_malzeme_adi} için stok yetersiz işlem iptal edildi`);
                 // return;
-                
+
             }
 
         }
@@ -1309,17 +991,17 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
         let ignoreMalzemeIds = []; // En başta tanımla
 
         if (day === "20 DAY") {
-            ignoreMalzemeIds = [29, 30, 24,25, 31,32];
+            ignoreMalzemeIds = [29, 30, 24, 25, 31, 32];
         } else if (day === "40 DAY") {
-            ignoreMalzemeIds = [28, 30, 24,25, 31,32];
+            ignoreMalzemeIds = [28, 30, 24, 25, 31, 32];
         } else if (day === "60 DAY") {
-            ignoreMalzemeIds = [28, 29, 24,25, 31,32];
+            ignoreMalzemeIds = [28, 29, 24, 25, 31, 32];
         } else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
 
-       
-        
+
+
 
         // Dışlananlar hariç malzemeleri filtrele
         const hedefMalzemeler = rows.filter(row => !ignoreMalzemeIds.includes(row.malzeme_id));
@@ -1327,7 +1009,7 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
         // Her bir ürün 120 adet eksiltmeyi karşılayabiliyor mu kontrol et
         const yetersizler = hedefMalzemeler.filter(row => row.urun_malzeme_adet < adet);
 
-       
+
 
         if (yetersizler.length > 0) {
 
@@ -1336,12 +1018,12 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
             // return;
         }
 
-        
+
 
 
         for (let row of hedefMalzemeler) {
 
-        
+
 
             await db.execute(
                 "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
@@ -1349,12 +1031,12 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
             );
 
             // console.log(`✔ ${row.malzeme_id} ID'li malzemeden ${adet} adet eksiltildi.`);
-            
+
         }
 
         console.log(`${ignoreMalzemeIds} ler hariç tüm malzemeler eksiltildi`);
 
-         // 24 ve 25 için özel eksiltme
+        // 24 ve 25 için özel eksiltme
         for (let row of kutularEksiltme) {
             if (row.malzeme_id === 24) {
                 await db.execute(
@@ -1372,32 +1054,32 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
             }
         }
 
-        for(let row of tekliÜrünlerEksiltme){
-            if(row.malzeme_id === 31) {
+        for (let row of tekliÜrünlerEksiltme) {
+            if (row.malzeme_id === 31) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 31]);
                 console.log(`GZC24 için 31 id li malzemeden ${cihazKutu} kadar azaltıldı`);
-            }else if (row.malzeme_id === 32) {
+            } else if (row.malzeme_id === 32) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 32])
                 console.log(`GZC24 için 32 id li malzemeden ${cihazKutu} kadar azaltıldı`);
-            }else{
+            } else {
                 console.log("31 ve 32 eksiltilemedi")
             }
         }
-        
+
 
     } catch (error) {
         console.log("❌ gzc24 Malzeme Çekme Hatası:", error.message);
         return res.status(500).json({ message: error.message });
 
     }
-    
+
     //////////////////gzc24 listeye ekleme //////////////////////
-    
+
     try {
-        
+
         await db.execute("INSERT INTO gzc24_uretim_kayit (gzc24_kutu_sayisi, gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date) VALUES (?,?,?,?)", [cihazKutu, adet, day, date])
 
-       
+
 
         console.log("başarı ile kayıt edildi");
 
@@ -1420,12 +1102,12 @@ router.get("/gzc24/get/urun/kayit", async function (req, res) {
 
     try {
 
-        const [gzc24UrunKayitList ] = await  db.execute("SELECT urun_İd , gzc24_kutu_sayisi ,gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date FROM gzc24_uretim_kayit ")
+        const [gzc24UrunKayitList] = await db.execute("SELECT urun_İd , gzc24_kutu_sayisi ,gzc24_uretim_adet, gzc24_uretim_day, gzc24_uretim_date FROM gzc24_uretim_kayit ")
 
         res.json(gzc24UrunKayitList);
 
 
-        
+
     } catch (error) {
         console.log("gzc24 urun kayıt çekme hatası", error);
     }
@@ -1474,14 +1156,14 @@ router.post("/gold/Anyday/post", async (req, res) => {
             )
         `);
 
-        
+
 
         const [tekliÜrünlerEksiltme] = await db.execute(
             "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (23,27, 28, 29, 30)"
 
         );
 
-         const [tekliEtketEksiltme] = await db.execute(
+        const [tekliEtketEksiltme] = await db.execute(
             "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (31, 32)"
 
         );
@@ -1490,17 +1172,17 @@ router.post("/gold/Anyday/post", async (req, res) => {
             "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
         );
 
-        
+
 
 
         let ignoreMalzemeIds = []; // En başta tanımla
 
         if (day === "20 DAY") {
-            ignoreMalzemeIds = [29, 30, 24,25, 31,32];
+            ignoreMalzemeIds = [29, 30, 24, 25, 31, 32];
         } else if (day === "40 DAY") {
-            ignoreMalzemeIds = [28, 30, 24,25, 31,32];
+            ignoreMalzemeIds = [28, 30, 24, 25, 31, 32];
         } else if (day === "60 DAY") {
-            ignoreMalzemeIds = [28, 29, 24,25, 31,32];
+            ignoreMalzemeIds = [28, 29, 24, 25, 31, 32];
         } else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
@@ -1508,7 +1190,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
 
         try {
 
-             // Dışlananlar hariç malzemeleri filtrele
+            // Dışlananlar hariç malzemeleri filtrele
             const hedefMalzemeler = rows.filter(row => !ignoreMalzemeIds.includes(row.malzeme_id));
 
             // Her bir ürün 120 adet eksiltmeyi karşılayabiliyor mu kontrol et
@@ -1524,14 +1206,14 @@ router.post("/gold/Anyday/post", async (req, res) => {
             for (let row of hedefMalzemeler) {
 
                 await db.execute(
-                "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1004 AND malzeme_id = ?",
-                [adet, row.malzeme_id]
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1004 AND malzeme_id = ?",
+                    [adet, row.malzeme_id]
 
-            );
+                );
 
-            // console.log(`✔ ${row.malzeme_id} ID'li malzemeden ${adet} adet eksiltildi.`);
-            
-        }
+                // console.log(`✔ ${row.malzeme_id} ID'li malzemeden ${adet} adet eksiltildi.`);
+
+            }
 
         } catch (error) {
             return res.status(400).json({ message: error.message });
@@ -1548,11 +1230,11 @@ router.post("/gold/Anyday/post", async (req, res) => {
         // }
 
 
-        
+
 
         console.log(`${ignoreMalzemeIds} ler hariç tüm malzemeler eksiltildi`);
 
-         // 24 ve 25 için özel eksiltme
+        // 24 ve 25 için özel eksiltme
         for (let row of kutularEksiltme) {
             if (row.malzeme_id === 24) {
                 await db.execute(
@@ -1570,21 +1252,21 @@ router.post("/gold/Anyday/post", async (req, res) => {
             }
         }
 
-        for(let row of tekliÜrünlerEksiltme){
+        for (let row of tekliÜrünlerEksiltme) {
 
-            if(row.malzeme_id === 27 || row.malzeme_id === 23) {
+            if (row.malzeme_id === 27 || row.malzeme_id === 23) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, row.malzeme_id]);
                 console.log(`GOLD için 27 ve 23 id li malzemeden ${adet} kadar azaltıldı`);
-            }else if (day === "20 DAY" && row.malzeme_id === 28) {
+            } else if (day === "20 DAY" && row.malzeme_id === 28) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 28])
                 console.log(`GOLD için 28 id li malzemeden ${adet} kadar azaltıldı`);
-            }else if (day === "40 DAY" && row.malzeme_id === 29) {
+            } else if (day === "40 DAY" && row.malzeme_id === 29) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 29])
                 console.log(`GOLD için 29 id li malzemeden ${adet} kadar azaltıldı`);
-            }else if (day === "60 DAY" && row.malzeme_id === 30) {
+            } else if (day === "60 DAY" && row.malzeme_id === 30) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 30])
                 console.log(`GOLD için 30 id li malzemeden ${adet} kadar azaltıldı`);
-            }else {
+            } else {
                 console.log("27,28,29 ve 30 eksiltilemedi")
             }
 
@@ -1592,34 +1274,34 @@ router.post("/gold/Anyday/post", async (req, res) => {
 
         /////////////////////////////////////////////////////////
 
-        for(let row of tekliEtketEksiltme){
-            if(row.malzeme_id === 31) {
+        for (let row of tekliEtketEksiltme) {
+            if (row.malzeme_id === 31) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 31]);
                 console.log(`GZC24 için 31 id li malzemeden ${cihazKutu} kadar azaltıldı`);
-            }else if (row.malzeme_id === 32) {
+            } else if (row.malzeme_id === 32) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 32])
                 console.log(`GZC24 için 32 id li malzemeden ${cihazKutu} kadar azaltıldı`);
-            }else{
+            } else {
                 console.log("31 ve 32 eksiltilemedi")
             }
         }
 
-        
-        
+
+
 
     } catch (error) {
         console.log("❌ gold Malzeme Çekme Hatası:", error.message);
         return res.status(500).json({ message: error.message });
 
     }
-    
+
     //////////////////gold listeye ekleme //////////////////////
-    
+
     try {
-        
+
         await db.execute("INSERT INTO gold_uretim_kayit (gold_kutu_sayisi, gold_uretim_adet, gold_uretim_day, gold_uretim_date) VALUES (?,?,?,?)", [cihazKutu, adet, day, date])
 
-       
+
 
         console.log("başarı ile kayıt edildi");
 
@@ -1643,12 +1325,12 @@ router.get("/gold/get/urun/kayit", async function (req, res) {
 
     try {
 
-        const [goldUrunKayitList ] = await  db.execute("SELECT urun_İd , gold_kutu_sayisi ,gold_uretim_adet, gold_uretim_day, gold_uretim_date FROM gold_uretim_kayit ")
+        const [goldUrunKayitList] = await db.execute("SELECT urun_İd , gold_kutu_sayisi ,gold_uretim_adet, gold_uretim_day, gold_uretim_date FROM gold_uretim_kayit ")
 
         res.json(goldUrunKayitList);
 
 
-        
+
     } catch (error) {
         console.log("GOLD urun kayıt çekme hatası", error);
     }
@@ -1666,7 +1348,7 @@ router.get("/gold/get/urun/kayit", async function (req, res) {
 
 router.post("/etilen/uretim/post", async function (req, res) {
 
-    const { uretimKutu, uretim, date} = req.body;
+    const { uretimKutu, uretim, date } = req.body;
 
     console.log(req.body)
 
@@ -1674,20 +1356,20 @@ router.post("/etilen/uretim/post", async function (req, res) {
 
         await db.execute("INSERT INTO etilen_s (etilen_uretim_kutu, etilen_uretim_adet, etilen_uretim_tarih ) VALUES (?,?,?)", [uretimKutu, uretim, date])
 
-       
+
 
         console.log("başarı ile kayıt edildi");
 
 
 
 
-        
+
     } catch (error) {
         console.log("etilen üretim kayıt hatası", error);
     }
 
 
-   
+
 
 
 
@@ -1695,14 +1377,14 @@ router.post("/etilen/uretim/post", async function (req, res) {
 })
 
 
-router.get("/etilen/uretim/get", async function ( req, res)  {
+router.get("/etilen/uretim/get", async function (req, res) {
     try {
 
-        const [etilenUretim] =  await db.execute("SELECT id_etilen, etilen_uretim_kutu , etilen_uretim_adet , etilen_uretim_tarih FROM etilen_s")
+        const [etilenUretim] = await db.execute("SELECT id_etilen, etilen_uretim_kutu , etilen_uretim_adet , etilen_uretim_tarih FROM etilen_s")
 
         res.json(etilenUretim);
 
-        
+
     } catch (error) {
         console.log("etilen üretim kayıt çekme hatası", error);
     }
@@ -1719,28 +1401,28 @@ router.get("/etilen/uretim/get", async function ( req, res)  {
 
 router.post("/etilen/jenerator/uretim/post", async function (req, res) {
 
-    const { uretimKutu,  date} = req.body;
+    const { uretimKutu, date } = req.body;
 
     console.log(req.body)
 
     try {
 
-        await db.execute("INSERT INTO etilen_jenerator ( etilen_jenerator_adet, etilen_jenerator_date ) VALUES (?,?)", [uretimKutu,  date])
+        await db.execute("INSERT INTO etilen_jenerator ( etilen_jenerator_adet, etilen_jenerator_date ) VALUES (?,?)", [uretimKutu, date])
 
-       
+
 
         console.log("başarı ile kayıt edildi");
 
 
 
 
-        
+
     } catch (error) {
         console.log("etilen üretim kayıt hatası", error);
     }
 
 
-   
+
 
 
 
@@ -1748,14 +1430,14 @@ router.post("/etilen/jenerator/uretim/post", async function (req, res) {
 })
 
 
-router.get("/etilen/jenerator/uretim/get", async function ( req, res)  {
+router.get("/etilen/jenerator/uretim/get", async function (req, res) {
     try {
 
-        const [etilenUretim] =  await db.execute("SELECT jenerator_id, etilen_jenerator_adet , etilen_jenerator_date FROM etilen_jenerator")
+        const [etilenUretim] = await db.execute("SELECT jenerator_id, etilen_jenerator_adet , etilen_jenerator_date FROM etilen_jenerator")
 
         res.json(etilenUretim);
 
-        
+
     } catch (error) {
         console.log("etilen üretim kayıt çekme hatası", error);
     }
@@ -1787,21 +1469,21 @@ router.post("/casus/Anyday/post", async (req, res) => {
             "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1005 AND malzeme_id IN (49, 50)"
         );
 
-        
+
 
 
         let ignoreMalzemeIds = []; // En başta tanımla
 
         if (day === "40 DAY") {
-            ignoreMalzemeIds = [48,49,50];
+            ignoreMalzemeIds = [48, 49, 50];
         } else if (day === "75 DAY") {
-            ignoreMalzemeIds = [47,49,50];
-        }else {
+            ignoreMalzemeIds = [47, 49, 50];
+        } else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
 
 
-        
+
 
         // Dışlananlar hariç malzemeleri filtrele
         const hedefMalzemeler = rows.filter(row => !ignoreMalzemeIds.includes(row.malzeme_id));
@@ -1816,7 +1498,7 @@ router.post("/casus/Anyday/post", async (req, res) => {
 
         for (let row of hedefMalzemeler) {
 
-        
+
 
             await db.execute(
                 "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1005 AND malzeme_id = ?",
@@ -1824,12 +1506,12 @@ router.post("/casus/Anyday/post", async (req, res) => {
             );
 
             // console.log(`✔ ${row.malzeme_id} ID'li malzemeden ${adet} adet eksiltildi.`);
-            
+
         }
 
         console.log(`${ignoreMalzemeIds} ler hariç tüm malzemeler eksiltildi`);
 
-         // 49 ve 50 için özel eksiltme
+        // 49 ve 50 için özel eksiltme
         for (let row of kutularEksiltme) {
             if (row.malzeme_id === 49) {
                 await db.execute(
@@ -1846,21 +1528,21 @@ router.post("/casus/Anyday/post", async (req, res) => {
                 console.log(`✔ 50 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
             }
         }
-        
+
 
     } catch (error) {
         console.log("❌ gzc24 Malzeme Çekme Hatası:", error.message);
         return res.status(500).json({ message: error.message });
 
     }
-    
+
     //////////////////casus listeye ekleme //////////////////////
-    
+
     try {
-        
+
         await db.execute("INSERT INTO casus_uretim (casus_uretim_kutu_adet, casus_uretim_adet, casus_uretim_day, casus_uretim_date) VALUES (?,?,?,?)", [cihazKutu, adet, day, date])
 
-       
+
 
         console.log("başarı ile kayıt edildi");
 
@@ -1880,12 +1562,12 @@ router.get("/casus/get/urun/kayit", async function (req, res) {
 
     try {
 
-        const [casusUrunKayitList ] = await  db.execute("SELECT casus_id , casus_uretim_kutu_adet ,casus_uretim_adet, casus_uretim_day, casus_uretim_date FROM casus_uretim ")
+        const [casusUrunKayitList] = await db.execute("SELECT casus_id , casus_uretim_kutu_adet ,casus_uretim_adet, casus_uretim_day, casus_uretim_date FROM casus_uretim ")
 
         res.json(casusUrunKayitList);
 
 
-        
+
     } catch (error) {
         console.log("casus urun kayıt çekme hatası", error);
     }
@@ -1905,9 +1587,9 @@ router.get("/casus/get/urun/kayit", async function (req, res) {
 let barkodCounter = 0;
 
 router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
-    const { barkod , barkodDateSave } = req.body;
+    const { barkod, barkodDateSave } = req.body;
 
-    
+
 
     try {
 
@@ -1921,7 +1603,7 @@ router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
 
         const [midiBoxTrc60100Fınd] = await db.execute("SELECT luvinka_20_box_list_barkod FROM luvinka_20_box_list WHERE luvinka_20_box_list_barkod = ? ", [barkod]);
 
-        if(midiBoxTrc60100Fınd.length > 0){
+        if (midiBoxTrc60100Fınd.length > 0) {
             // return res.json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
             // return console.log("bu barkod zaten daha önceden eklenmiş");
             return res.status(409).json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
@@ -1935,12 +1617,12 @@ router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
         //     return res.status(400).json({ success: false, message: "LUVİNKA ALT MALZEMELERİNDE STOK YETERSİZ!" });
         // }
 
-        const luvinkatumMalzemeler = [...trc60urunMalzemeStok, ...luvinkaUrunMalzemeStok]; 
+        const luvinkatumMalzemeler = [...trc60urunMalzemeStok, ...luvinkaUrunMalzemeStok];
 
-         // Her malzeme için stok kontrolü //eğer stok 20 den az ise hata ver
-         for (let malzeme of luvinkatumMalzemeler ) {
-            const {urun_malzeme_adi, urun_malzeme_adet } = malzeme;
-            
+        // Her malzeme için stok kontrolü //eğer stok 20 den az ise hata ver
+        for (let malzeme of luvinkatumMalzemeler) {
+            const { urun_malzeme_adi, urun_malzeme_adet } = malzeme;
+
             // Eğer herhangi bir malzemenin stoğu 20'den azsa hata ver
             if (urun_malzeme_adet < 20) {
                 console.log(`MALZEME : ${urun_malzeme_adi} için stok yetersiz`);
@@ -1993,10 +1675,10 @@ router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
         }
 
         await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1006");
-       
-        
+
+
     } catch (error) {
-        
+
         console.log("Barkod 20 pcs kayıt hatası:", error);
         res.status(500).json({ message: "Veri eklenirken hata oluştu!" });
     }
@@ -2008,14 +1690,14 @@ router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
 router.get("/luvinka/barkod/data/save/get", async function (req, res) {
 
     try {
-        
+
         const [Luvinkabarkod20pcs,] = await db.execute("SELECT id_luvinka_20_box, luvinka_20_box_barkod , luvinka_20_box_date FROM luvinka_20_box");
 
         res.json(Luvinkabarkod20pcs);
 
-        
 
-       
+
+
 
 
     } catch (error) {
@@ -2025,24 +1707,24 @@ router.get("/luvinka/barkod/data/save/get", async function (req, res) {
 
     }
 
-    
+
 
 
 });
 
 
-router.get("/luvinka/barkod/data/save/get/box/number", async function (req,res) {
-    
-   try {
+router.get("/luvinka/barkod/data/save/get/box/number", async function (req, res) {
 
-        const [luvinka20pcskutuAdet] = await db.execute ("SELECT luvinka_20_box_barkod FROM luvinka_20_box");
+    try {
+
+        const [luvinka20pcskutuAdet] = await db.execute("SELECT luvinka_20_box_barkod FROM luvinka_20_box");
 
 
         res.json(luvinka20pcskutuAdet)
 
-   } catch (error) {
+    } catch (error) {
         console.log("number box", error);
-   }
+    }
 
 
 })
@@ -2053,20 +1735,20 @@ router.get("/luvinka/barkod/data/save/get/box/number", async function (req,res) 
 ///////////luvinka/////////20////list/////
 
 
-    router.get("/luvinka/20/box/barkod", async function (req, res) {
+router.get("/luvinka/20/box/barkod", async function (req, res) {
 
-        try {
+    try {
 
-            const [luvinkaBox20pcsListİtem ] = await db.execute("SELECT id_luvinka_20_box_list, luvinka_20_box_list_barkod, luvinka_20_box_list_date FROM luvinka_20_box_list");
+        const [luvinkaBox20pcsListİtem] = await db.execute("SELECT id_luvinka_20_box_list, luvinka_20_box_list_barkod, luvinka_20_box_list_date FROM luvinka_20_box_list");
 
-            res.json(luvinkaBox20pcsListİtem);
+        res.json(luvinkaBox20pcsListİtem);
 
-            
-        } catch (error) {
-            console.log("luvinka 20lik liste hatası", error);
-        }
-        
-    });
+
+    } catch (error) {
+        console.log("luvinka 20lik liste hatası", error);
+    }
+
+});
 
 
 
@@ -2077,18 +1759,18 @@ router.get("/luvinka/barkod/data/save/get/box/number", async function (req,res) 
 ////////////luvinka///////guncel/////stok/////
 
 router.get("/luvinka/guncel/stok/trc6020pcs", async function (req, res) {
-    
+
     try {
 
-        const [luvinkaguncelStock] = await db.execute ("SELECT  luvinka_20_box_list_barkod FROM luvinka_20_box_list");
+        const [luvinkaguncelStock] = await db.execute("SELECT  luvinka_20_box_list_barkod FROM luvinka_20_box_list");
 
         res.json(luvinkaguncelStock);
-        
+
     } catch (error) {
         console.log("güncel stok çekme hatası ", error);
-        
+
     }
-    
+
 
 });
 
@@ -2113,7 +1795,7 @@ router.get("/luvinka/checkBarkod20/:barkod", async (req, res) => {
             [barkod]
         );
 
-        
+
 
         // Eğer herhangi bir tabloda barkod varsa
         if (boxResult.length > 0 || listResult.length > 0) {
@@ -2132,7 +1814,7 @@ router.get("/luvinka/checkBarkod20/:barkod", async (req, res) => {
 
 
 router.post("/luvinka/save100lukuBox", async (req, res) => {
-    const { barkod100, barkod20List ,barkodDateFormat } = req.body;
+    const { barkod100, barkod20List, barkodDateFormat } = req.body;
 
     if (!barkod100 || barkod20List.length !== 5) {
         return res.status(400).json({ success: false, message: "Eksik veri gönderildi!" });
@@ -2141,7 +1823,7 @@ router.post("/luvinka/save100lukuBox", async (req, res) => {
     try {
         await db.execute(
             "INSERT INTO luvinka_100_box_list (luvinka_100_box_barkod, luvinka_col_1, luvinka_col_2, luvinka_col_3, luvinka_col_4, luvinka_col_5,luvinka_100_box_list_date) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [barkod100, ...barkod20List,barkodDateFormat]
+            [barkod100, ...barkod20List, barkodDateFormat]
         );
         res.json({ success: true });
     } catch (err) {
@@ -2155,7 +1837,7 @@ router.get("/luvinka/100/box/list/get", async function (req, res) {
 
     try {
 
-        const [luvinka100boxlistitem ] = await db.execute("SELECT id_luvinka_100_box_list, luvinka_100_box_barkod, luvinka_col_1, luvinka_col_2, luvinka_col_3, luvinka_col_4, luvinka_col_5, luvinka_100_box_list_date FROM luvinka_100_box_list")
+        const [luvinka100boxlistitem] = await db.execute("SELECT id_luvinka_100_box_list, luvinka_100_box_barkod, luvinka_col_1, luvinka_col_2, luvinka_col_3, luvinka_col_4, luvinka_col_5, luvinka_100_box_list_date FROM luvinka_100_box_list")
 
         res.json(luvinka100boxlistitem);
 
@@ -2164,7 +1846,7 @@ router.get("/luvinka/100/box/list/get", async function (req, res) {
     } catch (error) {
         console.log("100 lü liste veri çekme hatası", error)
     }
-    
+
 })
 
 
