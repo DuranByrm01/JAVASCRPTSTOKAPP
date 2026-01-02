@@ -3,28 +3,37 @@ const router = express.Router();
 
 const db = require("../data/db");
 
+router.get('/lowstocklimit/get', async function (req, res) {
 
+    try {
+
+        const [lowstockLimit] = await db.execute(
+            "SELECT urun_malzeme_adi FROM urunmalzemeleri;"
+        );
+
+        console.log("lowstockLimit çekildi");
+
+    } catch (error) {
+        console.log("lowlimit çalışmıyor")
+    }
+
+
+});
 
 router.get('/lowStock/get', async function (req, res) {
 
     try {
 
+        console.log("low çalıştı")
         // Önce 1000'in üzerinde olanların checked değerini sıfırla
         await db.execute(
             "UPDATE urunmalzemeleri SET checked = 0 WHERE urun_malzeme_adet >= 1000"
         );
 
-        const [lowstockLimit] = await db.execute(
-            "SELECT lowstock FROM urunmalzemeleri;"
-
-        );
 
         const [lowStock] = await db.execute(
             "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
         );
-
-
-        // console.log(lowstockLimit);
 
         res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
 
@@ -32,6 +41,8 @@ router.get('/lowStock/get', async function (req, res) {
 
         console.error("lowStock hatası", error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
+
+
 
     }
 

@@ -1,24 +1,4 @@
-// const config = {
-//     db: {
-//         host: "localhost",
-//         user: "root",
-//         password:"bayram22",
-//         database:"stockapp"
-//     }
 
-// }
-
-
-
-// const config = {
-//   db: {
-//     host: "mysql.railway.internal",
-//     user: "root",
-//     password: "krXAOdGGShBPwlZWITYAsSTMJMJKkQGl",
-//     database: "railway",
-//     port: 3306
-//   }
-// };
 
 
 require("dotenv").config();
