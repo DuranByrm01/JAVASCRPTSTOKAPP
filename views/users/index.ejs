@@ -212,6 +212,7 @@
         try {
           const response = await fetch('/lowStock/get');
           const lowStock = await response.json();
+          const lowStockLimit = await response.json();
 
           // Listeyi ekrana yazdır
           const alınacaklarList = document.querySelector(".alınacaklarList");
@@ -221,7 +222,7 @@
           lowStock.forEach(stockLow => {
             const listItem = document.createElement("li");
             listItem.className = "list-group-item list-group-item-action bg-primary  text-white mb-1";
-            listItem.innerHTML = `Malzeme Adı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adi}</strong>: Kalan Sayı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adet} = ${stockLow.lowStock}</strong> SİPARİŞ ÇEKİLECEK`;
+            listItem.innerHTML = `Malzeme Adı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adi}</strong>: Kalan Sayı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adet} = ${lowStockLimit.lowStock}</strong> SİPARİŞ ÇEKİLECEK`;
             alınacaklarList.appendChild(listItem);
 
 
