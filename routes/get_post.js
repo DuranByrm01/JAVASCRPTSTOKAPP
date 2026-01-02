@@ -3,35 +3,11 @@ const router = express.Router();
 
 const db = require("../data/db");
 
-router.get('/lowstocklimit/get', async function (req, res) {
 
-    try {
-
-        const [lowstockLimit] = await db.execute(
-            "SELECT lowstock FROM urunmalzemeleri;"
-        );
-
-
-        res.json(lowstockLimit);
-
-        console.log("lowstockLimit çekildi", lowstockLimit);
-
-
-    } catch (error) {
-        console.log("lowlimit çalışmıyor")
-        res.status(500).json({ message: "Low stock limit alınamadı" });
-    }
-
-
-});
 
 router.get('/lowStock/get', async function (req, res) {
 
     try {
-
-        const [lowstockLimit] = await db.execute(
-            "SELECT lowstock FROM urunmalzemeleri;"
-        );
 
         // Önce 1000'in üzerinde olanların checked değerini sıfırla
         await db.execute(
@@ -42,7 +18,7 @@ router.get('/lowStock/get', async function (req, res) {
 
 
         const [lowStock] = await db.execute(
-            "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < lowstock ORDER BY urun_malzeme_adet ASC;"
+            "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked,lowstock FROM urunmalzemeleri WHERE urun_malzeme_adet < lowstock ORDER BY urun_malzeme_adet ASC;"
         );
 
         res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder

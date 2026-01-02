@@ -228,7 +228,7 @@
 
             listItem.className = "list-group-item list-group-item-action bg-primary  text-white mb-1";
 
-            listItem.innerHTML = `Malzeme Adı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adi}</strong>: Kalan Sayı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adet}  </strong> SİPARİŞ ÇEKİLECEK`;
+            listItem.innerHTML = `Malzeme Adı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adi}</strong>: Kalan Sayı: <strong class="bg-warning p-1 text-black">${stockLow.urun_malzeme_adet}   </strong> SİPARİŞ ÇEKİLECEK / alt limit ${stockLow.lowstock}`;
 
             alınacaklarList.appendChild(listItem);
 
@@ -370,16 +370,6 @@
           console.log("urunler/uretim sayisi/get", error);
         }
 
-        try {
-
-          const response = await fetch('/lowstocklimit/get');
-          const lowstocklimit = await response.json();
-
-          console.log(lowstocklimit);
-
-        } catch (error) {
-          console.log("lowlimit error", error)
-        }
 
 
 
