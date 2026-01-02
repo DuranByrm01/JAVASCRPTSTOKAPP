@@ -210,6 +210,17 @@
       document.addEventListener('DOMContentLoaded', async () => {
 
         try {
+
+          const response = await fetch('/lowstocklimit/get');
+          const lowstocklimit = await response.json();
+
+          console.log(lowstocklimit)
+
+        } catch (error) {
+          console.log("lowlimit error", error)
+        }
+
+        try {
           const response = await fetch('/lowStock/get');
           const lowStock = await response.json();
 
