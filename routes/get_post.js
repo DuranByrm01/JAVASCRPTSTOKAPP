@@ -14,22 +14,25 @@ router.get('/lowStock/get', async function (req, res) {
             "UPDATE urunmalzemeleri SET checked = 0 WHERE urun_malzeme_adet >= 1000"
         );
 
+        const [lowstockLimit] = await db.execute(
+            "SELECT lowstock FROM urunmalzemeleri;"
+
+        );
+
         const [lowStock] = await db.execute(
             "SELECT urun_malzeme_adi, urun_malzeme_adet , malzeme_id , checked FROM urunmalzemeleri WHERE urun_malzeme_adet < 1000 ORDER BY urun_malzeme_adet ASC;"
         );
 
 
-        //  const  [gzc24mailRows] = await db.execute("SELECT gzc24_kutu_sayisi,gzc24_uretim_adet,gzc24_uretim_day,gzc24_uretim_date FROM gzc24_uretim_kayit WHERE DATE(gzc24_uretim_date) = CURDATE(); ");
+        // console.log(lowstockLimit);
 
-        // if(lowStock.length > 0){
-        //         sendLowStockEmail(lowStock,gzc24mailRows);
-        //         console.log("Mail başarıyla gönderildi.");
-        // }
+        res.json(lowStock,);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
 
-        res.json(lowStock);  // Malzeme miktarı 1000'in altında olan tüm kayıtları gönder
     } catch (error) {
+
         console.error("lowStock hatası", error);
         res.status(500).json({ message: 'Veritabanı hatası oluştu.' });
+
     }
 
 });
