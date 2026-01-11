@@ -1,399 +1,410 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <%- include("../partials/meta") %>
-    <title>TRC01 ÜRETİM SAYFASI</title>
+        <title>TRC01 ÜRETİM SAYFASI</title>
 </head>
+
 <body class="bg-dark">
     <%- include("../partials/nav") %>
 
-    <div class="container-xl bg-primary  mt-3 p-2 w-auto  rounded" >
+        <div class="container-xl bg-primary  mt-3 p-2 w-auto  rounded">
 
-        <%- include("../partials/uretımNav") %>
+            <%- include("../partials/uretımNav") %>
 
-        <h3 class="text-white text-center">TRC01 ÜRÜN KAYIT SAYFASI</h3>
-        <br>
-        <div class="d-flex justify-content-center align-items-center">
-            <img style="width: 150px;" src="/trc01/inkatech-trc01-tek-kullanimlik-otomati-f2-faf.png" alt="">
-        </div>
-        <br>
+                <h3 class="text-white text-center">TRC01 ÜRÜN KAYIT SAYFASI</h3>
+                <br>
+                <div class="d-flex justify-content-center align-items-center">
+                    <img style="width: 150px;" src="/trc01/inkatech-trc01-tek-kullanimlik-otomati-f2-faf.png" alt="">
+                </div>
+                <br>
 
-        <div class="container-xxl d-flex justify-content-center align-items-center flex-wrap  ">
+                <div class="container-xxl d-flex justify-content-center align-items-center flex-wrap  ">
 
-            <div class="d-flex flex-wrap mb-2">
+                    <div class="d-flex flex-wrap mb-2">
 
-                
 
-                <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
-                <h5 id="uretimMalzeme" class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
-                <h5 id="guncelStok" class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
-                
-            </div>
 
-            <div class=" container-xl d-flex justify-content-start align-items-center w-100   mb-2">
-                <button class="btn btn-warning   p-1 fs-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fa-solid fa-list mx-1 fs-5"></i> LİSTELER </button>
+                        <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong
+                                class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
+                        <h5 id="uretimMalzeme" class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ : <strong
+                                class=" bg-light text-black p-1 rounded">0000</strong></h5>
+                        <h5 id="guncelStok" class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK : <strong
+                                class=" bg-light text-black p-1 rounded">0000</strong></h5>
 
-                <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">ÜRÜN KAYIT LİSTELERİ</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
 
-                    <div class="offcanvas-body d-flex flex-column">
-                        
-                        <a class="btn btn-primary mb-2 p-3" href="/trc01-20barkod">TRC01 20 li KUTU</a>
-                        <a class="btn btn-primary mb-2 p-3" href="/trc01-100-box-tabs">TRC01 100 LÜ KUTU</a>
+                    <div class=" container-xl d-flex justify-content-start align-items-center w-100   mb-2">
+                        <button class="btn btn-warning   p-1 fs-5" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i
+                                class="fa-solid fa-list mx-1 fs-5"></i> LİSTELER </button>
 
-                        
+                        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1"
+                            id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">ÜRÜN KAYIT LİSTELERİ</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
+
+                            <div class="offcanvas-body d-flex flex-column">
+
+                                <a class="btn btn-primary mb-2 p-3" href="/trc01-20barkod">TRC01 20 li KUTU</a>
+                                <a class="btn btn-primary mb-2 p-3" href="/trc01-100-box-tabs">TRC01 100 LÜ KUTU</a>
+
+
+                            </div>
+
+                        </div>
                     </div>
+
+
+
+                    <div class="container-xxl d-flex justify-content-start align-items-center ">
+
+                        <input id="barkodİnput" class="form-control  w-auto me-1" type="text"
+                            placeholder="20 li kutu barkodu gir...">
+
+                        <button id="saveButton" class="btn btn-warning">KAYDET</button>
+
+
+                    </div>
+
+
+
+
+
 
                 </div>
-            </div>
-            
-            
 
-            <div class="container-xxl d-flex justify-content-start align-items-center ">
-
-                <input id="barkodİnput" class="form-control  w-auto me-1" type="text" placeholder="20 li kutu barkodu gir...">
-    
-                <button id="saveButton" class="btn btn-warning">KAYDET</button>
-                
-                
-            </div>
-
-            
-            
-            
-            
 
         </div>
 
-        
-    </div>
 
-
-    <div class=" container-xl createProduct bg-warning p-3 mt-2">
+        <div class=" container-xl createProduct bg-warning p-3 mt-2">
             <h5>Kayıt Edilen 20 Li Kutu Listesi</h5>
             <div style="max-height: 500px; overflow-y: auto;" id="barkodDataList20pcs" class="barkodList">
-                
+
                 <ul>
                     <li class="form-control mb-1 w-auto">1. <strong>10009999</strong> 02.03.25</li>
-                    
+
                 </ul>
             </div>
-    </div>
+        </div>
 
-    <script>
-        
+        <script>
 
-        let barkodİnput = document.querySelector("#barkodİnput");
-        let saveButton = document.querySelector("#saveButton");
 
-        
-        
+            let barkodİnput = document.querySelector("#barkodİnput");
+            let saveButton = document.querySelector("#saveButton");
 
-        saveButton.addEventListener("click", sendBarkod);
 
-        barkodİnput.addEventListener("keydown", function(event){
-            if(event.key === "Enter") {
-                sendBarkod();
-            }
-        });
 
-        window.onload = () => {
-            barkodİnput.focus();
-            barkodİnput.value = "";
 
-        };
-        
+            saveButton.addEventListener("click", sendBarkod);
 
-        async function sendBarkod() {
-            let barkod = barkodİnput.value.trim();
+            barkodİnput.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    sendBarkod();
+                }
+            });
 
-            let barkodRegex = /^[0-9]{8}$/;
-
-            if(!barkodRegex.test(barkod) || barkod === ""){
-
-                alert("HATALI BARKOD");
+            window.onload = () => {
                 barkodİnput.focus();
                 barkodİnput.value = "";
 
-                return;
-            }
+            };
 
-            try {
-                // Mevcut barkodları çek
-                const response = await fetch("/barkod/data/save/get/trc01");
-                const barkodList = await response.json();
 
-                // Barkodun listede olup olmadığını kontrol et
-                const exists = barkodList.some(item => item.trc01_20pcs_box_barkod === barkod);
+            async function sendBarkod() {
+                let barkod = barkodİnput.value.trim();
 
-                if (exists) {
-                    alert("Bu barkod zaten kayıtlı!");
+                let barkodRegex = /^[0-9]{8}$/;
+
+                if (!barkodRegex.test(barkod) || barkod === "") {
+
+                    alert("HATALI BARKOD");
                     barkodİnput.focus();
                     barkodİnput.value = "";
+
                     return;
                 }
-            } catch (error) {
-                alert("Hata barkod çekmede", error)
-            }
 
-            
-
-            const today = new Date();
-
-            const day = String(today.getDate()).padStart(2, "0");
-            const mounth = String(today.getMonth() + 1).padStart(2, "0");
-            const year = today.getFullYear();
-
-            const barkodDateFormat = `${day}.${mounth}.${year}`;
-
-            
-
-
-            try {
-                
-                let response = await fetch("barkod/data/save/trc01",{
-                    method: "POST",
-                    headers: {
-                        "content-Type": "application/json",
-
-                    },
-                    body: JSON.stringify({ barkod, barkodDateSave: barkodDateFormat }),
-
-                });
-
-                // Yanıtı text olarak oku
-                let responseText = await response.text();
-                
-                let responseData = {};
-
-                // JSON olup olmadığını kontrol et
                 try {
-                    responseData = responseText ? JSON.parse(responseText) : {}; 
-                } catch (jsonError) {
-                    console.error("JSON Parse Hatası:", jsonError);
-                }
-               
-                // Eğer response.ok false ise hata fırlat
-                if (!response.ok) {
+                    // Mevcut barkodları çek
+                    const response = await fetch("/barkod/data/save/get/trc01");
+                    const barkodList = await response.json();
 
-                    if (response.status === 400) {
-                        alert(responseData.message);
-                    } else if (response.status === 409) {
-                        alert("Bu barkod zaten eklenmiş!");
+                    // Barkodun listede olup olmadığını kontrol et
+                    const exists = barkodList.some(item => item.trc01_20pcs_box_barkod === barkod);
+
+                    if (exists) {
+                        alert("Bu barkod zaten kayıtlı!");
+                        barkodİnput.focus();
                         barkodİnput.value = "";
-                        
+                        return;
+                    }
+                } catch (error) {
+                    alert("Hata barkod çekmede", error)
+                }
 
-                    } else if (response.status === 500) {
-                        alert("Sunucu hatası! Lütfen daha sonra tekrar deneyin.");
-                    } else {
-                        alert(responseData.message || "Bilinmeyen bir hata oluştu.");
+
+
+                const today = new Date();
+
+                const day = String(today.getDate()).padStart(2, "0");
+                const mounth = String(today.getMonth() + 1).padStart(2, "0");
+                const year = today.getFullYear();
+
+                const barkodDateFormat = `${day}.${mounth}.${year}`;
+
+
+
+
+                try {
+
+                    let response = await fetch("barkod/data/save/trc01", {
+                        method: "POST",
+                        headers: {
+                            "content-Type": "application/json",
+
+                        },
+                        body: JSON.stringify({ barkod, barkodDateSave: barkodDateFormat }),
+
+                    });
+
+                    // Yanıtı text olarak oku
+                    let responseText = await response.text();
+
+                    let responseData = {};
+
+                    // JSON olup olmadığını kontrol et
+                    try {
+                        responseData = responseText ? JSON.parse(responseText) : {};
+                    } catch (jsonError) {
+                        console.error("JSON Parse Hatası:", jsonError);
                     }
 
-                    throw new Error(responseData.message);
-                     
+                    // Eğer response.ok false ise hata fırlat
+                    if (!response.ok) {
+
+                        if (response.status === 400) {
+                            alert(responseData.message);
+                        } else if (response.status === 409) {
+                            alert("Bu barkod zaten eklenmiş!");
+                            barkodİnput.value = "";
+
+
+                        } else if (response.status === 500) {
+                            alert("Ekleme esnasında bir hata oldu.");
+                        } else {
+                            alert(responseData.message || "Bilinmeyen bir hata oluştu.");
+                        }
+
+                        throw new Error(responseData.message);
+
+                    }
+
+
+
+                    barkodİnput.focus();
+                    barkodİnput.value = "";
+
+                    window.location.reload(); // Sayfayı yenile
+
+
+
+
+
+                } catch (error) {
+
+                    console.log("barkodSave", error);
+
+                    alert("barkod kayıt ederken bir sorunla karşılaşıldı");
+
+
+
                 }
 
-                
-                
-                barkodİnput.focus();
-                barkodİnput.value = "";
-
-                window.location.reload(); // Sayfayı yenile
-
-                
-               
-                
-
-            } catch (error) {
-
-                console.log("barkodSave", error);
-
-                alert("barkod kayıt ederken bir sorunla karşılaşıldı");
-
-               
 
             }
 
 
-        }
+            document.addEventListener("DOMContentLoaded", async function () {
 
-
-        document.addEventListener("DOMContentLoaded", async function () {
-            
-            try {
+                try {
 
 
 
-                const response = await fetch ("/barkod/data/save/get/trc01");
-                const barkod20pcsData = await response.json();
+                    const response = await fetch("/barkod/data/save/get/trc01");
+                    const barkod20pcsData = await response.json();
 
-                const barkodData20pcsList = document.querySelector("#barkodDataList20pcs");
+                    const barkodData20pcsList = document.querySelector("#barkodDataList20pcs");
 
-                barkodData20pcsList.innerHTML = "";
+                    barkodData20pcsList.innerHTML = "";
 
-                barkod20pcsData.reverse().forEach(barkodData => {
+                    barkod20pcsData.reverse().forEach(barkodData => {
 
-                    
 
-                    barkodData20pcsList.innerHTML += `
+
+                        barkodData20pcsList.innerHTML += `
                         <li class="form-control mb-1 w-auto">${barkodData.id_trc01_20pcs_box} <strong>${barkodData.trc01_20pcs_box_barkod}</strong> ${barkodData.trc01_20pcs_box_date}</li>
                     `;
 
-                    
-                });
 
-
-                
-            } catch (error) {
-                alert("barkod data çekme hatası", error);
-            }
-
-            try {
+                    });
 
 
 
-                const response = await fetch("/barkod/data/save/get/box/number/trc01");
-                const stokadet = await response.json();
+                } catch (error) {
+                    alert("barkod data çekme hatası", error);
+                }
 
-                const uretimMiktari = document.querySelector("#uretimMiktari");
-
-                uretimMiktari.innerHTML = "";
-
-                
-                let stoksayısı =  stokadet.length * 20;
-
-                uretimMiktari.innerHTML = `ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">${stoksayısı}</strong>`;
-
-                
-            } catch (error) {
-                console.log("stok sayısı güncelleme hatası", error);
-            }
-
-            try {
-
-                const response = await fetch("/urunler/uretimSayiTrc01/get");
-
-                const trc01ProductNumber = await response.json();
-
-                const trc01uretimMalzeme = document.querySelector("#uretimMalzeme");
-                
-                trc01ProductNumber.forEach(data => {
-                    trc01uretimMalzeme.innerHTML = `ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">${data.urun_malzeme_adet}</strong>`;
-                });
-
-                
-
-                
-            } catch (error) {
-                console.log("trc60ÜretimSayısı", error);
-            }
-
-
-            try {
-
-               
-                const response = await fetch("/trc01/guncel/stok/trc0120pcs");
-                const trc01GuncelStok = await response.json();
-
-                const guncelStok = document.querySelector("#guncelStok");
-
-                let guncelStokTrc60 = trc01GuncelStok.length * 20;
-
-                
-
-                guncelStok.innerHTML = `TOPLAM ÜRETİLMİŞ ÜRÜN : <strong class=" bg-light text-black p-1 rounded me-auto">${guncelStokTrc60}</strong>`;
-
-                
-            } catch (error) {
-                console.log("Güncel STOK ÇEKME HATASI", error);
-                alert("GÜNCEL STOK ÇEKME HATASI");
-            }
-
-            
-        });
-
-        
-
-        
+                try {
 
 
 
-    </script>
+                    const response = await fetch("/barkod/data/save/get/box/number/trc01");
+                    const stokadet = await response.json();
 
-    <script>
+                    const uretimMiktari = document.querySelector("#uretimMiktari");
 
-      document.addEventListener("DOMContentLoaded", () => {
-          const role = localStorage.getItem("role");
-          const userAllowedPages = ["/liveScreen", "/urunList"];
-          const currentPath = window.location.pathname;
+                    uretimMiktari.innerHTML = "";
 
-          if (role === "user" && !userAllowedPages.includes(currentPath)) {
-            alert("Bu sayfaya erişiminiz yok.");
-            window.location.href = "/liveScreen";
-          }
 
-          // logoutBtn varsa event ekle
-          const logoutBtn = document.getElementById("logoutBtn");
-          if (logoutBtn) {
-            logoutBtn.addEventListener("click", (e) => {
-              e.preventDefault();
-              localStorage.clear();
-              window.location.href = "/login";
+                    let stoksayısı = stokadet.length * 20;
+
+                    uretimMiktari.innerHTML = `ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">${stoksayısı}</strong>`;
+
+
+                } catch (error) {
+                    console.log("stok sayısı güncelleme hatası", error);
+                }
+
+                try {
+
+                    const response = await fetch("/urunler/uretimSayiTrc01/get");
+
+                    const trc01ProductNumber = await response.json();
+
+                    const trc01uretimMalzeme = document.querySelector("#uretimMalzeme");
+
+                    trc01ProductNumber.forEach(data => {
+                        trc01uretimMalzeme.innerHTML = `ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">${data.urun_malzeme_adet}</strong>`;
+                    });
+
+
+
+
+                } catch (error) {
+                    console.log("trc60ÜretimSayısı", error);
+                }
+
+
+                try {
+
+
+                    const response = await fetch("/trc01/guncel/stok/trc0120pcs");
+                    const trc01GuncelStok = await response.json();
+
+                    const guncelStok = document.querySelector("#guncelStok");
+
+                    let guncelStokTrc60 = trc01GuncelStok.length * 20;
+
+
+
+                    guncelStok.innerHTML = `TOPLAM ÜRETİLMİŞ ÜRÜN : <strong class=" bg-light text-black p-1 rounded me-auto">${guncelStokTrc60}</strong>`;
+
+
+                } catch (error) {
+                    console.log("Güncel STOK ÇEKME HATASI", error);
+                    alert("GÜNCEL STOK ÇEKME HATASI");
+                }
+
+
             });
-          }
-
-          const user = JSON.parse(localStorage.getItem("user"));
-          if (user && user.expires < Date.now()) {
-            localStorage.clear();
-            alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
-            window.location.href = "/login";
-          }
-      });
-
-
-      //////////////////////////////////////////////////////////////////////////////
-
-      document.addEventListener("DOMContentLoaded", () => {
-          const userStr = localStorage.getItem("user");
-          if (!userStr) {
-            // user yoksa direk login
-            window.location.href = "/login";
-            return;
-          }
-
-          let user = null;
-          try {
-            user = JSON.parse(userStr);
-          } catch (e) {
-            // parse hatası olursa da login
-            window.location.href = "/login";
-            return;
-          }
-
-          // expires kontrolü
-          if (!user.expires || user.expires < Date.now()) {
-            localStorage.clear();
-            window.location.href = "/login";
-            return;
-          }
-
-          // role kontrolü
-          if (user.role !== "admin" && user.role !== "user") {
-            window.location.href = "/login";
-            return;
-          }
-
-          // Tüm kontroller geçerse sayfada kal, gerekirse devam et
-          console.log("Giriş doğrulandı:", user.username, user.role);
-      });
 
 
 
-    </script>
+
+
+
+
+        </script>
+
+        <script>
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const role = localStorage.getItem("role");
+                const userAllowedPages = ["/liveScreen", "/urunList"];
+                const currentPath = window.location.pathname;
+
+                if (role === "user" && !userAllowedPages.includes(currentPath)) {
+                    alert("Bu sayfaya erişiminiz yok.");
+                    window.location.href = "/liveScreen";
+                }
+
+                // logoutBtn varsa event ekle
+                const logoutBtn = document.getElementById("logoutBtn");
+                if (logoutBtn) {
+                    logoutBtn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        localStorage.clear();
+                        window.location.href = "/login";
+                    });
+                }
+
+                const user = JSON.parse(localStorage.getItem("user"));
+                if (user && user.expires < Date.now()) {
+                    localStorage.clear();
+                    alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
+                    window.location.href = "/login";
+                }
+            });
+
+
+            //////////////////////////////////////////////////////////////////////////////
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const userStr = localStorage.getItem("user");
+                if (!userStr) {
+                    // user yoksa direk login
+                    window.location.href = "/login";
+                    return;
+                }
+
+                let user = null;
+                try {
+                    user = JSON.parse(userStr);
+                } catch (e) {
+                    // parse hatası olursa da login
+                    window.location.href = "/login";
+                    return;
+                }
+
+                // expires kontrolü
+                if (!user.expires || user.expires < Date.now()) {
+                    localStorage.clear();
+                    window.location.href = "/login";
+                    return;
+                }
+
+                // role kontrolü
+                if (user.role !== "admin" && user.role !== "user") {
+                    window.location.href = "/login";
+                    return;
+                }
+
+                // Tüm kontroller geçerse sayfada kal, gerekirse devam et
+                console.log("Giriş doğrulandı:", user.username, user.role);
+            });
+
+
+
+        </script>
 
 </body>
+
 </html>

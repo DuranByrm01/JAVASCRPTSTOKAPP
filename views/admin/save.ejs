@@ -9,103 +9,110 @@
 <body class="bg-dark">
   <%- include("../partials/nav") %>
 
-  <main class="bg-dark">
+    <main class="bg-dark">
 
-    <div class="text-white p-5">
-      
-      <table class="table text-white w-50 border mx-auto ">
-        <thead >
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">ÜRÜN ADI</th>
-            <th scope="col">ÜRÜN KEY</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>TRC60</td>
-            <td>1001</td>
-            
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>TRC01</td>
-            <td>1002</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td >GZC24</td>
-            <td >1003</td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td >GOLD</td>
-            <td >1004</td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td >CASUS</td>
-            <td >1005</td>
-          </tr>
-          <tr>
-            <th scope="row">6</th>
-            <td >LUVİNKA DT6001</td>
-            <td >1006</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div class="text-white p-5">
 
-    <div class="p-2">
-      <h3 class="text-white">ÜRÜN MALZEMESİ EKLEME</h3>
-      <ul class="text-white">
-        <li>Hangi ürüne malzeme ekleyecekseniz o ürünün key i ile ekleme yapın</li>
-        <li>Ürün malzeme pk ile ürün malzeme key i aynı olmak zorunda</li>
-        <li>Ürün malzeme girişi yaptıktan sonra malzeme adetini arttırma yada azaltma işini MALZEME GİRİŞ/ÇIKIŞ sayfasından yapınız</li>
-      </ul>
-    </div>
+        <table class="table text-white w-50 border mx-auto ">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ÜRÜN ADI</th>
+              <th scope="col">ÜRÜN KEY</th>
 
-    <div class="mx-auto p-2">
-      <form >
-        <input id="urunMalzemeAdi" class="w-25" placeholder="ürün malzemesinin adı" type="text" name="ürünMalzemesi">
-        <input id="urunMalzemePK" placeholder="ürün malzeme pk" type="text" name="ürünMalzemePK">
-        <input id="urunMalzemeKEY" placeholder="ürün malzeme key" type="text" name="ürünMalzemeKEY">
-        <button id="ürünEkleButton" class="btn btn-primary">ürün ekle</button>
-      </form>
-      
-    </div>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>TRC60</td>
+              <td>1001</td>
+
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>TRC01</td>
+              <td>1002</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>GZC24</td>
+              <td>1003</td>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+              <td>GOLD</td>
+              <td>1004</td>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+              <td>CASUS</td>
+              <td>1005</td>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+              <td>LUVİNKA DT6001</td>
+              <td>1006</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="container m-auto">
+        <div class="p-2">
+          <h3 class="text-white">ÜRÜN MALZEMESİ EKLEME</h3>
+          <ul class="text-white">
+            <li>Hangi ürüne malzeme ekleyecekseniz o ürünün key i ile ekleme yapın</li>
+            <li>Ürün malzeme girişi yaptıktan sonra malzeme adetini arttırma yada azaltma işini MALZEME GİRİŞ/ÇIKIŞ
+              sayfasından yapınız</li>
+          </ul>
+        </div>
+        <div class=" p-2">
+          <form>
+            <input id="urunMalzemeAdi" class="w-25" placeholder="ürün malzemesinin adı" type="text"
+              name="ürünMalzemesi">
+            <!-- <input id="urunMalzemePK" placeholder="ürün malzeme pk" type="text" name="ürünMalzemePK"> -->
+            <input id="urunMalzemeKEY" placeholder="ürün malzeme key" type="text" name="ürünMalzemeKEY">
+
+            <input id="urunAltLimit" placeholder="ürün alt limit" type="text" name="ürünAltLimit">
 
 
-  </main>
- 
-  <script>
+            <button id="ürünEkleButton" class="btn btn-primary">ürün ekle</button>
+          </form>
+        </div>
+      </div>
 
-    
 
-    const ürünEkle = document.querySelector("#ürünEkleButton");
+    </main>
 
-    ürünEkle.addEventListener("click", urunekleFanc);
+    <script>
 
-    async function urunekleFanc(){
-      const urunMalzemeAdi = document.querySelector("#urunMalzemeAdi");
-      const urunMalzemePK = document.querySelector("#urunMalzemePK");
-      const urunMalzemeKEY = document.querySelector("#urunMalzemeKEY");
 
-      let urunMalzemeAdiV = urunMalzemeAdi.value;
-      let urunMalzemePKv = urunMalzemePK.value;
-      let urunMalzemeKEYv = urunMalzemeKEY.value;
 
-      const formattedDate = new Intl.DateTimeFormat('tr-TR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: '2-digit'
-      }).format(new Date());
+      const ürünEkle = document.querySelector("#ürünEkleButton");
 
-      if(urunMalzemeAdiV ==="" || urunMalzemePKv === "" || urunMalzemeKEYv ==="" ){
-        alert("Lütfen bilgileri doğru giriniz...")
-      }else{
+      ürünEkle.addEventListener("click", urunekleFanc);
+
+      async function urunekleFanc() {
+        const urunMalzemeAdi = document.querySelector("#urunMalzemeAdi");
+        // const urunMalzemePK = document.querySelector("#urunMalzemePK");
+        const urunMalzemeKEY = document.querySelector("#urunMalzemeKEY");
+        const urunAltLimit = document.querySelector("#urunAltLimit");
+
+        let urunMalzemeAdiV = urunMalzemeAdi.value;
+        // let urunMalzemePKv = urunMalzemePK.value;
+        let urunMalzemeKEYv = urunMalzemeKEY.value;
+        let urunAltLimitv = urunAltLimit.value;
+
+        const formattedDate = new Intl.DateTimeFormat('tr-TR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit'
+        }).format(new Date());
+
+        if (urunMalzemeAdiV === "" || urunMalzemeKEYv === "" || urunAltLimitv === "") {
+          alert("Lütfen bilgileri eksiksiz giriniz...")
+        } else {
           try {
             const response = await fetch("/urun/malzeme", {
               method: "POST",
@@ -116,31 +123,33 @@
 
                 urunAdi: urunMalzemeAdiV,
                 urunAdet: 0,
-                urunPK: urunMalzemePKv,
+                urunPK: urunMalzemeKEYv,
                 urunKey: urunMalzemeKEYv,
+                checkedA: 0,
+                urunAltLimitA: urunAltLimitv,
                 // urunsavedate: formattedDate,
               }),
-            
+
             });
 
-           
-            
+
+
           } catch (error) {
-            console.log("ürün kayıt log eror",error)
+            console.log("ürün kayıt log eror", error)
           }
+        }
+
+
+
       }
 
-      
-
-    }
 
 
+    </script>
 
-  </script>
+    <script>
 
-  <script>
-      
-       document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("DOMContentLoaded", () => {
         const role = localStorage.getItem("role");
         const userAllowedPages = ["/liveScreen", "/urunList"];
         const currentPath = window.location.pathname;
@@ -172,44 +181,44 @@
       //////////////////////////////////////////////////////////////////////////////
 
       document.addEventListener("DOMContentLoaded", () => {
-          const userStr = localStorage.getItem("user");
-          if (!userStr) {
-            // user yoksa direk login
-            window.location.href = "/login";
-            return;
-          }
+        const userStr = localStorage.getItem("user");
+        if (!userStr) {
+          // user yoksa direk login
+          window.location.href = "/login";
+          return;
+        }
 
-          let user = null;
-          try {
-            user = JSON.parse(userStr);
-          } catch (e) {
-            // parse hatası olursa da login
-            window.location.href = "/login";
-            return;
-          }
+        let user = null;
+        try {
+          user = JSON.parse(userStr);
+        } catch (e) {
+          // parse hatası olursa da login
+          window.location.href = "/login";
+          return;
+        }
 
-          // expires kontrolü
-          if (!user.expires || user.expires < Date.now()) {
-            localStorage.clear();
-            window.location.href = "/login";
-            return;
-          }
+        // expires kontrolü
+        if (!user.expires || user.expires < Date.now()) {
+          localStorage.clear();
+          window.location.href = "/login";
+          return;
+        }
 
-          // role kontrolü
-          if (user.role !== "admin" && user.role !== "user") {
-            window.location.href = "/login";
-            return;
-          }
+        // role kontrolü
+        if (user.role !== "admin" && user.role !== "user") {
+          window.location.href = "/login";
+          return;
+        }
 
-          // Tüm kontroller geçerse sayfada kal, gerekirse devam et
-          console.log("Giriş doğrulandı:", user.username, user.role);
+        // Tüm kontroller geçerse sayfada kal, gerekirse devam et
+        console.log("Giriş doğrulandı:", user.username, user.role);
       });
 
 
     </script>
 
 
-    
+
 </body>
 
 </html>

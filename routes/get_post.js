@@ -268,9 +268,18 @@ router.get('/add/remove/log', async function (req, res) {
 router.get('/urunler/uretimSayisi/get', async function (req, res) {
 
     try {
-        const [trc60UretimSayisi] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1001' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
-        );
+        // const [trc60UretimSayisi] = await db.execute(
+        //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1001' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+        // );
+
+        const [trc60UretimSayisi] = await db.execute(`
+            SELECT urun_key, urun_malzeme_adet ,malzeme_id
+            FROM urunmalzemeleri 
+            WHERE urun_key = '1001'
+            AND malzeme_id NOT IN (8, 9,61)
+            ORDER BY urun_malzeme_adet ASC
+            LIMIT 1;
+        `);
 
 
         res.json(trc60UretimSayisi);
@@ -288,9 +297,18 @@ router.get('/urunler/uretimSayisi/get', async function (req, res) {
 router.get('/urunler/uretimSayiTrc01/get', async function (req, res) {
 
     try {
-        const [trc01UretimSayisi] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1002' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
-        );
+        // const [trc01UretimSayisi] = await db.execute(
+        //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1002' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+        // );
+
+        const [trc01UretimSayisi] = await db.execute(`
+            SELECT urun_key, urun_malzeme_adet ,malzeme_id
+            FROM urunmalzemeleri 
+            WHERE urun_key = '1002'
+            AND malzeme_id NOT IN (15, 16,65)
+            ORDER BY urun_malzeme_adet ASC
+            LIMIT 1;
+        `);
 
 
         res.json(trc01UretimSayisi);
@@ -308,9 +326,18 @@ router.get('/urunler/uretimSayiTrc01/get', async function (req, res) {
 router.get('/urunler/uretimSayiGZC24/get', async function (req, res) {
 
     try {
-        const [uretimSayiGZC24] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1003' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
-        );
+        // const [uretimSayiGZC24] = await db.execute(
+        //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1003' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+        // );
+
+        const [uretimSayiGZC24] = await db.execute(`
+            SELECT urun_key, urun_malzeme_adet ,malzeme_id
+            FROM urunmalzemeleri 
+            WHERE urun_key = '1003'
+            AND malzeme_id NOT IN (24, 25,66)
+            ORDER BY urun_malzeme_adet ASC
+            LIMIT 1;
+        `);
 
 
         res.json(uretimSayiGZC24);
@@ -338,7 +365,7 @@ router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
                 SELECT urun_key, urun_malzeme_adet 
                 FROM urunmalzemeleri 
                 WHERE urun_key = '1003' 
-                AND malzeme_id IN (24, 25, 27, 28, 29, 30, 31, 32)
+                AND malzeme_id IN (27, 28, 29, 30, 31, 32)
             )
             UNION ALL
             (
@@ -349,6 +376,7 @@ router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
             ORDER BY urun_malzeme_adet ASC
             LIMIT 1;
         `);
+
 
 
 
@@ -367,9 +395,15 @@ router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
 router.get('/urunler/uretimSayiCasus/get', async function (req, res) {
 
     try {
-        const [uretimSayicasus] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1005' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
-        );
+
+        const [uretimSayicasus] = await db.execute(`
+            SELECT urun_key, urun_malzeme_adet ,malzeme_id
+            FROM urunmalzemeleri 
+            WHERE urun_key = '1005'
+            AND malzeme_id NOT IN (55, 56)
+            ORDER BY urun_malzeme_adet ASC
+            LIMIT 1;
+        `);
 
 
         res.json(uretimSayicasus);
@@ -391,9 +425,18 @@ router.get('/urunler/uretimSayiluvinka/get', async function (req, res) {
         //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1006' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
         // );
 
-        const [uretimSayiluvinka] = await db.execute(
-            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key IN ('1006', '1001') ORDER BY urun_malzeme_adet ASC LIMIT 1;"
-        );
+        // const [uretimSayiluvinka] = await db.execute(
+        //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key IN ('1006', '1001') ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+        // );
+
+        const [uretimSayiluvinka] = await db.execute(`
+            SELECT urun_key, urun_malzeme_adet ,malzeme_id
+            FROM urunmalzemeleri 
+            WHERE urun_key IN ('1006', '1001')
+            AND malzeme_id NOT IN (8, 9,61)
+            ORDER BY urun_malzeme_adet ASC
+            LIMIT 1;
+        `);
 
 
 
@@ -418,16 +461,29 @@ router.get('/urunler/uretimSayiluvinka/get', async function (req, res) {
 
 router.post('/urun/malzeme', async (req, res) => {
 
-    const { urunAdi, urunAdet, urunPK, urunKey, } = req.body;
+    const { urunAdi, urunAdet, urunPK, urunKey, checkedA, urunAltLimitA } = req.body;
 
     // aynı üründen varsa ekleme diye kod yazılacak 
 
 
     try {
-        await db.execute("INSERT INTO urunmalzemeleri(urun_malzeme_adi,urun_malzeme_adet,urun_malzeme_PK,urun_key) VALUES (?,?,?,?)", [urunAdi, urunAdet, urunPK, urunKey])
-        res.redirect("/urunKayit");
+
+        await db.execute("INSERT INTO urunmalzemeleri(urun_malzeme_adi,urun_malzeme_adet,urun_malzeme_PK,urun_key,checked,lowstock) VALUES (?,?,?,?,?,?)", [urunAdi, urunAdet, urunPK, urunKey, checkedA, urunAltLimitA]);
+
+        console.log("ürün eklendindi", urunAdi, checkedA);
+
+
+        // res.redirect("/urunKayit");
+
+        res.json({ success: true });
+
+
     } catch (error) {
+
         console.log(error);
+
+        res.status(500).json({ success: false });
+
     }
 
 
@@ -519,7 +575,7 @@ router.post("/barkod/data/save", async (req, res) => {
             UPDATE urunmalzemeleri 
             SET urun_malzeme_adet = urun_malzeme_adet - 20 
             WHERE urun_key = 1001 
-            AND malzeme_id NOT IN (8,9)
+            AND malzeme_id NOT IN (8,9,61)
         `);
 
         // 2- id = 8 ➔ 1 azalt
@@ -527,7 +583,7 @@ router.post("/barkod/data/save", async (req, res) => {
             UPDATE urunmalzemeleri 
             SET urun_malzeme_adet = urun_malzeme_adet - 1 
             WHERE urun_key = 1001 
-            AND malzeme_id = 8
+            AND malzeme_id IN (8, 61)
         `);
 
         // 3- id = 9 ➔ 5 barkodda 1 azalt
@@ -734,9 +790,11 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
     try {
 
         //ürünmalzemeleri tablosundan trc01 ın alt mazlemeleri çek
-        // const [trc01urunMalzemeStok] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1002");
+        // const [trc01urunMalzemeKontrol] = await db.execute("SELECT urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1002");
 
-        const [trc01urunMalzemeStok] = await db.execute("SELECT malzeme_id, urun_malzeme_adi , urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1002");
+
+
+        const [trc01urunMalzemeStok] = await db.execute("SELECT malzeme_id, urun_malzeme_adi, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1002 AND malzeme_id NOT IN (15, 16, 65);");
 
         const [midiBoxTrc01100Fınd] = await db.execute("SELECT trc01_20pcs_box_list_barkod FROM trc01_20pcs_box_list WHERE trc01_20pcs_box_list_barkod = ? ", [barkod]);
 
@@ -746,6 +804,8 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
             return res.status(409).json({ success: false, message: "Bu barkod zaten daha önceden eklenmiş!" });
 
         }
+
+
 
         //eğer stok 20 den az ise hata ver
         // if(trc01urunMalzemeStok.length === 0 || trc01urunMalzemeStok[0].urun_malzeme_adet < 20){
@@ -772,9 +832,42 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
         res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
         // res.status(200).send();
 
+
+
         //stok yeterliyse 20 azalt 
 
-        await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1002");
+        // 1- Normal malzemeler (id 3,5,8,9 HARİÇ) ➔ 20 azalt
+        await db.execute(`
+            UPDATE urunmalzemeleri 
+            SET urun_malzeme_adet = urun_malzeme_adet - 20 
+            WHERE urun_key = 1002 
+            AND malzeme_id NOT IN (15,16,65)
+        `);
+
+        // 2- id = 8 ➔ 1 azalt
+        await db.execute(`
+            UPDATE urunmalzemeleri 
+            SET urun_malzeme_adet = urun_malzeme_adet - 1 
+            WHERE urun_key = 1002 
+            AND malzeme_id IN (15, 65)
+        `);
+
+        // 3- id = 9 ➔ 5 barkodda 1 azalt
+        barkodCountertrc60++;
+
+        if (barkodCountertrc60 >= 5) {
+            await db.execute(`
+                UPDATE urunmalzemeleri 
+                SET urun_malzeme_adet = urun_malzeme_adet - 1 
+                WHERE urun_key = 1002 
+                AND malzeme_id = 16
+            `);
+
+            barkodCountertrc60 = 0; // Sayaç sıfırlansın
+
+        }
+
+        // await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - 20 WHERE urun_key = 1002");
 
 
     } catch (error) {
@@ -965,7 +1058,7 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
         );
 
         const [kutularEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25 , 66)"
         );
 
         const [tekliÜrünlerEksiltme] = await db.execute(
@@ -976,10 +1069,15 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
         const [gzc24TumMalzemeler] = await db.execute("SELECT urun_malzeme_adi,urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = 1003 ");
 
         for (let malzeme of gzc24TumMalzemeler) {
+
             const { urun_malzeme_adi, urun_malzeme_adet } = malzeme;
-            console.log("malzemeler bulundu", urun_malzeme_adi);
+
+            // console.log("malzemeler bulundu", urun_malzeme_adi);
+
             if (urun_malzeme_adet < cihazKutu) {
+
                 throw new Error(`Malzeme : ${urun_malzeme_adi} için stok yetersiz işlem iptal edildi`);
+
                 // console.log(`Malzeme : ${urun_malzeme_adi} için stok yetersiz işlem iptal edildi`);
                 // return;
 
@@ -991,11 +1089,11 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
         let ignoreMalzemeIds = []; // En başta tanımla
 
         if (day === "20 DAY") {
-            ignoreMalzemeIds = [29, 30, 24, 25, 31, 32];
+            ignoreMalzemeIds = [29, 30, 24, 25, 31, 32, 66];
         } else if (day === "40 DAY") {
-            ignoreMalzemeIds = [28, 30, 24, 25, 31, 32];
+            ignoreMalzemeIds = [28, 30, 24, 25, 31, 32, 66];
         } else if (day === "60 DAY") {
-            ignoreMalzemeIds = [28, 29, 24, 25, 31, 32];
+            ignoreMalzemeIds = [28, 29, 24, 25, 31, 32, 66];
         } else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
@@ -1038,19 +1136,35 @@ router.post("/gzc24/Anyday/post", async (req, res) => {
 
         // 24 ve 25 için özel eksiltme
         for (let row of kutularEksiltme) {
+
             if (row.malzeme_id === 24) {
                 await db.execute(
                     "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
                     [cihazKutu, 24]
                 );
+
                 console.log(`✔ 24 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
+
             } else if (row.malzeme_id === 25) {
+
                 const azaltmaAdeti = Math.floor(cihazKutu / 3);
+
                 await db.execute(
                     "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
                     [azaltmaAdeti, 25]
                 );
+
                 console.log(`✔ 25 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
+
+            } else if (row.malzeme_id === 66) {
+
+                const koliazaltma = Math.floor(cihazKutu / 9);
+
+                await db.execute(
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
+                    [koliazaltma, 66]
+                );
+
             }
         }
 
@@ -1139,7 +1253,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
         // const [rows] = await db.execute(
         //     "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004"
         // );
-        console.log("🛬 İstek alındı:", req.body);
+        console.log(" İstek alındı:", req.body);
 
         const [rows] = await db.execute(`
             (
@@ -1152,14 +1266,14 @@ router.post("/gold/Anyday/post", async (req, res) => {
                 SELECT urun_key, urun_malzeme_adet, malzeme_id 
                 FROM urunmalzemeleri 
                 WHERE urun_key = 1003 
-                AND malzeme_id IN (23, 24, 25, 27, 28, 29, 30, 31, 32)
+                AND malzeme_id IN (23, 24, 25, 27, 28, 29, 30, 31, 32,68)
             )
         `);
 
 
 
         const [tekliÜrünlerEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (23,27, 28, 29, 30)"
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (23,27, 28, 29, 30,68)"
 
         );
 
@@ -1169,7 +1283,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
         );
 
         const [kutularEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25)"
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25,66)"
         );
 
 
@@ -1249,14 +1363,21 @@ router.post("/gold/Anyday/post", async (req, res) => {
                     [azaltmaAdeti, 25]
                 );
                 console.log(`✔ 25 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
+            } else if (row.malzeme_id === 66) {
+                const koliazaltma = Math.floor(cihazKutu / 9);
+                await db.execute(
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
+                    [koliazaltma, 66]
+                );
+                console.log(`✔ 25 numaralı malzemeden ${koliazaltma} adet eksiltildi.`);
             }
         }
 
         for (let row of tekliÜrünlerEksiltme) {
 
-            if (row.malzeme_id === 27 || row.malzeme_id === 23) {
+            if (row.malzeme_id === 27 || row.malzeme_id === 23 || row.malzeme_id === 68) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, row.malzeme_id]);
-                console.log(`GOLD için 27 ve 23 id li malzemeden ${adet} kadar azaltıldı`);
+                console.log(`GOLD için 27 ve 23 ve 68 id li malzemeden ${adet} kadar azaltıldı`);
             } else if (day === "20 DAY" && row.malzeme_id === 28) {
                 await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 28])
                 console.log(`GOLD için 28 id li malzemeden ${adet} kadar azaltıldı`);
@@ -1460,33 +1581,49 @@ router.post("/casus/Anyday/post", async (req, res) => {
 
     console.log(`Kutu sayısı ${cihazKutu} tarih ${date} üretim adeti ${adet} gün ayarı ${day}`);
 
+    console.log(`gün ayarı ${day}`);
+
     try {
         const [rows] = await db.execute(
             "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1005"
         );
 
+
+
         const [kutularEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1005 AND malzeme_id IN (49, 50)"
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1005 AND malzeme_id IN (55, 56)"
         );
 
 
 
 
-        let ignoreMalzemeIds = []; // En başta tanımla
+        let ignoreMalzemeIds = [];
 
-        if (day === "40 DAY") {
-            ignoreMalzemeIds = [48, 49, 50];
-        } else if (day === "75 DAY") {
-            ignoreMalzemeIds = [47, 49, 50];
-        } else {
+        if (day === "20 DAY") {
+            // 20 day üretimde sadece 49 çalışır
+            ignoreMalzemeIds = [50, 51, 55, 56];
+        }
+        else if (day === "40 DAY") {
+            // 40 day üretimde sadece 50 çalışır
+            ignoreMalzemeIds = [49, 51, 55, 56];
+        }
+        else if (day === "75 DAY") {
+            // 75 day üretimde sadece 51 çalışır
+            ignoreMalzemeIds = [49, 50, 55, 56];
+        }
+        else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
 
 
 
 
+
+
         // Dışlananlar hariç malzemeleri filtrele
         const hedefMalzemeler = rows.filter(row => !ignoreMalzemeIds.includes(row.malzeme_id));
+
+
 
         // Her bir ürün 120 adet eksiltmeyi karşılayabiliyor mu kontrol et
         const yetersizler = hedefMalzemeler.filter(row => row.urun_malzeme_adet < adet);
@@ -1513,25 +1650,25 @@ router.post("/casus/Anyday/post", async (req, res) => {
 
         // 49 ve 50 için özel eksiltme
         for (let row of kutularEksiltme) {
-            if (row.malzeme_id === 49) {
+            if (row.malzeme_id === 55) {
                 await db.execute(
                     "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1005 AND malzeme_id = ?",
-                    [cihazKutu, 49]
+                    [cihazKutu, 55]
                 );
-                console.log(`✔ 49 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
-            } else if (row.malzeme_id === 50) {
+                console.log(`✔ 55 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
+            } else if (row.malzeme_id === 56) {
                 const azaltmaAdeti = Math.floor(cihazKutu / 3);
                 await db.execute(
                     "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1005 AND malzeme_id = ?",
-                    [azaltmaAdeti, 50]
+                    [azaltmaAdeti, 56]
                 );
-                console.log(`✔ 50 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
+                console.log(`✔ 56 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
             }
         }
 
 
     } catch (error) {
-        console.log("❌ gzc24 Malzeme Çekme Hatası:", error.message);
+        console.log("❌ casus Malzeme Çekme Hatası:", error.message);
         return res.status(500).json({ message: error.message });
 
     }
@@ -1557,6 +1694,8 @@ router.post("/casus/Anyday/post", async (req, res) => {
 
 });
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 router.get("/casus/get/urun/kayit", async function (req, res) {
 
