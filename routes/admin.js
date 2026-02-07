@@ -1,29 +1,37 @@
 const express = require("express");
 const router = express.Router();
 
-const db = require("../data/db"); 
+const db = require("../data/db");
 
 const data = {
-    title : "Homepage",
-    
+    title: "Homepage",
+
 }
 
-router.get("/save",function(req, res){
-   try {
-       
-       res.render("admin/save", {
-           title:"STOCK APP"
-       });
-   } catch (error) {
+router.get("/save", function (req, res) {
+    try {
+
+        res.render("admin/save", {
+            title: "STOCK APP"
+        });
+    } catch (error) {
         console.log(error);
-   }
+    }
 });
 
-router.use("/gunlukList",function(req, res){
-    
+router.use("/gunlukList", function (req, res) {
+
     res.render("admin/gunlukList", {
-        title:"STOCK APP"
-        
+        title: "STOCK APP"
+
+    });
+});
+
+router.use("/sertifika", function (req, res) {
+
+    res.render("admin/sertifika", {
+        title: "SERTİFiKA APP"
+
     });
 });
 

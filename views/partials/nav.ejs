@@ -36,87 +36,92 @@
                 <a href="/deneme" class="nav-link">İZLEME EKRANI</a>
                 
             </li>
+
+            <li class="nav-item">
+
+                <a href="/Sertifika" class="nav-link">SERTİFİKA EKRANI</a>
+                
+            </li>
         </ul>
     </div>
 </nav> -->
 
 <style>
-  
-  .nav-link:hover{
+  .nav-link:hover {
     background-color: #FFC107;
     color: black;
-   
+
   }
 
-  
 
-  .nav-link.active{
+
+  .nav-link.active {
     background-color: #FFC107;
     color: white;
   }
-
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a href="/index" class="navbar-brand bg-warning p-2 rounded text-black fw-bold auth-link" data-roles="admin,user">
-            <%=title  %>
-        </a>
-      <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon "></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <!-- <li class="nav-item">
+  <div class="container-fluid">
+    <a href="/index" class="navbar-brand bg-warning p-2 rounded text-black fw-bold auth-link" data-roles="admin,user">
+      <%=title %>
+    </a>
+    <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon "></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- <li class="nav-item">
             <a href="/StockScreen" class="nav-link">ÜRÜN STOKLARI</a>
           </li> -->
-          <li class="nav-item">
-            <a href="/urunList" class="nav-link auth-link" data-roles="admin,user">ÜRÜN MALZEME STOKLARI</a>
-          </li>
-          <li class="nav-item">
-            <a href="/urunKayit" class="nav-link auth-link" data-roles="admin">MALZEME GİRİŞ/ÇIKIŞ</a>
-          </li>
-          <li class="nav-item">
-            <a href="/gunlukUretim" class="nav-link auth-link" data-roles="admin">GÜNLÜK KAYIT</a>
-          </li>
-          <li class="nav-item">
-            <a href="/admin/save" class="nav-link auth-link" data-roles="admin">MALZEME EKLE</a>
-          </li>
-          <li class="nav-item">
-            <a href="/admin/gunlukList" class="nav-link auth-link" data-roles="admin">ÜRETİM KAYITLARI</a>
-          </li>
-          <li class="nav-item">
-            <a href="/liveScreen" class="nav-link auth-link" data-roles="admin,user">İZLEME EKRANI</a>
-          </li>
+        <li class="nav-item">
+          <a href="/urunList" class="nav-link auth-link" data-roles="admin,user">ÜRÜN MALZEME STOKLARI</a>
+        </li>
+        <li class="nav-item">
+          <a href="/urunKayit" class="nav-link auth-link" data-roles="admin">MALZEME GİRİŞ/ÇIKIŞ</a>
+        </li>
+        <li class="nav-item">
+          <a href="/gunlukUretim" class="nav-link auth-link" data-roles="admin">GÜNLÜK KAYIT</a>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/save" class="nav-link auth-link" data-roles="admin">MALZEME EKLE</a>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/gunlukList" class="nav-link auth-link" data-roles="admin">ÜRETİM KAYITLARI</a>
+        </li>
+        <li class="nav-item">
+          <a href="/liveScreen" class="nav-link auth-link" data-roles="admin,user">İZLEME EKRANI</a>
+        </li>
 
-          <li class="nav-item">
-            <a href="/login" class="nav-link">GİRİŞ YAP</a>
-          </li>
+        <li class="nav-item">
+          <a href="/login" class="nav-link">GİRİŞ YAP</a>
+        </li>
 
-          <li class="nav-item">
+        <li class="nav-item">
 
-            <a id="logoutBtn" href="#" class="nav-link">ÇIKIŞ YAP</a>
-            
-          </li>
+          <a id="logoutBtn" href="#" class="nav-link">ÇIKIŞ YAP</a>
 
-        </ul>
-        
-      </div>
+        </li>
+
+      </ul>
+
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <script>
-    const role = localStorage.getItem("role");
+<script>
+  const role = localStorage.getItem("role");
 
-    document.querySelectorAll(".auth-link").forEach(link => {
-      const allowedRoles = link.dataset.roles.split(",");
-      if (!allowedRoles.includes(role)) {
-        link.style.display = "none";
-      }
-    });
-  </script>
+  document.querySelectorAll(".auth-link").forEach(link => {
+    const allowedRoles = link.dataset.roles.split(",");
+    if (!allowedRoles.includes(role)) {
+      link.style.display = "none";
+    }
+  });
+</script>
 
-  <!-- <script>
+<!-- <script>
     document.addEventListener("DOMContentLoaded", function () {
       const links = document.querySelectorAll(".nav-link");
   
@@ -145,4 +150,3 @@
       });
     });
   </script> -->
-  
