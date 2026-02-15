@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/meta") %>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+        <title>İNKATECH CERTİFİCATE STOCKAPP</title>
+</head>
+
+<body style="background-color: #212529; color: white;">
+
+    <%- include("../partials/nav") %>
+
+        <main class="d-flex justify-content-center align-items-center flex-column">
+
+            <div class="d-flex justify-content-center align-items-center" style="height:50vh;">
+                <div class="card p-4 bg-dark text-white" style="min-width:350px;">
+
+                    <h4 class="mb-3">Sertifika Oluştur</h4>
+
+                    <input id="aramaInput" class="form-control mb-3" placeholder="Kutu Barkod veya Cihaz ID">
+
+                    <button id="araBtn" class="btn btn-primary w-100 ">Ara & PDF Oluştur</button>
+
+                </div>
+            </div>
+
+
+
+            <div class="p-4 m-1" id="result"></div>
+
+        </main>
+
+
+
+
+        <script>
+
+            let araBtn = document.querySelector("#araBtn");
+
+            let cihazList = []; // global array
+
+
+
+            araBtn.addEventListener("click", async () => {
+
+                const codeT = document.querySelector("#aramaInput");
+
+                const code = codeT.value.trim();
+
+                if (!code) {
+                    alert("Kod girin");
+                    return;
+                }
+
+                try {
+                    const res = await fetch("/certificate/search", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ code })
+                    });
+
+                    const data = await res.json();
+                    console.log("Sunucudan gelen:", data);
+
+                    codeT.value = "";
+
+                    ////////////////////////////////////////////////////////////////
+
+                    const resultDiv = document.getElementById("result");
+                    resultDiv.innerHTML = ""; // Önceki sonuçları temizle
+
+                    if (data.success && data.data.length > 0) {
+
+                        data.data.forEach(row => {
+                            let ids = [];
+                            let barkod = "";
+                            let pdfTitle = "";
+                            let pdfDatalogger = "";
+
+                            // tabloya göre cihaz ID ve yazıları ayarla
+                            if (row.source_table === "trc60_20pcs_box") {
+                                for (let i = 1; i <= 20; i++) {
+                                    const key = `trc60_cihaz_id_${i}`;
+                                    if (row[key]) ids.push(row[key]);
+                                }
+                                barkod = row.trc60_20pcs_box_barkod;
+                                pdfTitle = "TRC60 PDF";
+                                pdfDatalogger = "TRC60 PDF DATALOGGER";
+                            } else if (row.source_table === "trc01_20pcs_box") {
+                                for (let i = 1; i <= 20; i++) {
+                                    const key = `trc01_cihaz_id_${i}`;
+                                    if (row[key]) ids.push(row[key]);
+                                }
+                                barkod = row.trc01_20pcs_box_barkod;
+                                pdfTitle = "TRC01 PDF";
+                                pdfDatalogger = "TRC01 PDF DATALOGGER";
+                            } else if (row.source_table === "luvinka_20_box") {
+                                for (let i = 1; i <= 20; i++) {
+                                    const key = `luvinka_cihaz_id_${i}`;
+                                    if (row[key]) ids.push(row[key]);
+                                }
+                                barkod = row.luvinka_20_box_barkod;
+                                pdfTitle = "LUVINKA PDF";
+                                pdfDatalogger = "LUVINKA PDF DATALOGGER";
+                            }
+
+                            cihazList = ids; // global array’e ata
+
+                            // const barkod = row.trc60_20pcs_box_barkod || row.trc01_20pcs_box_barkod || row.luvinka_20_box_barkod;
+
+                            resultDiv.innerHTML = `
+                                <h3>Kutu Barkodu: ${barkod}</h3>
+                                <p>Cihazlar: ${ids.join(", ")}</p>
+                                <button class="btn btn-primary"
+                                    onclick='pdfOlustur(
+                                        "${barkod}",
+                                        "${pdfTitle}",
+                                        "${pdfDatalogger}",
+                                        "${row.source_table}",
+                                        ${JSON.stringify(ids)}
+                                    )'>
+                                    PDF Oluştur
+                                </button>
+                                <hr>
+                            `;
+                        });
+                    } else {
+                        resultDiv.innerHTML = "<p>Kayıt bulunamadı</p>";
+                    }
+
+
+
+
+                } catch (err) {
+                    console.error("POST hatası:", err);
+                }
+
+
+            });
+
+
+
+
+
+
+            function cihazTablosuOlustur(cihazArray) {
+                let html = "";
+                for (let i = 0; i < cihazArray.length; i += 10) {
+                    html += "<tr>";
+                    for (let j = i; j < i + 10 && j < cihazArray.length; j++) {
+                        html += `<td style="border:1px solid black; text-align:center; padding:5px;">${cihazArray[j]}</td>`;
+                    }
+                    html += "</tr>";
+                }
+                return html;
+            }
+
+
+
+
+
+
+
+            function pdfOlustur(barkod, pdfTitle, pdfDatalogger, sourceTable, cihazArray) {
+
+                if (!cihazArray || cihazArray.length === 0) {
+                    alert("Cihaz listesi yok");
+                    return;
+                }
+
+                const kutuNo = barkod;
+
+
+
+
+                // Sertifika içeriğini bir HTML elementine yerleştiriyoruz
+                const simdikiTarih = new Date();
+                const gelecekYil = new Date(simdikiTarih);
+                gelecekYil.setFullYear(simdikiTarih.getFullYear() + 1);
+
+                // Şimdiki tarih formatlı
+                const simdikiYil = simdikiTarih.getFullYear();
+                const simdikiAy = String(simdikiTarih.getMonth() + 1).padStart(2, '0');
+                const simdikiGun = String(simdikiTarih.getDate()).padStart(2, '0');
+                const formatliBugun = `${simdikiYil}/${simdikiAy}/${simdikiGun}`;
+
+                // Gelecek yıl formatlı
+                const gelecekYilYil = gelecekYil.getFullYear();
+                const gelecekYilAy = String(gelecekYil.getMonth() + 1).padStart(2, '0');
+                const gelecekYilGun = String(gelecekYil.getDate()).padStart(2, '0');
+                const formatliGelecek = `${gelecekYilYil}/${gelecekYilAy}/${gelecekYilGun}`;
+
+                // Yazdır
+                console.log("Bugünün tarihi: ", formatliBugun);
+                console.log("1 yıl sonrası:  ", formatliGelecek);
+
+
+
+
+
+
+                // Sertifikayı oluşturacak HTML içerik
+                const content = `
+                    <div style="padding: 5px; width: auto;">
+                    <img style="width: 100px;" src="/img/logo_bg.png" alt="LOGO">
+                    </div>
+
+
+                <div style="width: auto; height: 100px; background-color: #739DD3 ; display: flex; justify-content: center; align-items: center; margin: 5px;" class="head_cont">
+                    <h1 style="font-size: 40px; color: white;">Calibration Certificate</h1>
+                </div>
+
+                <br>
+
+                <div style="width: auto; padding: 5px; " >
+                    <table   style="width: 100%; font-size: 12px; border:1px solid black; border-collapse: collapse;" >
+                        <tbody>
+
+                            <tr>
+                                <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">Certificate Number:</th>
+                                <td style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">${kutuNo}</td>
+                                <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">Certificate Date: </th>
+                                <td style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">${formatliBugun}</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+                <br>
+
+                <div style="padding: 5px; display: flex; justify-content: center; align-items: start; flex-direction: column; width: auto; color: black;">
+
+                    <h4 style="margin: 0; padding: 5px color: black;;">Reference Instrumentation</h4>
+
+                    <div style="width: 100%; color: black;">
+
+                        <table style="width: 100%; font-size: 12px; border:1px solid black; border-collapse: collapse;" >
+                            <thead>
+                                <tr>
+                                    <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Device</th>
+                                    <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Manufacturer</th>
+                                    <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Equipment Number</th>
+                                    <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Accuracy</th>
+                                    <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Calibration Date</th>
+                                </tr>
+                            </thead>
+
+                            <tbody >
+
+
+                                <tr>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Programmable Temperature & Humudity Chamber </td>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Digitmex </td>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">08-30978</td>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">±0.05 &#8451 ; ±3%RH</td>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">April, 28th, 2025</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">High Accuracy RTD Thermometer</td>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Graphtec</td>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">H40121884 </td>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">±0.15 &#8451 </td>
+                                    <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">April, 28th, 2025</td>
+                                </tr>
+                            
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div style="padding: 10px; margin-top: 5px; color: black;">
+                    <p style="margin-top: 5px; font-size: 12px;">
+                        <strong>İnkatech Ölçüm Sistemleri Ltd. Şti</strong> certifies that the devices mentioned on this certificate have been thoroughly tested, validated and reached performance accuracy specifications over the specific ranges. These device were assembled, tested and calibrated in accordance with its specifications and pior to release for shipment.
+                    </p>
+                </div>
+
+                <div style="padding: 5px; color: black;">
+                    <h4 style="margin: 0;">Product Information </h4>
+                    <div>
+                        <table style=" border:1px solid black; width: 100%; font-size: 12px; border-collapse: collapse;" >
+                            <thead>
+                                <tr >
+                                    <th style=" border:1px solid black; text-align: center; padding: 5px;">Product Name</th>
+                                    <th style=" border:1px solid black; text-align: center; padding: 5px;">Model</th>
+                                    <th style=" border:1px solid black; text-align: center; padding: 5px;">Production Date</th>
+                                    <th style=" border:1px solid black; text-align: center; padding: 5px;">Expiry Date</th>
+                                    <th style=" border:1px solid black; text-align: center; padding: 5px;">Quantity</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">${pdfDatalogger} </td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">${pdfTitle}</td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">${formatliBugun}</td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">${formatliGelecek}</td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">20 PCS  </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <br>
+
+                <div style="padding: 5px; color: black;">
+
+                    <h4 style="margin: 0;">Products ID Number </h4>
+
+                    <div style="width: 100%;">
+
+                        
+
+                        <table id="numberList" style=" border:1px solid black; width: 100%; font-size: 12px; border-collapse: collapse; " >
+
+                                ${cihazTablosuOlustur(cihazList)}
+                            
+                            
+                        </table>
+                    </div>
+                </div>
+
+                <br>
+
+                <div style="padding: 5px; color: black;">
+                    <div style="display: flex; justify-content: start; align-items: start;">
+                        <h4 style="margin: 0;">Calibration Results</h4>
+                        
+                        <p style="margin: 0; padding: 5px;">(Environment Conditions: Air Temperature 23.00 oC, Relative Humidity 42.0%)</p>
+                    </div>
+                    <div>
+                        <table style=" border:1px solid black; width: 100%; font-size: 12px; border-collapse: collapse;" >
+                            <thead>
+                                <tr >
+                                    <th style=" border:1px solid black; text-align: center; padding: 5px;">Validation Points</th>
+                                    <th style=" border:1px solid black; text-align: center; padding: 5px;">Tolerance</th>
+                                    <th style=" border:1px solid black; text-align: center; padding: 5px;">Result</th>
+                                    
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">-20 &#8451 </td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">±0.5 &#8451  </td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px; ">Pass  </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">0 &#8451    </td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;"> ±0.5 &#8451  </td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px; ">Pass  </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;"> 30 &#8451 </td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">±0.5 &#8451 </td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px; ">Pass </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="padding: 5px; color: black;">
+                    <table style=" border:1px solid black; width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 10px;">
+                        <tr style="width: 100%;">
+                            <td style=" border:1px solid black; text-align: center; padding: 5px;">Test Result Pass/Fail </td>
+                            <td style=" border:1px solid black; text-align: center; padding: 5px; width: 100px;">Pass  </td>
+                            <td style=" border:1px solid black; text-align: center; padding: 5px; width: auto;">Signature of Calibration Technician  </td>
+                            <td style=" border:1px solid black; text-align: center; padding: 5px; width: 100px; height: 30px;">  </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="padding: 5px; font-size: 12px; color: black; ">
+                    <h4>İNKATECH ÖLÇÜM SİSTEMLERİ LTD. ŞTİ. </h4>
+                    <p><strong>Address:</strong> Kurttepe Mahallesi, Süleyman Demirel Bulvarı, Gelişim Apt. Zemin Kat. Çukurova/ADANA  </p>
+                    <div class="d-flex gap-5">
+                        <p><strong>Tel:</strong> +90 (322) 247 35 28</p>
+                        <p><strong>E-mail:</strong> info@inkatech.com.tr</p>
+                    </div>
+                </div>
+
+            `;
+
+                // html2pdf.js ile PDF oluşturma
+                const element = document.createElement('div');
+                element.innerHTML = content;
+                html2pdf()
+                    .from(element)
+                    .save(`${sourceTable.toUpperCase()}_${barkod}_sertifika.pdf`);
+
+
+
+
+
+
+            }
+
+
+
+
+        </script>
+
+
+        <script>
+
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const role = localStorage.getItem("role");
+                const userAllowedPages = ["/admin/certificate"];
+                const currentPath = window.location.pathname;
+
+                if (role === "reader" && !userAllowedPages.includes(currentPath)) {
+                    alert("Bu sayfaya erişiminiz yok.");
+                    window.location.href = "/admin/certificate";
+                }
+
+                // logoutBtn varsa event ekle
+                const logoutBtn = document.getElementById("logoutBtn");
+                if (logoutBtn) {
+                    logoutBtn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        localStorage.clear();
+                        window.location.href = "/login";
+                    });
+                }
+
+                const user = JSON.parse(localStorage.getItem("user"));
+                if (user && user.expires < Date.now()) {
+                    localStorage.clear();
+                    alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
+                    window.location.href = "/login";
+                }
+            });
+
+
+            //////////////////////////////////////////////////////////////////////////////
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const userStr = localStorage.getItem("user");
+                if (!userStr) {
+                    // user yoksa direk login
+                    window.location.href = "/login";
+                    return;
+                }
+
+                let user = null;
+                try {
+                    user = JSON.parse(userStr);
+                } catch (e) {
+                    // parse hatası olursa da login
+                    window.location.href = "/login";
+                    return;
+                }
+
+                // expires kontrolü
+                if (!user.expires || user.expires < Date.now()) {
+                    localStorage.clear();
+                    window.location.href = "/login";
+                    return;
+                }
+
+                // role kontrolü
+                if (user.role !== "admin" && user.role !== "user" && user.role !== "reader") {
+                    window.location.href = "/login";
+                    return;
+                }
+
+                // Tüm kontroller geçerse sayfada kal, gerekirse devam et
+                console.log("Giriş doğrulandı:", user.username, user.role);
+            });
+
+
+
+        </script>
+
+
+
+</body>
+
+</html>

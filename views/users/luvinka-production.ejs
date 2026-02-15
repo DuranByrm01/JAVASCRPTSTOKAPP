@@ -1,396 +1,766 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <%- include("../partials/meta") %>
-    <title>LUVİNKA ÜRETİM</title>
+        <title>LUVİNKA ÜRETİM</title>
 </head>
+
 <body class="bg-dark">
     <%- include("../partials/nav") %>
 
-    <div class="container-xl bg-primary  mt-3 p-2 w-auto  rounded" >
+        <div class="container-xl bg-primary  mt-3 p-2 w-auto  rounded">
 
-        <%- include("../partials/uretımNav") %>
+            <%- include("../partials/uretımNav") %>
 
-        <h3 class="text-white text-center">LUVİNKA ÜRÜN KAYIT SAYFASI</h3>
-        <br>
-        
-       
+                <h3 class="text-white text-center">LUVİNKA ÜRÜN KAYIT SAYFASI</h3>
+                <br>
 
-        <div class="container-xxl d-flex justify-content-center align-items-center flex-wrap  ">
-            
-            <div class="d-flex flex-wrap mb-2">
 
-               
-                <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
-                <h5 id="uretimMalzeme" class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
-                <h5 id="guncelStok" class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK :  <strong class=" bg-light text-black p-1 rounded">0000</strong></h5>
-                
-            </div>
 
-            <div class=" container-xl d-flex justify-content-start align-items-center w-100   mb-2">
-                <button class="btn btn-warning   p-1 fs-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fa-solid fa-list mx-1 fs-5"></i> LİSTELER </button>
+                <div class="container-xxl d-flex justify-content-center align-items-center flex-wrap  ">
 
-                <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                    <div class="d-flex flex-wrap mb-2">
 
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">ÜRÜN KAYIT LİSTELERİ</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+                        <h5 id="uretimMiktari" class="bg-danger p-3 mx-1 rounded text-white">ÜRETİLEN CİHAZ : <strong
+                                class=" bg-light text-black p-1 rounded me-auto">0000</strong></h5>
+                        <h5 id="uretimMalzeme" class="bg-dark p-3 mx-1 rounded text-white">ÜRETİLEBİLİR CİHAZ : <strong
+                                class=" bg-light text-black p-1 rounded">0000</strong></h5>
+                        <h5 id="guncelStok" class="bg-success p-3 mx-1 rounded text-white">ATÖLYE GÜNCEL STOK : <strong
+                                class=" bg-light text-black p-1 rounded">0000</strong></h5>
+
                     </div>
 
-                    <div class="offcanvas-body d-flex flex-column">
-                        
-                        <a class="btn btn-primary mb-2 p-3" href="/luvinka-20-box">LUVİNKA 20 li KUTU</a>
-                        <a class="btn btn-primary mb-2 p-3" href="/luvinka-100-box">LUVİNKA 100 LÜ KUTU</a>
+                    <div class=" container-xl d-flex justify-content-start align-items-center w-100   mb-2">
+                        <button class="btn btn-warning   p-1 fs-5" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i
+                                class="fa-solid fa-list mx-1 fs-5"></i> LİSTELER </button>
 
-                        
+                        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1"
+                            id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">ÜRÜN KAYIT LİSTELERİ</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
+
+                            <div class="offcanvas-body d-flex flex-column">
+
+                                <a class="btn btn-primary mb-2 p-3" href="/luvinka-20-box">LUVİNKA 20 li KUTU</a>
+                                <a class="btn btn-primary mb-2 p-3" href="/luvinka-100-box">LUVİNKA 100 LÜ KUTU</a>
+
+
+                            </div>
+
+                        </div>
                     </div>
+
+
+
+                    <div class="container-xxl d-flex justify-content-start align-items-center ">
+
+                        <input id="cihazİdİnput" class="form-control  w-auto me-1" type="text"
+                            placeholder="Cihaz id gir...">
+
+                        <button id="cihazİdAddButton" class="btn btn-warning mx-1">Cihaz ekle</button>
+
+                        <input id="barkodİnput" class="form-control  w-auto me-1" type="text"
+                            placeholder="20 li kutu barkodu gir...">
+
+                        <button id="saveButton" class="btn btn-warning">KAYDET</button>
+
+
+
+                    </div>
+
+
+
+
+
 
                 </div>
-            </div>
-            
-            
 
-            <div class="container-xxl d-flex justify-content-start align-items-center ">
-
-                <input id="barkodİnput" class="form-control  w-auto me-1" type="text" placeholder="20 li kutu barkodu gir...">
-    
-                <button id="saveButton" class="btn btn-warning">KAYDET</button>
-                
-                
-            </div>
-
-            
-            
-            
-            
 
         </div>
 
-        
-    </div>
+
+        <div style="display: flex; justify-content: center; align-items: flex-start; " class="container  p-3 ">
+
+            <div style="max-height: 200px; overflow-y: auto; width: 50%;  margin-right: 10px; border-radius: 10px;"
+                id="cihazİdListTable" class="bg-success p-3">
+
+                <p style="font-weight: bold;" class="text-white ">Eklenen Cihaz Sayısı</p>
+
+                <p style="font-weight: bold;" class="text-white " id="eklenenCihazSayisi">0</p>
+
+                <ul id="cihazİdTable">
 
 
-    <div class=" container-xl createProduct bg-warning p-3 mt-2">
-            <h5>Kayıt Edilen 20 Li Kutu Listesi</h5>
-            <div style="max-height: 500px; overflow-y: auto;" id="barkodDataList20pcs" class="barkodList">
-                
-                <ul>
-                    <li class="form-control mb-1 w-auto">1. <strong>10009999</strong> 02.03.25</li>
-                    
                 </ul>
+
             </div>
-    </div>
 
-    <script>
-        
+            <div style="border-radius: 10px;" class=" container-xl createProduct bg-warning p-3 ">
 
-        let barkodİnput = document.querySelector("#barkodİnput");
-        let saveButton = document.querySelector("#saveButton");
+                <h5>Kayıt Edilen 20 Li Kutu Listesi</h5>
 
-        
-        
+                <div style="max-height: 300px; overflow-y: auto; width: 100%;  border-radius: 10px;"
+                    id="barkodDataList20pcs" class="barkodList">
 
-        saveButton.addEventListener("click", sendBarkod);
+                    <ul>
+                        <li class="form-control mb-1 w-auto">1. <strong>10009999</strong> 02.03.25</li>
 
-        barkodİnput.addEventListener("keydown", function(event){
-            if(event.key === "Enter") {
-                sendBarkod();
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <script>
+
+
+            let barkodİnput = document.querySelector("#barkodİnput");
+            let saveButton = document.querySelector("#saveButton");
+
+            let cihazİdİnput = document.querySelector("#cihazİdİnput");
+            let cihazİdAddButton = document.querySelector("#cihazİdAddButton");
+            let cihazİdListTable = document.querySelector("#cihazİdListTable");
+            let cihazİdTable = document.querySelector("#cihazİdTable");
+            let eklenenCihazSayisi = document.querySelector("#eklenenCihazSayisi");
+
+
+            let cihazIdList = [];
+
+            cihazİdAddButton.addEventListener("click", cihazİdAdd);
+
+            function cihazİdAdd() {
+
+                const cihazİd = cihazİdİnput.value.trim();
+
+                let barkodRegex = /^[0-9]{6}$/;
+
+                if (!barkodRegex.test(cihazİd) || cihazİd === "" || cihazIdList.length >= 20) {
+
+                    alert("HATALI CİHAZ ID (6 haneli rakam olmalı ve harf/sembol içeremez...)");
+                    cihazİdİnput.focus();
+                    cihazİdİnput.value = "";
+
+                    return;
+                } else {
+                    cihazIdList.push(cihazİd);
+
+                    let li = document.createElement("li");
+                    li.className = "form-control mb-1 w-auto";
+                    li.textContent = cihazİd; //
+
+                    cihazİdTable.prepend(li);
+
+                    cihazİdİnput.value = "";
+
+                    cihazIdList.forEach(id => {
+                        eklenenCihazSayisi.innerHTML = cihazIdList.length;
+                    });
+
+                    if (cihazIdList.length >= 20) {
+                        barkodİnput.focus();
+                    }
+                }
+
+
+
+
             }
-        });
 
-        window.onload = () => {
-            barkodİnput.focus();
-            barkodİnput.value = "";
 
-        };
-        
+            saveButton.addEventListener("click", sendBarkod);
 
-        async function sendBarkod() {
-            let barkod = barkodİnput.value.trim();
+            barkodİnput.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    sendBarkod();
+                }
+            });
 
-            let barkodRegex = /^[0-9]{8}$/;
+            cihazİdİnput.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    cihazİdAdd();
+                }
+            });
 
-            if(!barkodRegex.test(barkod) || barkod === ""){
+            window.onload = () => {
+                cihazİdİnput.focus();
 
-                alert("HATALI BARKOD");
                 barkodİnput.focus();
                 barkodİnput.value = "";
 
-                return;
-            }
+            };
 
-            try {
-                // Mevcut barkodları çek
-                const response = await fetch("/luvinka/barkod/data/save/get");
-                const barkodList = await response.json();
 
-                // Barkodun listede olup olmadığını kontrol et
-                const exists = barkodList.some(item => item.luvinka_20_box_barkod === barkod);
+            async function sendBarkod() {
+                let barkod = barkodİnput.value.trim();
 
-                if (exists) {
-                    alert("Bu barkod zaten kayıtlı!");
+                let barkodRegex = /^[0-9]{8}$/;
+
+                if (!barkodRegex.test(barkod) || barkod === "") {
+
+                    alert("HATALI BARKOD");
                     barkodİnput.focus();
                     barkodİnput.value = "";
+
                     return;
                 }
-            } catch (error) {
-                alert("Hata barkod çekmede", error)
-            }
 
-            
-
-            const today = new Date();
-
-            const day = String(today.getDate()).padStart(2, "0");
-            const mounth = String(today.getMonth() + 1).padStart(2, "0");
-            const year = today.getFullYear();
-
-            const barkodDateFormat = `${day}.${mounth}.${year}`;
-
-            
-
-
-            try {
-                
-                let response = await fetch("/luvinka/20/pcsbox/barkod/save",{
-                    method: "POST",
-                    headers: {
-                        "content-Type": "application/json",
-
-                    },
-                    body: JSON.stringify({ barkod, barkodDateSave: barkodDateFormat }),
-
-                });
-
-                // Yanıtı text olarak oku
-                let responseText = await response.text();
-                
-                let responseData = {};
-
-                // JSON olup olmadığını kontrol et
                 try {
-                    responseData = responseText ? JSON.parse(responseText) : {}; 
-                } catch (jsonError) {
-                    console.error("JSON Parse Hatası:", jsonError);
-                }
-               
-                // Eğer response.ok false ise hata fırlat
-                if (!response.ok) {
+                    // Mevcut barkodları çek
+                    const response = await fetch("/luvinka/barkod/data/save/get");
+                    const barkodList = await response.json();
 
-                    if (response.status === 400) {
-                        alert("HATA !"+" " + responseData.message);
-                    } else if (response.status === 409) {
-                        alert("Bu barkod zaten eklenmiş!");
+                    // Barkodun listede olup olmadığını kontrol et
+                    const exists = barkodList.some(item => item.luvinka_20_box_barkod === barkod);
+
+                    if (exists) {
+                        alert("Bu barkod zaten kayıtlı!");
+                        barkodİnput.focus();
                         barkodİnput.value = "";
-                        
+                        return;
+                    }
+                } catch (error) {
+                    alert("Hata barkod çekmede", error)
+                }
 
-                    } else if (response.status === 500) {
-                        alert("Sunucu hatası! Lütfen daha sonra tekrar deneyin.");
-                    } else {
-                        alert(responseData.message || "Bilinmeyen bir hata oluştu.");
+
+
+                const today = new Date();
+
+                const day = String(today.getDate()).padStart(2, "0");
+                const mounth = String(today.getMonth() + 1).padStart(2, "0");
+                const year = today.getFullYear();
+
+                const barkodDateFormat = `${day}.${mounth}.${year}`;
+
+
+
+
+                try {
+
+                    let response = await fetch("/luvinka/20/pcsbox/barkod/save", {
+                        method: "POST",
+                        headers: {
+                            "content-Type": "application/json",
+
+                        },
+                        body: JSON.stringify({
+
+                            barkod,
+                            barkodDateSave: barkodDateFormat,
+                            cihazIdler: cihazIdList   // ← SADECE BU
+
+                        }),
+
+                    });
+
+                    // Yanıtı text olarak oku
+                    let responseText = await response.text();
+
+                    let responseData = {};
+
+                    // JSON olup olmadığını kontrol et
+                    try {
+                        responseData = responseText ? JSON.parse(responseText) : {};
+                    } catch (jsonError) {
+                        console.error("JSON Parse Hatası:", jsonError);
                     }
 
-                    throw new Error(responseData.message);
-                     
+                    // Eğer response.ok false ise hata fırlat
+                    if (!response.ok) {
+
+                        if (response.status === 400) {
+                            alert("HATA !" + " " + responseData.message);
+                        } else if (response.status === 409) {
+                            alert("Bu barkod zaten eklenmiş!");
+                            barkodİnput.value = "";
+
+
+                        } else if (response.status === 500) {
+                            alert("Sunucu hatası! Lütfen daha sonra tekrar deneyin.");
+                        } else {
+                            alert(responseData.message || "Bilinmeyen bir hata oluştu.");
+                        }
+
+                        throw new Error(responseData.message);
+
+                    }
+
+
+
+                    await pdfOlustur(barkod, cihazIdList);
+                    console.log("pdf oluştu")
+
+                    barkodİnput.focus();
+                    barkodİnput.value = "";
+
+
+
+
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+
+
+
+                } catch (error) {
+
+                    console.log("barkodSave", error);
+
+                    alert("barkod kayıt ederken bir sorunla karşılaşıldı");
+
+
+
                 }
 
-                
-                
-                barkodİnput.focus();
-                barkodİnput.value = "";
-
-                window.location.reload(); // Sayfayı yenile
-
-                
-               
-                
-
-            } catch (error) {
-
-                console.log("barkodSave", error);
-
-                alert("barkod kayıt ederken bir sorunla karşılaşıldı");
-
-               
 
             }
 
 
-        }
+            document.addEventListener("DOMContentLoaded", async function () {
 
-
-        document.addEventListener("DOMContentLoaded", async function () {
-            
-            try {
+                try {
 
 
 
-                const response = await fetch ("/luvinka/barkod/data/save/get");
-                const Luvinkabarkod20pcsData = await response.json();
+                    const response = await fetch("/luvinka/barkod/data/save/get");
+                    const Luvinkabarkod20pcsData = await response.json();
 
-                const barkodData20pcsList = document.querySelector("#barkodDataList20pcs");
+                    const barkodData20pcsList = document.querySelector("#barkodDataList20pcs");
 
-                barkodData20pcsList.innerHTML = "";
+                    barkodData20pcsList.innerHTML = "";
 
-                Luvinkabarkod20pcsData.reverse().forEach(barkodData => {
+                    Luvinkabarkod20pcsData.reverse().forEach(barkodData => {
 
-                    // console.log(barkodData);
+                        // console.log(barkodData);
 
-                    barkodData20pcsList.innerHTML += `
+                        barkodData20pcsList.innerHTML += `
                         <li class="form-control mb-1 w-auto">${barkodData.id_luvinka_20_box} <strong>${barkodData.luvinka_20_box_barkod}</strong> ${barkodData.luvinka_20_box_date}</li>
                     `;
 
-                    
-                });
 
-
-                
-            } catch (error) {
-                alert("barkod data çekme hatası", error);
-            }
-
-            try {
+                    });
 
 
 
-                const response = await fetch("/luvinka/barkod/data/save/get/box/number");
-                const stokadet = await response.json();
+                } catch (error) {
+                    alert("barkod data çekme hatası", error);
+                }
 
-                const uretimMiktari = document.querySelector("#uretimMiktari");
-
-                uretimMiktari.innerHTML = "";
-
-                
-                let stoksayısı =  stokadet.length * 20;
-
-                uretimMiktari.innerHTML = `ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">${stoksayısı}</strong>`;
-
-                
-            } catch (error) {
-                console.log("stok sayısı güncelleme hatası", error);
-            }
-
-            try {
-
-                const response = await fetch("/urunler/uretimSayiluvinka/get");
-
-                const trc60ProductNumber = await response.json();
-
-                const trc60uretimMalzeme = document.querySelector("#uretimMalzeme");
-                
-                trc60ProductNumber.forEach(data => {
-                    trc60uretimMalzeme.innerHTML = `ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">${data.urun_malzeme_adet}</strong>`;
-                });
-
-                
-
-                
-            } catch (error) {
-                console.log("trc60ÜretimSayısı", error);
-            }
-
-
-            try {
-
-               
-                const response = await fetch("luvinka/guncel/stok/trc6020pcs");
-                const luvinkaGuncelStok = await response.json();
-
-                const guncelStok = document.querySelector("#guncelStok");
-
-                let guncelStokLuvinka = luvinkaGuncelStok.length * 20;
-
-                
-
-                guncelStok.innerHTML = `TOPLAM ÜRETİLMİŞ ÜRÜN : <strong class=" bg-light text-black p-1 rounded me-auto">${guncelStokLuvinka}</strong>`;
-
-                
-            } catch (error) {
-                console.log("Güncel STOK ÇEKME HATASI", error);
-                alert("GÜNCEL STOK ÇEKME HATASI");
-            }
-
-            
-        });
-
-        
-
-        
+                try {
 
 
 
-    </script>
+                    const response = await fetch("/luvinka/barkod/data/save/get/box/number");
+                    const stokadet = await response.json();
 
-    <script>
+                    const uretimMiktari = document.querySelector("#uretimMiktari");
 
-      document.addEventListener("DOMContentLoaded", () => {
-          const role = localStorage.getItem("role");
-          const userAllowedPages = ["/liveScreen", "/urunList"];
-          const currentPath = window.location.pathname;
+                    uretimMiktari.innerHTML = "";
 
-          if (role === "user" && !userAllowedPages.includes(currentPath)) {
-            alert("Bu sayfaya erişiminiz yok.");
-            window.location.href = "/liveScreen";
-          }
 
-          // logoutBtn varsa event ekle
-          const logoutBtn = document.getElementById("logoutBtn");
-          if (logoutBtn) {
-            logoutBtn.addEventListener("click", (e) => {
-              e.preventDefault();
-              localStorage.clear();
-              window.location.href = "/login";
+                    let stoksayısı = stokadet.length * 20;
+
+                    uretimMiktari.innerHTML = `ÜRETİLEN CİHAZ : <strong class=" bg-light text-black p-1 rounded me-auto">${stoksayısı}</strong>`;
+
+
+                } catch (error) {
+                    console.log("stok sayısı güncelleme hatası", error);
+                }
+
+                try {
+
+                    const response = await fetch("/urunler/uretimSayiluvinka/get");
+
+                    const trc60ProductNumber = await response.json();
+
+                    const trc60uretimMalzeme = document.querySelector("#uretimMalzeme");
+
+                    trc60ProductNumber.forEach(data => {
+                        trc60uretimMalzeme.innerHTML = `ÜRETİLEBİLİR CİHAZ :  <strong class=" bg-light text-black p-1 rounded">${data.urun_malzeme_adet}</strong>`;
+                    });
+
+
+
+
+                } catch (error) {
+                    console.log("trc60ÜretimSayısı", error);
+                }
+
+
+                try {
+
+
+                    const response = await fetch("luvinka/guncel/stok/trc6020pcs");
+                    const luvinkaGuncelStok = await response.json();
+
+                    const guncelStok = document.querySelector("#guncelStok");
+
+                    let guncelStokLuvinka = luvinkaGuncelStok.length * 20;
+
+
+
+                    guncelStok.innerHTML = `TOPLAM ÜRETİLMİŞ ÜRÜN : <strong class=" bg-light text-black p-1 rounded me-auto">${guncelStokLuvinka}</strong>`;
+
+
+                } catch (error) {
+                    console.log("Güncel STOK ÇEKME HATASI", error);
+                    alert("GÜNCEL STOK ÇEKME HATASI");
+                }
+
+
             });
-          }
-
-          const user = JSON.parse(localStorage.getItem("user"));
-          if (user && user.expires < Date.now()) {
-            localStorage.clear();
-            alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
-            window.location.href = "/login";
-          }
-      });
 
 
-      //////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////
 
-      document.addEventListener("DOMContentLoaded", () => {
-          const userStr = localStorage.getItem("user");
-          if (!userStr) {
-            // user yoksa direk login
-            window.location.href = "/login";
-            return;
-          }
-
-          let user = null;
-          try {
-            user = JSON.parse(userStr);
-          } catch (e) {
-            // parse hatası olursa da login
-            window.location.href = "/login";
-            return;
-          }
-
-          // expires kontrolü
-          if (!user.expires || user.expires < Date.now()) {
-            localStorage.clear();
-            window.location.href = "/login";
-            return;
-          }
-
-          // role kontrolü
-          if (user.role !== "admin" && user.role !== "user") {
-            window.location.href = "/login";
-            return;
-          }
-
-          // Tüm kontroller geçerse sayfada kal, gerekirse devam et
-          console.log("Giriş doğrulandı:", user.username, user.role);
-      });
+            function cihazTablosuOlustur(cihazList) {
+                let html = "<tbody>";
+                for (let i = 0; i < cihazList.length; i += 10) {
+                    html += "<tr>";
+                    for (let j = i; j < i + 10 && j < cihazList.length; j++) {
+                        html += `<td style="border:1px solid black; text-align: center; padding: 5px;">${cihazList[j]}</td>`;
+                    }
+                    html += "</tr>";
+                }
+                html += "</tbody>";
+                return html;
+            }
 
 
 
-    </script>
+            function pdfOlustur(kutuNo, cihazList) {
+
+
+
+                if (!kutuNo || cihazList.length !== 20) {
+                    alert("Lütfen 1 kutu numarası ve tam 20 cihaz numarası girin.");
+                    window.location.reload();
+
+                    return;
+                }
+
+
+
+
+
+                // Sertifika içeriğini bir HTML elementine yerleştiriyoruz
+                const simdikiTarih = new Date();
+                const gelecekYil = new Date(simdikiTarih);
+                gelecekYil.setFullYear(simdikiTarih.getFullYear() + 1);
+
+                // Şimdiki tarih formatlı
+                const simdikiYil = simdikiTarih.getFullYear();
+                const simdikiAy = String(simdikiTarih.getMonth() + 1).padStart(2, '0');
+                const simdikiGun = String(simdikiTarih.getDate()).padStart(2, '0');
+                const formatliBugun = `${simdikiYil}/${simdikiAy}/${simdikiGun}`;
+
+                // Gelecek yıl formatlı
+                const gelecekYilYil = gelecekYil.getFullYear();
+                const gelecekYilAy = String(gelecekYil.getMonth() + 1).padStart(2, '0');
+                const gelecekYilGun = String(gelecekYil.getDate()).padStart(2, '0');
+                const formatliGelecek = `${gelecekYilYil}/${gelecekYilAy}/${gelecekYilGun}`;
+
+                // Yazdır
+                console.log("Bugünün tarihi: ", formatliBugun);
+                console.log("1 yıl sonrası:  ", formatliGelecek);
+
+
+
+
+
+
+
+                // Sertifikayı oluşturacak HTML içerik
+                const content = `
+            <div style="padding: 5px; width: auto;">
+              <img style="width: 150px;" src="/img/logo_bg.png" alt="LOGO">
+            </div>
+
+
+          <div style="width: auto; height: 100px; background-color: #739DD3 ; display: flex; justify-content: center; align-items: center; margin: 5px;" class="head_cont">
+              <h1 style="font-size: 40px; color: white;">Calibration Certificate</h1>
+          </div>
+
+          <br>
+
+          <div style="width: auto; padding: 5px; " >
+              <table   style="width: 100%; font-size: 12px; border:1px solid black; border-collapse: collapse;" >
+                  <tbody ">
+
+                      <tr>
+                          <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px;">Certificate Number:</th>
+                          <td style="border: 1px solid black; width: auto; text-align: start; padding: 5px;">${kutuNo}</td>
+                          <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px;">Certificate Date: </th>
+                          <td style="border: 1px solid black; width: auto; text-align: start; padding: 5px;">${formatliBugun}</td>
+                      </tr>
+                    
+                  </tbody>
+              </table>
+          </div>
+          
+          <br>
+
+          <div style="padding: 5px; display: flex; justify-content: center; align-items: start; flex-direction: column; width: auto;">
+
+              <h4 style="margin: 0; padding: 5px;">Reference Instrumentation</h4>
+
+              <div style="width: 100%;">
+
+                  <table style="width: 100%; font-size: 12px; border:1px solid black; border-collapse: collapse;" >
+                      <thead>
+                          <tr>
+                              <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Device</th>
+                              <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Manufacturer</th>
+                              <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Equipment Number</th>
+                              <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Accuracy</th>
+                              <th style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Calibration Date</th>
+                          </tr>
+                      </thead>
+
+                      <tbody >
+
+
+                          <tr>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Programmable Temperature & Humudity Chamber </td>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Digitmex </td>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">08-30978</td>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">±0.05 &#8451 ; ±3%RH</td>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">April, 28th, 2025</td>
+                          </tr>
+                          <tr>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">High Accuracy RTD Thermometer</td>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">Graphtec</td>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">H40121884 </td>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">±0.15 &#8451 </td>
+                              <td style="border: 1px solid black; width: auto; text-align: center; padding: 5px;">April, 28th, 2025</td>
+                          </tr>
+                      
+                      </tbody>
+
+                  </table>
+
+              </div>
+
+          </div>
+
+          <div style="padding: 10px; margin-top: 5px;">
+              <p style="margin-top: 5px; font-size: 12px;">
+                  <strong>İnkatech Ölçüm Sistemleri Ltd. Şti</strong> certifies that the devices mentioned on this certificate have been thoroughly tested, validated and reached performance accuracy specifications over the specific ranges. These device were assembled, tested and calibrated in accordance with its specifications and pior to release for shipment.
+              </p>
+          </div>
+
+          <div style="padding: 5px; ">
+              <h4 style="margin: 0;">Product Information </h4>
+              <div>
+                  <table style=" border:1px solid black; width: 100%; font-size: 12px; border-collapse: collapse;" >
+                      <thead>
+                          <tr >
+                              <th style=" border:1px solid black; text-align: center; padding: 5px;">Product Name</th>
+                              <th style=" border:1px solid black; text-align: center; padding: 5px;">Model</th>
+                              <th style=" border:1px solid black; text-align: center; padding: 5px;">Production Date</th>
+                              <th style=" border:1px solid black; text-align: center; padding: 5px;">Expiry Date</th>
+                              <th style=" border:1px solid black; text-align: center; padding: 5px;">Quantity</th>
+                              
+                          </tr>
+                      </thead>
+                      <tbody>
+                          
+                          <tr>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;">LUVİNKA DT-6001 PDF DATALOGGER </td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;">LUVİNKA DT-6001 PDF </td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;">${formatliBugun}</td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;">${formatliGelecek}</td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;">20 PCS</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+          <br>
+
+          <div style="padding: 5px;">
+
+              <h4 style="margin: 0;">Products ID Number </h4>
+
+              <div style="width: 100%;">
+
+                   
+
+                  <table id="numberList" style=" border:1px solid black; width: 100%; font-size: 12px; border-collapse: collapse; " >
+
+                        ${cihazTablosuOlustur(cihazList)}
+                      
+                      
+                  </table>
+              </div>
+          </div>
+
+          <br>
+
+          <div style="padding: 5px;">
+              <div style="display: flex; justify-content: start; align-items: start;">
+                  <h4 style="margin: 0;">Calibration Results</h4>
+                  
+                  <p style="margin: 0; padding: 5px;">(Environment Conditions: Air Temperature 23.00 oC, Relative Humidity 42.0%)</p>
+              </div>
+              <div>
+                  <table style=" border:1px solid black; width: 100%; font-size: 12px; border-collapse: collapse;" >
+                      <thead>
+                          <tr >
+                              <th style=" border:1px solid black; text-align: center; padding: 5px;">Validation Points</th>
+                              <th style=" border:1px solid black; text-align: center; padding: 5px;">Tolerance</th>
+                              <th style=" border:1px solid black; text-align: center; padding: 5px;">Result</th>
+                            
+                              
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;">-20 &#8451 </td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;">±0.5 &#8451  </td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px; ">Pass  </td>
+                            
+                          </tr>
+                          <tr>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;">0 &#8451    </td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;"> ±0.5 &#8451  </td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px; ">Pass  </td>
+                            
+                          </tr>
+                          <tr>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;"> 30 &#8451 </td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px;">±0.5 &#8451 </td>
+                              <td style=" border:1px solid black; text-align: center; padding: 5px; ">Pass </td>
+                            
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+          
+
+          <div style="padding: 5px;">
+              <table style=" border:1px solid black; width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 10px;">
+                  <tr style="width: 100%;">
+                      <td style=" border:1px solid black; text-align: center; padding: 5px;">Test Result Pass/Fail </td>
+                      <td style=" border:1px solid black; text-align: center; padding: 5px; width: 100px;">Pass  </td>
+                      <td style=" border:1px solid black; text-align: center; padding: 5px; width: auto;">Signature of Calibration Technician  </td>
+                      <td style=" border:1px solid black; text-align: center; padding: 5px; width: 100px; height: 30px;">  </td>
+                  </tr>
+              </table>
+          </div>
+
+
+          <div style="padding: 5px; margin-top: 5px; font-size: 12px;">
+              <h4>İNKATECH ÖLÇÜM SİSTEMLERİ LTD. ŞTİ. </h4>
+              <p> <strong>Address:</strong> Kurttepe Mahallesi, Süleyman Demirel Bulvarı, Gelişim Apt. Zemin Kat. Çukurova/ADANA  </p>
+              <p><strong>Tel:</strong> +90 (322) 247 35 28</p>
+              <p><strong>E-mail:</strong> info@inkatech.com.tr</p>
+          </div>
+
+      `;
+
+                // html2pdf.js ile PDF oluşturma
+                const element = document.createElement('div');
+                element.innerHTML = content;
+                html2pdf()
+                    .from(element)
+                    .save(`LUVİNKA_${kutuNo}_sertifika.pdf`);
+
+
+                //////////////////////////////////////////
+
+
+
+            }
+
+
+
+
+        </script>
+
+        <script>
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const role = localStorage.getItem("role");
+                const userAllowedPages = ["/liveScreen", "/urunList"];
+                const currentPath = window.location.pathname;
+
+                if (role === "user" && !userAllowedPages.includes(currentPath)) {
+                    alert("Bu sayfaya erişiminiz yok.");
+                    window.location.href = "/liveScreen";
+                }
+
+                // logoutBtn varsa event ekle
+                const logoutBtn = document.getElementById("logoutBtn");
+                if (logoutBtn) {
+                    logoutBtn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        localStorage.clear();
+                        window.location.href = "/login";
+                    });
+                }
+
+                const user = JSON.parse(localStorage.getItem("user"));
+                if (user && user.expires < Date.now()) {
+                    localStorage.clear();
+                    alert("Oturum süresi doldu. Lütfen tekrar giriş yapınız.");
+                    window.location.href = "/login";
+                }
+            });
+
+
+            //////////////////////////////////////////////////////////////////////////////
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const userStr = localStorage.getItem("user");
+                if (!userStr) {
+                    // user yoksa direk login
+                    window.location.href = "/login";
+                    return;
+                }
+
+                let user = null;
+                try {
+                    user = JSON.parse(userStr);
+                } catch (e) {
+                    // parse hatası olursa da login
+                    window.location.href = "/login";
+                    return;
+                }
+
+                // expires kontrolü
+                if (!user.expires || user.expires < Date.now()) {
+                    localStorage.clear();
+                    window.location.href = "/login";
+                    return;
+                }
+
+                // role kontrolü
+                if (user.role !== "admin" && user.role !== "user") {
+                    window.location.href = "/login";
+                    return;
+                }
+
+                // Tüm kontroller geçerse sayfada kal, gerekirse devam et
+                console.log("Giriş doğrulandı:", user.username, user.role);
+            });
+
+
+
+        </script>
 
 </body>
+
 </html>

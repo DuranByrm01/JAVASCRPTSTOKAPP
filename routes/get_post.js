@@ -523,9 +523,10 @@ router.get('/add/Remove', async function (req, res) {
 let barkodCountertrc60 = 0; // 5 barkod sayacı
 
 router.post("/barkod/data/save", async (req, res) => {
-    const { barkod, barkodDateSave } = req.body;
+    const { barkod, barkodDateSave, cihazIdler } = req.body;
 
 
+    console.log(typeof cihazIdler, cihazIdler);
 
     try {
 
@@ -561,13 +562,65 @@ router.post("/barkod/data/save", async (req, res) => {
                 return res.status(400).json({ success: false, message: `MALZEME : ${urun_malzeme_adi} için stok yetersiz!` });
             }
         }
+        //////////////////////////////////////////////////////////////////////////////////////////////
 
         // barkod ekle
 
-        await db.execute("INSERT INTO trc60_20pcs_box (trc60_20pcs_box_barkod, trc60_20pcs_box_date) VALUES (?,?)", [barkod, barkodDateSave])
-        res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
+        // await db.execute("INSERT INTO trc60_20pcs_box (trc60_20pcs_box_barkod, trc60_20pcs_box_date) VALUES (?,?)", [barkod, barkodDateSave])
+
+        // 1️⃣ Barkod kaydı (boş satır oluşturur)
+        const [insertResult] = await db.execute(
+            "INSERT INTO trc60_20pcs_box (trc60_20pcs_box_barkod, trc60_20pcs_box_date) VALUES (?, ?)",
+            [barkod, barkodDateSave]
+        );
+
+        // Eklenen satırın ID'si
+        const boxId = insertResult.insertId;
+
+        // 2️⃣ Cihaz ID'leri 20 kolona dağıt
+        const cihazlar = Array(20).fill(null);
+
+        cihazIdler.forEach((cihazId, index) => {
+            if (index < 20) {
+                cihazlar[index] = cihazId;
+            }
+        });
+
+        // 3️⃣ Aynı satırı cihaz ID'lerle güncelle
+        await db.execute(
+            `
+            UPDATE trc60_20pcs_box SET
+                trc60_cihaz_id_1 = ?,
+                trc60_cihaz_id_2 = ?,
+                trc60_cihaz_id_3 = ?,
+                trc60_cihaz_id_4 = ?,
+                trc60_cihaz_id_5 = ?,
+                trc60_cihaz_id_6 = ?,
+                trc60_cihaz_id_7 = ?,
+                trc60_cihaz_id_8 = ?,
+                trc60_cihaz_id_9 = ?,
+                trc60_cihaz_id_10 = ?,
+                trc60_cihaz_id_11 = ?,
+                trc60_cihaz_id_12 = ?,
+                trc60_cihaz_id_13 = ?,
+                trc60_cihaz_id_14 = ?,
+                trc60_cihaz_id_15 = ?,
+                trc60_cihaz_id_16 = ?,
+                trc60_cihaz_id_17 = ?,
+                trc60_cihaz_id_18 = ?,
+                trc60_cihaz_id_19 = ?,
+                trc60_cihaz_id_20 = ?
+            WHERE id_20_pcs = ?
+            `,
+            [...cihazlar, boxId]
+        );
+
+
+
+        res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave, cihazIdler });
         // res.status(200).send();
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////
         //stok yeterliyse 20 azalt 
 
         // 1- Normal malzemeler (id 3,5,8,9 HARİÇ) ➔ 20 azalt
@@ -618,7 +671,7 @@ router.get("/barkod/data/save/get", async function (req, res) {
 
     try {
 
-        const [barkod20pcs,] = await db.execute("SELECT id_20_pcs, trc60_20pcs_box_barkod , trc60_20pcs_box_date FROM trc60_20pcs_box");
+        const [barkod20pcs,] = await db.execute("SELECT id_20_pcs, trc60_20pcs_box_barkod , trc60_20pcs_box_date  FROM trc60_20pcs_box");
 
         res.json(barkod20pcs);
 
@@ -668,11 +721,14 @@ router.get("/trc60/20/box/barkod", async function (req, res) {
 
         const [trc60Box20pcsListİtem] = await db.execute("SELECT id, TRC60_20PCS_BOX_LIST_BARKOD, TRC60_20PCS_BOX_LIST_date FROM trc60_20pcs_box_list");
 
-        res.json(trc60Box20pcsListİtem);
+        const [trc60Box] = await db.execute("SELECT id_20_pcs, trc60_20pcs_box_barkod,trc60_20pcs_box_date,  trc60_cihaz_id_1 , trc60_cihaz_id_2 , trc60_cihaz_id_3 ,  trc60_cihaz_id_4 , trc60_cihaz_id_5 , trc60_cihaz_id_6 , trc60_cihaz_id_7 , trc60_cihaz_id_8 , trc60_cihaz_id_9 , trc60_cihaz_id_10, trc60_cihaz_id_11, trc60_cihaz_id_12, trc60_cihaz_id_13, trc60_cihaz_id_14, trc60_cihaz_id_15, trc60_cihaz_id_16, trc60_cihaz_id_17, trc60_cihaz_id_18, trc60_cihaz_id_19, trc60_cihaz_id_20 FROM trc60_20pcs_box")
 
+        res.json(trc60Box);
 
     } catch (error) {
         console.log("trc60 20lik liste hatası", error);
+        res.status(500).json({ message: "Liste çekme hatası" });
+
     }
 
 });
@@ -783,9 +839,9 @@ router.get("/trc60/100/box/list/get", async function (req, res) {
 ///////////trc01 barkod kayıt ///////////////////////
 
 router.post("/barkod/data/save/trc01", async (req, res) => {
-    const { barkod, barkodDateSave } = req.body;
+    const { barkod, barkodDateSave, cihazIdler } = req.body;
 
-
+    console.log(typeof cihazIdler, cihazIdler);
 
     try {
 
@@ -828,10 +884,64 @@ router.post("/barkod/data/save/trc01", async (req, res) => {
 
         // barkod ekle
 
-        await db.execute("INSERT INTO trc01_20pcs_box (trc01_20pcs_box_barkod, trc01_20pcs_box_date) VALUES (?,?)", [barkod, barkodDateSave])
-        res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
+        // await db.execute("INSERT INTO trc01_20pcs_box (trc01_20pcs_box_barkod, trc01_20pcs_box_date) VALUES (?,?)", [barkod, barkodDateSave])
+        // res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
+        // // res.status(200).send();
+
+
+        // 1️⃣ Barkod kaydı (boş satır oluşturur)
+        const [insertResult] = await db.execute(
+            "INSERT INTO trc01_20pcs_box (trc01_20pcs_box_barkod, trc01_20pcs_box_date) VALUES (?, ?)",
+            [barkod, barkodDateSave]
+        );
+
+        // Eklenen satırın ID'si
+        const boxId = insertResult.insertId;
+
+        // 2️⃣ Cihaz ID'leri 20 kolona dağıt
+        const cihazlar = Array(20).fill(null);
+
+        cihazIdler.forEach((cihazId, index) => {
+            if (index < 20) {
+                cihazlar[index] = cihazId;
+            }
+        });
+
+        // 3️⃣ Aynı satırı cihaz ID'lerle güncelle
+        await db.execute(
+            `
+            UPDATE trc01_20pcs_box SET
+                trc01_cihaz_id_1 = ?,
+                trc01_cihaz_id_2 = ?,
+                trc01_cihaz_id_3 = ?,
+                trc01_cihaz_id_4 = ?,
+                trc01_cihaz_id_5 = ?,
+                trc01_cihaz_id_6 = ?,
+                trc01_cihaz_id_7 = ?,
+                trc01_cihaz_id_8 = ?,
+                trc01_cihaz_id_9 = ?,
+                trc01_cihaz_id_10 = ?,
+                trc01_cihaz_id_11 = ?,
+                trc01_cihaz_id_12 = ?,
+                trc01_cihaz_id_13 = ?,
+                trc01_cihaz_id_14 = ?,
+                trc01_cihaz_id_15 = ?,
+                trc01_cihaz_id_16 = ?,
+                trc01_cihaz_id_17 = ?,
+                trc01_cihaz_id_18 = ?,
+                trc01_cihaz_id_19 = ?,
+                trc01_cihaz_id_20 = ?
+            WHERE id_trc01_20pcs_box = ?
+            `,
+            [...cihazlar, boxId]
+        );
+
+
+
+        res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave, cihazIdler });
         // res.status(200).send();
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
         //stok yeterliyse 20 azalt 
@@ -930,15 +1040,29 @@ router.get("/barkod/data/save/get/box/number/trc01", async function (req, res) {
 
 router.get("/trc01/20/box/barkod", async function (req, res) {
 
+    // try {
+
+    //     const [trc01Box20pcsListİtem] = await db.execute("SELECT id_trc01, trc01_20pcs_box_list_barkod, trc01_20pcs_box_list_date FROM trc01_20pcs_box_list");
+
+    //     res.json(trc01Box20pcsListİtem);
+
+
+    // } catch (error) {
+    //     console.log("trc01 20lik liste hatası", error);
+    // }
+
     try {
 
         const [trc01Box20pcsListİtem] = await db.execute("SELECT id_trc01, trc01_20pcs_box_list_barkod, trc01_20pcs_box_list_date FROM trc01_20pcs_box_list");
 
-        res.json(trc01Box20pcsListİtem);
+        const [trc01Box] = await db.execute("SELECT id_trc01_20pcs_box, trc01_20pcs_box_barkod,trc01_20pcs_box_date,  trc01_cihaz_id_1 , trc01_cihaz_id_2 , trc01_cihaz_id_3 ,  trc01_cihaz_id_4 , trc01_cihaz_id_5 , trc01_cihaz_id_6 , trc01_cihaz_id_7 , trc01_cihaz_id_8 , trc01_cihaz_id_9 , trc01_cihaz_id_10, trc01_cihaz_id_11, trc01_cihaz_id_12, trc01_cihaz_id_13, trc01_cihaz_id_14, trc01_cihaz_id_15, trc01_cihaz_id_16, trc01_cihaz_id_17, trc01_cihaz_id_18, trc01_cihaz_id_19, trc01_cihaz_id_20 FROM trc01_20pcs_box")
 
+        res.json(trc01Box);
 
     } catch (error) {
         console.log("trc01 20lik liste hatası", error);
+        res.status(500).json({ message: "Liste çekme hatası" });
+
     }
 
 });
@@ -1726,9 +1850,9 @@ router.get("/casus/get/urun/kayit", async function (req, res) {
 let barkodCounter = 0;
 
 router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
-    const { barkod, barkodDateSave } = req.body;
+    const { barkod, barkodDateSave, cihazIdler } = req.body;
 
-
+    console.log(typeof cihazIdler, cihazIdler);
 
     try {
 
@@ -1772,9 +1896,63 @@ router.post("/luvinka/20/pcsbox/barkod/save", async (req, res) => {
 
         // barkod ekle
 
-        await db.execute("INSERT INTO luvinka_20_box (luvinka_20_box_barkod, luvinka_20_box_date) VALUES (?,?)", [barkod, barkodDateSave])
-        res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
+        // await db.execute("INSERT INTO luvinka_20_box (luvinka_20_box_barkod, luvinka_20_box_date) VALUES (?,?)", [barkod, barkodDateSave])
+        // res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave });
         // res.status(200).send();
+
+        // 1️⃣ Barkod kaydı (boş satır oluşturur)
+        const [insertResult] = await db.execute(
+            "INSERT INTO luvinka_20_box (luvinka_20_box_barkod, luvinka_20_box_date) VALUES (?, ?)",
+            [barkod, barkodDateSave]
+        );
+
+        // Eklenen satırın ID'si
+        const boxId = insertResult.insertId;
+
+        // 2️⃣ Cihaz ID'leri 20 kolona dağıt
+        const cihazlar = Array(20).fill(null);
+
+        cihazIdler.forEach((cihazId, index) => {
+            if (index < 20) {
+                cihazlar[index] = cihazId;
+            }
+        });
+
+        // 3️⃣ Aynı satırı cihaz ID'lerle güncelle
+        await db.execute(
+            `
+            UPDATE luvinka_20_box SET
+                luvinka_cihaz_id_1 = ?,
+                luvinka_cihaz_id_2 = ?,
+                luvinka_cihaz_id_3 = ?,
+                luvinka_cihaz_id_4 = ?,
+                luvinka_cihaz_id_5 = ?,
+                luvinka_cihaz_id_6 = ?,
+                luvinka_cihaz_id_7 = ?,
+                luvinka_cihaz_id_8 = ?,
+                luvinka_cihaz_id_9 = ?,
+                luvinka_cihaz_id_10 = ?,
+                luvinka_cihaz_id_11 = ?,
+                luvinka_cihaz_id_12 = ?,
+                luvinka_cihaz_id_13 = ?,
+                luvinka_cihaz_id_14 = ?,
+                luvinka_cihaz_id_15 = ?,
+                luvinka_cihaz_id_16 = ?,
+                luvinka_cihaz_id_17 = ?,
+                luvinka_cihaz_id_18 = ?,
+                luvinka_cihaz_id_19 = ?,
+                luvinka_cihaz_id_20 = ?
+            WHERE id_luvinka_20_box = ?
+            `,
+            [...cihazlar, boxId]
+        );
+
+
+
+        res.status(200).json({ message: "Barkod başarıyla kaydedildi!", barkod, barkodDateSave, cihazIdler });
+        // res.status(200).send();
+
+        ///////////////////////////////////////////////////////////////////
 
         //stok yeterliyse 20 azalt 
 
@@ -1878,9 +2056,15 @@ router.get("/luvinka/20/box/barkod", async function (req, res) {
 
     try {
 
-        const [luvinkaBox20pcsListİtem] = await db.execute("SELECT id_luvinka_20_box_list, luvinka_20_box_list_barkod, luvinka_20_box_list_date FROM luvinka_20_box_list");
+        // const [luvinkaBox20pcsListİtem] = await db.execute("SELECT id_luvinka_20_box_list, luvinka_20_box_list_barkod, luvinka_20_box_list_date FROM luvinka_20_box_list");
 
-        res.json(luvinkaBox20pcsListİtem);
+        // res.json(luvinkaBox20pcsListİtem);
+
+
+
+        const [LuvinkaBox] = await db.execute("SELECT id_luvinka_20_box, luvinka_20_box_barkod,luvinka_20_box_date,  luvinka_cihaz_id_1 , luvinka_cihaz_id_2 , luvinka_cihaz_id_3 ,  luvinka_cihaz_id_4 , luvinka_cihaz_id_5 , luvinka_cihaz_id_6 , luvinka_cihaz_id_7 , luvinka_cihaz_id_8 , luvinka_cihaz_id_9 , luvinka_cihaz_id_10, luvinka_cihaz_id_11, luvinka_cihaz_id_12, luvinka_cihaz_id_13, luvinka_cihaz_id_14, luvinka_cihaz_id_15, luvinka_cihaz_id_16, luvinka_cihaz_id_17, luvinka_cihaz_id_18, luvinka_cihaz_id_19, luvinka_cihaz_id_20 FROM luvinka_20_box")
+
+        res.json(LuvinkaBox);
 
 
     } catch (error) {
@@ -1993,10 +2177,6 @@ router.get("/luvinka/100/box/list/get", async function (req, res) {
 
 
 ///////////////////////////////////////////////100lük barkod
-
-
-
-
 
 
 

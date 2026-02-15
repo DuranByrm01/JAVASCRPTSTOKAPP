@@ -19,7 +19,7 @@ router.get("/save", function (req, res) {
     }
 });
 
-router.use("/gunlukList", function (req, res) {
+router.get("/gunlukList", function (req, res) {
 
     res.render("admin/gunlukList", {
         title: "STOCK APP"
@@ -27,13 +27,19 @@ router.use("/gunlukList", function (req, res) {
     });
 });
 
-router.use("/sertifika", function (req, res) {
 
-    res.render("admin/sertifika", {
-        title: "SERTİFiKA APP"
 
-    });
+router.get("/certificate", function (req, res) {
+    try {
+
+        res.render("admin/certificate", {
+            title: "İNKATECH CERTİFİCATE APP"
+        });
+    } catch (error) {
+        console.log("sertifika sayfası hatası", error);
+    }
 });
+
 
 
 

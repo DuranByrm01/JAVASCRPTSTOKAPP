@@ -1,96 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <%- include("../partials/meta") %>
-    
-    <title>STOCKAPP LOGIN</title>
 
-    <style>
+        <title>STOCKAPP LOGIN</title>
 
-        body{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color: #212529 ;
-            height: 100vh;
-            display: flex;
-            justify-content: start;
-            align-items: center;
-            flex-direction: column;
-        }
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                background-color: #212529;
+                height: 100vh;
+                display: flex;
+                justify-content: start;
+                align-items: center;
+                flex-direction: column;
+            }
 
-        .loginForm{
-            background-color: #FFC107;
-            width: 30vw;
-            height: auto;
-            padding: 30px;
-            border-radius: 10px;
-           
-        }
-
-        
-
-        .headlogin{
-            background-color:#0D6EFD ;
-            padding: 20px;
-            width: 50%;
-            border-radius: 10px;
-            position: relative;
-            margin-top: 10%;
-            cursor: pointer;
-        }
-
-        .logoLogin{
-            text-align: center;
-            color: white;
-            font-size: 3rem;
-            
-        }
-
-
-        @media (max-width: 768px){
-
-            .loginForm{
+            .loginForm {
                 background-color: #FFC107;
-                width: 100%;
+                width: 30vw;
                 height: auto;
                 padding: 30px;
                 border-radius: 10px;
-            
+
             }
 
-            .headlogin{
-                background-color:#0D6EFD ;
+
+
+            .headlogin {
+                background-color: #0D6EFD;
                 padding: 20px;
-                width: 100%;
+                width: 50%;
                 border-radius: 10px;
                 position: relative;
                 margin-top: 10%;
                 cursor: pointer;
             }
 
-        }
+            .logoLogin {
+                text-align: center;
+                color: white;
+                font-size: 3rem;
+
+            }
 
 
-    </style>
+            @media (max-width: 768px) {
+
+                .loginForm {
+                    background-color: #FFC107;
+                    width: 100%;
+                    height: auto;
+                    padding: 30px;
+                    border-radius: 10px;
+
+                }
+
+                .headlogin {
+                    background-color: #0D6EFD;
+                    padding: 20px;
+                    width: 100%;
+                    border-radius: 10px;
+                    position: relative;
+                    margin-top: 10%;
+                    cursor: pointer;
+                }
+
+            }
+        </style>
 
 </head>
-<body >
+
+<body>
 
     <div class="headlogin">
-        <h1 class="logoLogin">STOCKAPP</h1>
+        <h1 class="logoLogin">İNKATECH STOCKAPP</h1>
     </div>
     <br>
-    <form id="loginForm"  class="loginForm">
+    <form id="loginForm" class="loginForm">
         <div class="form-group">
-          <label for="exampleInputEmail1">User Name</label>
-          <input type="text" class="form-control" id="exampleInputUserName1" aria-describedby="emailHelp" placeholder="Kullanıcı Adınızı Giriniz...">
-          
+            <label for="exampleInputEmail1">User Name</label>
+            <input type="text" class="form-control" id="exampleInputUserName1" aria-describedby="emailHelp"
+                placeholder="Kullanıcı Adınızı Giriniz...">
+
         </div>
         <br>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifrenizi Giriniz...">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifrenizi Giriniz...">
         </div>
         <!-- <div class="form-group form-check">
           <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -132,11 +132,19 @@
                 console.log("user giriş yapıldı...");
 
                 // role'e göre yönlendir
+
                 if (data.role === "admin") {
                     window.location.href = "/index";
-                } else {
+                }
+
+                if (data.role === "user") {
                     window.location.href = "/liveScreen";
                 }
+
+                if (data.role === "reader") {
+                    window.location.href = "admin/certificate";
+                }
+
             } else {
                 alert("Hatalı kullanıcı adı veya şifre!");
             }
@@ -148,4 +156,5 @@
 
 
 </body>
+
 </html>
