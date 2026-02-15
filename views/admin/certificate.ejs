@@ -42,6 +42,15 @@
 
             let cihazList = []; // global array
 
+            const codeT = document.querySelector("#aramaInput");
+
+            // Enter ile ara
+            codeT.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    araBtn.click();
+                }
+            });
 
 
             araBtn.addEventListener("click", async () => {
@@ -403,7 +412,14 @@
                     .save(`${sourceTable.toUpperCase()}_${barkod}_sertifika.pdf`);
 
 
-
+                // // Yazdır deneme
+                // setTimeout(() => {
+                //     const printWindow = window.open('', '_blank');
+                //     printWindow.document.write(content);
+                //     printWindow.document.close();
+                //     printWindow.focus();
+                //     printWindow.print();
+                // }, 500);
 
 
 
