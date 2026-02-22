@@ -91,7 +91,38 @@
                             let pdfTitle = "";
                             let pdfDatalogger = "";
 
-                            // tabloya göre cihaz ID ve yazıları ayarla
+                            // // tabloya göre cihaz ID ve yazıları ayarla
+                            // if (row.source_table === "trc60_20pcs_box") {
+                            //     for (let i = 1; i <= 20; i++) {
+                            //         const key = `trc60_cihaz_id_${i}`;
+                            //         if (row[key]) ids.push(row[key]);
+                            //     }
+                            //     barkod = row.trc60_20pcs_box_barkod;
+                            //     pdfTitle = "TRC60 PDF";
+                            //     pdfDatalogger = "TRC60 PDF DATALOGGER";
+                            // } else if (row.source_table === "trc01_20pcs_box") {
+                            //     for (let i = 1; i <= 20; i++) {
+                            //         const key = `trc01_cihaz_id_${i}`;
+                            //         if (row[key]) ids.push(row[key]);
+                            //     }
+                            //     barkod = row.trc01_20pcs_box_barkod;
+                            //     pdfTitle = "TRC01 PDF";
+                            //     pdfDatalogger = "TRC01 PDF DATALOGGER";
+                            // } else if (row.source_table === "luvinka_20_box") {
+                            //     for (let i = 1; i <= 20; i++) {
+                            //         const key = `luvinka_cihaz_id_${i}`;
+                            //         if (row[key]) ids.push(row[key]);
+                            //     }
+                            //     barkod = row.luvinka_20_box_barkod;
+                            //     pdfTitle = "LUVINKA PDF";
+                            //     pdfDatalogger = "LUVINKA PDF DATALOGGER";
+                            // }
+
+
+                            ///////////////////////////////////////////////////
+
+                            const isExternal = row.source_table?.includes("GOLD");
+
                             if (row.source_table === "trc60_20pcs_box") {
                                 for (let i = 1; i <= 20; i++) {
                                     const key = `trc60_cihaz_id_${i}`;
@@ -100,6 +131,7 @@
                                 barkod = row.trc60_20pcs_box_barkod;
                                 pdfTitle = "TRC60 PDF";
                                 pdfDatalogger = "TRC60 PDF DATALOGGER";
+
                             } else if (row.source_table === "trc01_20pcs_box") {
                                 for (let i = 1; i <= 20; i++) {
                                     const key = `trc01_cihaz_id_${i}`;
@@ -108,6 +140,7 @@
                                 barkod = row.trc01_20pcs_box_barkod;
                                 pdfTitle = "TRC01 PDF";
                                 pdfDatalogger = "TRC01 PDF DATALOGGER";
+
                             } else if (row.source_table === "luvinka_20_box") {
                                 for (let i = 1; i <= 20; i++) {
                                     const key = `luvinka_cihaz_id_${i}`;
@@ -116,7 +149,28 @@
                                 barkod = row.luvinka_20_box_barkod;
                                 pdfTitle = "LUVINKA PDF";
                                 pdfDatalogger = "LUVINKA PDF DATALOGGER";
+
                             }
+
+                            // ✅ EXTERNAL DESTEK
+                            if (isExternal) {
+
+                                // barkod
+                                barkod = row.kutu_barkod || "GOLD";
+
+                                // cihazları 1-20 alanlardan topla
+                                ids = [];
+                                for (let i = 1; i <= 20; i++) {
+                                    const key = `cihaz_id_${i}`;
+                                    if (row[key]) ids.push(row[key]);
+                                }
+
+                                pdfTitle = "GOLD";
+                                pdfDatalogger = "GOLD REAL TIME DATALOGGER";
+
+                                barkod = barkod;
+                            }
+
 
                             cihazList = ids; // global array’e ata
 
@@ -499,6 +553,59 @@
                 console.log("Giriş doğrulandı:", user.username, user.role);
             });
 
+
+
+        </script>
+
+        <script>
+
+
+
+            // const BASE = "http://141.98.153.239:3005/api";
+
+            // async function test() {
+            //     try {
+            //         console.log("=== CİHAZ ===");
+            //         let r = await fetch(`${BASE}/getCihazPaketlemeDetay?cihazID=63132749`);
+            //         let j = await r.json();
+            //         console.log(j);
+
+            //         // console.log("\n=== KUTU ===");
+            //         // r = await fetch(`${BASE}/getKutuDetay?kutuBarkod=10007161`);
+            //         // j = await r.json();
+            //         // console.log(j);
+
+            //         // console.log("\n=== KOLİ ===");
+            //         // r = await fetch(`${BASE}/getKoliDetay?koliBarkod=90001081`);
+            //         // j = await r.json();
+            //         // console.log(j);
+
+            //     } catch (e) {
+            //         console.error("HATA:", e.message);
+            //     }
+            // }
+
+            // test();
+
+
+
+            // async function getKutuCihazList(kutuBarkod) {
+            //     const res = await fetch(`http://141.98.153.239:3005/api/getKutuDetay?kutuBarkod=${kutuBarkod}`);
+            //     const j = await res.json();
+
+            //     if (!j.success) return null;
+
+            //     return {
+            //         kutuBarkod: j.kutuBarkod,
+            //         cihazIDs: j.cihazlar.map(c => c.CihazID)
+            //     };
+            // }
+
+
+            // (async () => {
+            //     const data = await getKutuCihazList("10007158");
+            //     console.log("sadece kutu", data);
+            // })();
 
 
         </script>

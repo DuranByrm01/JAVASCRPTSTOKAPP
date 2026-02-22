@@ -53,6 +53,54 @@ const db = require("../data/db");
 //     }
 // });
 
+async function getKutuByDeviceID(cihazID) {
+    const res = await fetch(`http://141.98.153.239:3005/api/getCihazPaketlemeDetay?cihazID=${cihazID}`);
+    const j = await res.json();
+
+    // console.log("CİHAZ API:", j);
+
+    if (!j.success || !j.data || !j.data.KutuBarkod) return null;
+
+    const kutuBarkod = j.data.KutuBarkod;
+
+
+    return await getExternalBoxRow(kutuBarkod);
+}
+
+
+async function getKutuCihazList(kutuBarkod) {
+    const res = await fetch(`http://141.98.153.239:3005/api/getKutuDetay?kutuBarkod=${kutuBarkod}`);
+    const j = await res.json();
+
+    // console.log("dönen data", kutuBarkod);
+
+
+
+    if (!j.success) return null;
+
+    return {
+        kutuBarkod: j.kutuBarkod,
+        cihazIDs: j.cihazlar.map(c => c.CihazID)
+    };
+}
+
+async function getExternalBoxRow(code) {
+    const kutu = await getKutuCihazList(code);
+    if (!kutu) return null;
+
+    const row = {
+        source_table: "GOLD",
+        external: true,
+        kutu_barkod: kutu.kutuBarkod
+    };
+
+    kutu.cihazIDs.forEach((id, i) => {
+        row[`cihaz_id_${i + 1}`] = id;
+    });
+
+    return row;
+}
+
 
 router.post('/certificate/search', async (req, res) => {
     const { code } = req.body;
@@ -137,17 +185,77 @@ router.post('/certificate/search', async (req, res) => {
         const results = await Promise.all(queries.map(q => db.execute(q, params)));
         const mergedRows = results.flatMap(r => r[0]); // [rows, fields] => rows
 
+        // if (mergedRows.length > 0) {
+        //     res.json({ success: true, data: mergedRows });
+        // }
+
         if (mergedRows.length > 0) {
-            res.json({ success: true, data: mergedRows });
-        } else {
-            res.json({ success: false, message: "Kayıt bulunamadı" });
+            return res.json({ success: true, data: mergedRows, source: "local" });
         }
+
+        console.log("db de aranan id yok");
+
+
+
+        // const external = await getExternalBoxRow(code);
+
+        // if (external) {
+        //     return res.json({
+        //         success: true,
+        //         data: [external],
+        //         source: "GOLD"
+        //     });
+        // } else {
+        //     res.json({ success: false, message: "Kayıt bulunamadı" });
+        // }
+
+        // 2️⃣ ÖNCE CİHAZ API
+        const deviceRes = await fetch(`http://141.98.153.239:3005/api/getCihazPaketlemeDetay?cihazID=${code}`);
+        const deviceJson = await deviceRes.json();
+
+        console.log("CİHAZ API:", deviceJson);
+
+        if (deviceJson.success && deviceJson.data?.KutuBarkod) {
+            const kutuBarkod = deviceJson.data.KutuBarkod;
+            // console.log("Cihazdan gelen kutu:", kutuBarkod);
+
+            const external = await getExternalBoxRow(kutuBarkod);
+
+            if (external) {
+                return res.json({
+                    success: true,
+                    data: [external],
+                    source: "GOLD"
+                });
+            }
+        }
+
+        // önce kutu barkod olarak dene
+        let external = await getExternalBoxRow(code);
+
+        // bulunamadıysa → cihazID olarak dene
+        if (!external) {
+            external = await getKutuByDeviceID(code);
+        }
+
+        if (external) {
+            return res.json({
+                success: true,
+                data: [external],
+                source: "GOLD"
+            });
+        }
+
+        return res.json({ success: false, message: "Kayıt bulunamadı" });
 
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: "Sunucu hatası" });
     }
 });
+
+
+
 
 
 
