@@ -242,10 +242,10 @@
                 const today = new Date();
 
                 const day = String(today.getDate()).padStart(2, "0");
-                const mounth = String(today.getMonth() + 1).padStart(2, "0");
+                const month = String(today.getMonth() + 1).padStart(2, "0"); // doğru
                 const year = today.getFullYear();
 
-                const barkodDateFormat = `${day}.${mounth}.${year}`;
+                const barkodDateFormat = `${year}/${month}/${day}`;
 
 
 
@@ -496,7 +496,7 @@
                 // Sertifikayı oluşturacak HTML içerik
                 const content = `
             <div style="padding: 5px; width: auto;">
-              <img style="width: 150px;" src="/img/logo_bg.png" alt="LOGO">
+              <img style="width: 120px;" src="/img/logo_bg.png" alt="LOGO">
             </div>
 
 
@@ -513,7 +513,7 @@
                       <tr>
                           <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px;">Certificate Number:</th>
                           <td style="border: 1px solid black; width: auto; text-align: start; padding: 5px;">${kutuNo}</td>
-                          <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px;">Certificate Date: </th>
+                          <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px;">Creation Date: </th>
                           <td style="border: 1px solid black; width: auto; text-align: start; padding: 5px;">${formatliBugun}</td>
                       </tr>
                     

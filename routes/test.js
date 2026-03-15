@@ -64,6 +64,7 @@ async function getKutuByDeviceID(cihazID) {
     const kutuBarkod = j.data.KutuBarkod;
 
 
+
     return await getExternalBoxRow(kutuBarkod);
 }
 
@@ -72,15 +73,46 @@ async function getKutuCihazList(kutuBarkod) {
     const res = await fetch(`http://141.98.153.239:3005/api/getKutuDetay?kutuBarkod=${kutuBarkod}`);
     const j = await res.json();
 
-    // console.log("dönen data", kutuBarkod);
-
-
+    // console.log("dönen data", j.cihazlar[0].KutuTarih);
 
     if (!j.success) return null;
 
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    let kutulamaTarihi = j.cihazlar[0].KutuTarih || null;
+
+    let dateKutu = kutulamaTarihi ? new Date(kutulamaTarihi.replace(" ", "T"))
+        : null;
+
+    let y = dateKutu.getFullYear();
+    let m = String(dateKutu.getMonth() + 1).padStart(2, "0");
+    let d = String(dateKutu.getDate()).padStart(2, "0");
+
+
+    let kutuKayitTarihi = `${y}/${m}/${d}`;
+
+
+    // ✅ 1 YIL SONRASI
+    let dateNext = new Date(dateKutu);
+    dateNext.setFullYear(dateNext.getFullYear() + 1);
+
+    let y2 = dateNext.getFullYear();
+    let m2 = String(dateNext.getMonth() + 1).padStart(2, "0");
+    let d2 = String(dateNext.getDate()).padStart(2, "0");
+
+    let kutuSonTarih = `${y2}/${m2}/${d2}`;
+
+    console.log("kayıt tarihi", kutuKayitTarihi);
+    console.log("son tarih", kutuSonTarih);
+
+    ////////////////////////////////////////////////////////////////////////////////////
+
+
     return {
         kutuBarkod: j.kutuBarkod,
-        cihazIDs: j.cihazlar.map(c => c.CihazID)
+        cihazIDs: j.cihazlar.map(c => c.CihazID),
+        kutuKayitTarihi, // eklendi tarih
+        kutuSonTarih // eklendi son tarih
     };
 }
 
@@ -91,7 +123,9 @@ async function getExternalBoxRow(code) {
     const row = {
         source_table: "GOLD",
         external: true,
-        kutu_barkod: kutu.kutuBarkod
+        kutu_barkod: kutu.kutuBarkod,
+        kutu_kayit_tarihi: kutu.kutuKayitTarihi, // 
+        kutu_son_tarih: kutu.kutuSonTarih        // 
     };
 
     kutu.cihazIDs.forEach((id, i) => {
@@ -104,15 +138,21 @@ async function getExternalBoxRow(code) {
 
 router.post('/certificate/search', async (req, res) => {
     const { code } = req.body;
+
     console.log("Aranan kod:", code);
+
+
 
     // Her tablo için 1 barkod + 20 cihaz id olacak şekilde array
     const params = Array(21).fill(code);
 
     try {
         const queries = [
-            `SELECT *, 'trc60_20pcs_box' AS source_table FROM trc60_20pcs_box
-             WHERE trc60_20pcs_box_barkod = ?
+            `SELECT *,
+            trc60_20pcs_box_date AS box_date,
+            'trc60_20pcs_box' AS source_table
+            FROM trc60_20pcs_box
+            WHERE trc60_20pcs_box_barkod = ?
              OR trc60_cihaz_id_1  = ?
              OR trc60_cihaz_id_2  = ?
              OR trc60_cihaz_id_3  = ?
@@ -134,7 +174,7 @@ router.post('/certificate/search', async (req, res) => {
              OR trc60_cihaz_id_19 = ?
              OR trc60_cihaz_id_20 = ?`,
 
-            `SELECT *, 'trc01_20pcs_box' AS source_table FROM trc01_20pcs_box
+            `SELECT *, trc01_20pcs_box_date AS box_date, 'trc01_20pcs_box' AS source_table FROM trc01_20pcs_box
              WHERE trc01_20pcs_box_barkod = ?
              OR trc01_cihaz_id_1  = ?
              OR trc01_cihaz_id_2  = ?
@@ -157,7 +197,7 @@ router.post('/certificate/search', async (req, res) => {
              OR trc01_cihaz_id_19 = ?
              OR trc01_cihaz_id_20 = ?`,
 
-            `SELECT *, 'luvinka_20_box' AS source_table FROM luvinka_20_box
+            `SELECT *, luvinka_20_box_date AS box_date, 'luvinka_20_box' AS source_table FROM luvinka_20_box
              WHERE luvinka_20_box_barkod = ?
              OR luvinka_cihaz_id_1  = ?
              OR luvinka_cihaz_id_2  = ?
@@ -189,14 +229,92 @@ router.post('/certificate/search', async (req, res) => {
         //     res.json({ success: true, data: mergedRows });
         // }
 
+        /////////////////////////////////////////////////////////////////////////////////////////
+
+
+        // if (mergedRows.length > 0) {
+        //     return res.json({ success: true, data: mergedRows, source: "local" });
+
+        // }
+
+        // console.log("db de aranan id yok");
+
+        // console.log(mergedRows);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        // if (mergedRows.length > 0) {
+
+        //     mergedRows.forEach(row => {
+
+        //         if (row.box_date) {
+        //             row.kutu_kayit_tarihi = row.box_date;
+        //         }
+
+        //         if (row.kutu_kayit_tarihi) {
+
+        //             const [year, month, day] = row.kutu_kayit_tarihi.split("/");
+
+        //             const nextYear = Number(year) + 1;
+
+        //             row.kutu_son_tarih = `${nextYear}/${month}/${day}`;
+        //         }
+
+        //     });
+
+        //     return res.json({
+        //         success: true,
+        //         data: mergedRows,
+        //         source: "local"
+        //     });
+
+        // }
+
         if (mergedRows.length > 0) {
-            return res.json({ success: true, data: mergedRows, source: "local" });
+            mergedRows.forEach(row => {
+
+                if (row.box_date) {
+                    row.kutu_kayit_tarihi = row.box_date;
+                }
+
+                if (row.kutu_kayit_tarihi) {
+
+                    let day, month, year;
+
+                    if (row.kutu_kayit_tarihi.includes(".")) {
+                        // Eski format: DD.MM.YYYY
+                        [day, month, year] = row.kutu_kayit_tarihi.split(".");
+                    } else if (row.kutu_kayit_tarihi.includes("/")) {
+                        // Yeni format: YYYY/MM/DD
+                        [year, month, day] = row.kutu_kayit_tarihi.split("/");
+                    } else {
+                        // Tanınmayan format → null
+                        day = month = year = null;
+                    }
+
+                    if (year && month && day) {
+                        // Her zaman YYYY/MM/DD formatında yaz
+                        row.kutu_kayit_tarihi = `${year}/${month}/${day}`;
+
+                        const nextYear = Number(year) + 1;
+                        row.kutu_son_tarih = `${nextYear}/${month}/${day}`;
+                    } else {
+                        row.kutu_son_tarih = null; // geçersiz tarih
+                    }
+
+                }
+
+            });
+
+            return res.json({
+                success: true,
+                data: mergedRows,
+                source: "local"
+            });
         }
 
-        console.log("db de aranan id yok");
 
-
-
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////
         // const external = await getExternalBoxRow(code);
 
         // if (external) {
@@ -243,6 +361,7 @@ router.post('/certificate/search', async (req, res) => {
                 success: true,
                 data: [external],
                 source: "GOLD"
+
             });
         }
 

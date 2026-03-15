@@ -356,26 +356,26 @@ router.get('/urunler/uretimSayiGZC24Gold/get', async function (req, res) {
 
     try {
 
-        // const [uretimSayiGZC24Gold] = await db.execute(
-        //     "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1004' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
-        // );
+        const [uretimSayiGZC24Gold] = await db.execute(
+            "SELECT urun_key, urun_malzeme_adet FROM urunmalzemeleri WHERE urun_key = '1004' ORDER BY urun_malzeme_adet ASC LIMIT 1;"
+        );
 
-        const [uretimSayiGZC24Gold] = await db.execute(`
-            (
-                SELECT urun_key, urun_malzeme_adet 
-                FROM urunmalzemeleri 
-                WHERE urun_key = '1003' 
-                AND malzeme_id IN (27, 28, 29, 30, 31, 32)
-            )
-            UNION ALL
-            (
-                SELECT urun_key, urun_malzeme_adet 
-                FROM urunmalzemeleri 
-                WHERE urun_key = '1004'
-            )
-            ORDER BY urun_malzeme_adet ASC
-            LIMIT 1;
-        `);
+        // const [uretimSayiGZC24Gold] = await db.execute(`
+        //     (
+        //         SELECT urun_key, urun_malzeme_adet 
+        //         FROM urunmalzemeleri 
+        //         WHERE urun_key = '1003' 
+        //         AND malzeme_id IN (27, 28, 29, 30, 31, 32)
+        //     )
+        //     UNION ALL
+        //     (
+        //         SELECT urun_key, urun_malzeme_adet 
+        //         FROM urunmalzemeleri 
+        //         WHERE urun_key = '1004'
+        //     )
+        //     ORDER BY urun_malzeme_adet ASC
+        //     LIMIT 1;
+        // `);
 
 
 
@@ -526,7 +526,7 @@ router.post("/barkod/data/save", async (req, res) => {
     const { barkod, barkodDateSave, cihazIdler } = req.body;
 
 
-    console.log(typeof cihazIdler, cihazIdler);
+    console.log(cihazIdler, cihazIdler, barkodDateSave);
 
     try {
 
@@ -1374,40 +1374,40 @@ router.post("/gold/Anyday/post", async (req, res) => {
     console.log(`Kutu sayısı ${cihazKutu} tarih ${date} üretim adeti ${adet} gün ayarı ${day}`);
 
     try {
-        // const [rows] = await db.execute(
-        //     "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004"
-        // );
+        const [rows] = await db.execute(
+            "SELECT urun_key, urun_malzeme_adet, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004"
+        );
         console.log(" İstek alındı:", req.body);
 
-        const [rows] = await db.execute(`
-            (
-                SELECT urun_key, urun_malzeme_adet, malzeme_id 
-                FROM urunmalzemeleri 
-                WHERE urun_key = 1004
-            )
-            UNION ALL
-            (
-                SELECT urun_key, urun_malzeme_adet, malzeme_id 
-                FROM urunmalzemeleri 
-                WHERE urun_key = 1003 
-                AND malzeme_id IN (23, 24, 25, 27, 28, 29, 30, 31, 32,68)
-            )
-        `);
+        // const [rows] = await db.execute(`
+        //     (
+        //         SELECT urun_key, urun_malzeme_adet, malzeme_id 
+        //         FROM urunmalzemeleri 
+        //         WHERE urun_key = 1004
+        //     )
+        //     UNION ALL
+        //     (
+        //         SELECT urun_key, urun_malzeme_adet, malzeme_id 
+        //         FROM urunmalzemeleri 
+        //         WHERE urun_key = 1003 
+        //         AND malzeme_id IN (23, 24, 25, 27, 28, 29, 30, 31, 32,68)
+        //     )
+        // `);
 
 
 
-        const [tekliÜrünlerEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (23,27, 28, 29, 30,68)"
+        // const [tekliÜrünlerEksiltme] = await db.execute(
+        //     "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (23,27, 28, 29, 30,68)"
 
-        );
+        // );
 
-        const [tekliEtketEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (31, 32)"
+        // const [tekliEtketEksiltme] = await db.execute(
+        //     "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (31, 32)"
 
-        );
+        // );
 
         const [kutularEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1003 AND malzeme_id IN (24, 25,66)"
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004 AND malzeme_id IN (80)"
         );
 
 
@@ -1416,11 +1416,11 @@ router.post("/gold/Anyday/post", async (req, res) => {
         let ignoreMalzemeIds = []; // En başta tanımla
 
         if (day === "20 DAY") {
-            ignoreMalzemeIds = [29, 30, 24, 25, 31, 32];
+            ignoreMalzemeIds = [78, 79, 80];
         } else if (day === "40 DAY") {
-            ignoreMalzemeIds = [28, 30, 24, 25, 31, 32];
+            ignoreMalzemeIds = [77, 79, 80];
         } else if (day === "60 DAY") {
-            ignoreMalzemeIds = [28, 29, 24, 25, 31, 32];
+            ignoreMalzemeIds = [77, 78, 80];
         } else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
@@ -1474,62 +1474,71 @@ router.post("/gold/Anyday/post", async (req, res) => {
 
         // 24 ve 25 için özel eksiltme
         for (let row of kutularEksiltme) {
-            if (row.malzeme_id === 24) {
-                await db.execute(
-                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
-                    [cihazKutu, 24]
-                );
-                console.log(`✔ 24 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
-            } else if (row.malzeme_id === 25) {
-                const azaltmaAdeti = Math.floor(cihazKutu / 3);
-                await db.execute(
-                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
-                    [azaltmaAdeti, 25]
-                );
-                console.log(`✔ 25 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
-            } else if (row.malzeme_id === 66) {
-                const koliazaltma = Math.floor(cihazKutu / 9);
-                await db.execute(
-                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
-                    [koliazaltma, 66]
-                );
-                console.log(`✔ 25 numaralı malzemeden ${koliazaltma} adet eksiltildi.`);
-            }
-        }
+            // if (row.malzeme_id === 24) {
+            //     await db.execute(
+            //         "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
+            //         [cihazKutu, 24]
+            //     );
+            //     console.log(`✔ 24 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
+            // } else if (row.malzeme_id === 25) {
+            //     const azaltmaAdeti = Math.floor(cihazKutu / 3);
+            //     await db.execute(
+            //         "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
+            //         [azaltmaAdeti, 25]
+            //     );
+            //     console.log(`✔ 25 numaralı malzemeden ${azaltmaAdeti} adet eksiltildi.`);
+            // } else if (row.malzeme_id === 66) {
+            //     const koliazaltma = Math.floor(cihazKutu / 9);
+            //     await db.execute(
+            //         "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?",
+            //         [koliazaltma, 66]
+            //     );
+            //     console.log(`✔ 25 numaralı malzemeden ${koliazaltma} adet eksiltildi.`);
+            // }
 
-        for (let row of tekliÜrünlerEksiltme) {
-
-            if (row.malzeme_id === 27 || row.malzeme_id === 23 || row.malzeme_id === 68) {
-                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, row.malzeme_id]);
-                console.log(`GOLD için 27 ve 23 ve 68 id li malzemeden ${adet} kadar azaltıldı`);
-            } else if (day === "20 DAY" && row.malzeme_id === 28) {
-                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 28])
-                console.log(`GOLD için 28 id li malzemeden ${adet} kadar azaltıldı`);
-            } else if (day === "40 DAY" && row.malzeme_id === 29) {
-                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 29])
-                console.log(`GOLD için 29 id li malzemeden ${adet} kadar azaltıldı`);
-            } else if (day === "60 DAY" && row.malzeme_id === 30) {
-                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 30])
-                console.log(`GOLD için 30 id li malzemeden ${adet} kadar azaltıldı`);
-            } else {
-                console.log("27,28,29 ve 30 eksiltilemedi")
+            if (row.malzeme_id === 80) {
+                await db.execute(
+                    "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1004 AND malzeme_id = ?",
+                    [cihazKutu, 80]
+                );
+                console.log(`✔ 80 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
             }
 
         }
+
+        // for (let row of tekliÜrünlerEksiltme) {
+
+        //     if (row.malzeme_id === 27 || row.malzeme_id === 23 || row.malzeme_id === 68) {
+        //         await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, row.malzeme_id]);
+        //         console.log(`GOLD için 27 ve 23 ve 68 id li malzemeden ${adet} kadar azaltıldı`);
+        //     } else if (day === "20 DAY" && row.malzeme_id === 28) {
+        //         await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 28])
+        //         console.log(`GOLD için 28 id li malzemeden ${adet} kadar azaltıldı`);
+        //     } else if (day === "40 DAY" && row.malzeme_id === 29) {
+        //         await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 29])
+        //         console.log(`GOLD için 29 id li malzemeden ${adet} kadar azaltıldı`);
+        //     } else if (day === "60 DAY" && row.malzeme_id === 30) {
+        //         await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [adet, 30])
+        //         console.log(`GOLD için 30 id li malzemeden ${adet} kadar azaltıldı`);
+        //     } else {
+        //         console.log("27,28,29 ve 30 eksiltilemedi")
+        //     }
+
+        // }
 
         /////////////////////////////////////////////////////////
 
-        for (let row of tekliEtketEksiltme) {
-            if (row.malzeme_id === 31) {
-                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 31]);
-                console.log(`GZC24 için 31 id li malzemeden ${cihazKutu} kadar azaltıldı`);
-            } else if (row.malzeme_id === 32) {
-                await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 32])
-                console.log(`GZC24 için 32 id li malzemeden ${cihazKutu} kadar azaltıldı`);
-            } else {
-                console.log("31 ve 32 eksiltilemedi")
-            }
-        }
+        // for (let row of tekliEtketEksiltme) {
+        //     if (row.malzeme_id === 31) {
+        //         await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 31]);
+        //         console.log(`GZC24 için 31 id li malzemeden ${cihazKutu} kadar azaltıldı`);
+        //     } else if (row.malzeme_id === 32) {
+        //         await db.execute("UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1003 AND malzeme_id = ?", [cihazKutu, 32])
+        //         console.log(`GZC24 için 32 id li malzemeden ${cihazKutu} kadar azaltıldı`);
+        //     } else {
+        //         console.log("31 ve 32 eksiltilemedi")
+        //     }
+        // }
 
 
 

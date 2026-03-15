@@ -90,34 +90,13 @@
                             let barkod = "";
                             let pdfTitle = "";
                             let pdfDatalogger = "";
+                            // let kutuTarih = "";
+                            // let kutuSonTarih = "";
 
-                            // // tabloya göre cihaz ID ve yazıları ayarla
-                            // if (row.source_table === "trc60_20pcs_box") {
-                            //     for (let i = 1; i <= 20; i++) {
-                            //         const key = `trc60_cihaz_id_${i}`;
-                            //         if (row[key]) ids.push(row[key]);
-                            //     }
-                            //     barkod = row.trc60_20pcs_box_barkod;
-                            //     pdfTitle = "TRC60 PDF";
-                            //     pdfDatalogger = "TRC60 PDF DATALOGGER";
-                            // } else if (row.source_table === "trc01_20pcs_box") {
-                            //     for (let i = 1; i <= 20; i++) {
-                            //         const key = `trc01_cihaz_id_${i}`;
-                            //         if (row[key]) ids.push(row[key]);
-                            //     }
-                            //     barkod = row.trc01_20pcs_box_barkod;
-                            //     pdfTitle = "TRC01 PDF";
-                            //     pdfDatalogger = "TRC01 PDF DATALOGGER";
-                            // } else if (row.source_table === "luvinka_20_box") {
-                            //     for (let i = 1; i <= 20; i++) {
-                            //         const key = `luvinka_cihaz_id_${i}`;
-                            //         if (row[key]) ids.push(row[key]);
-                            //     }
-                            //     barkod = row.luvinka_20_box_barkod;
-                            //     pdfTitle = "LUVINKA PDF";
-                            //     pdfDatalogger = "LUVINKA PDF DATALOGGER";
-                            // }
 
+                            let kutuTarih = row.kutu_kayit_tarihi;
+
+                            let kutuSonTarih = row.kutu_son_tarih;
 
                             ///////////////////////////////////////////////////
 
@@ -147,8 +126,8 @@
                                     if (row[key]) ids.push(row[key]);
                                 }
                                 barkod = row.luvinka_20_box_barkod;
-                                pdfTitle = "LUVINKA PDF";
-                                pdfDatalogger = "LUVINKA PDF DATALOGGER";
+                                pdfTitle = "LUVİNKA DT-6001 PDF";
+                                pdfDatalogger = "LUVİNKA DT-6001 PDF DATALOGGER";
 
                             }
 
@@ -169,6 +148,17 @@
                                 pdfDatalogger = "GOLD REAL TIME DATALOGGER";
 
                                 barkod = barkod;
+
+
+
+
+
+                                console.log("Kutulama tarihi DEEEEEE:", kutuTarih);
+                                console.log("Kutulama tarihi SOOOON:", kutuSonTarih);
+
+
+
+
                             }
 
 
@@ -178,6 +168,8 @@
 
                             resultDiv.innerHTML = `
                                 <h3>Kutu Barkodu: ${barkod}</h3>
+                                <p >Üretim Tarihi: ${kutuTarih || ""}</p>
+                                <p >Son Kullanım Tarihi: ${kutuSonTarih || ""}</p>
                                 <p>Cihazlar: ${ids.join(", ")}</p>
                                 <button class="btn btn-primary"
                                     onclick='pdfOlustur(
@@ -185,7 +177,10 @@
                                         "${pdfTitle}",
                                         "${pdfDatalogger}",
                                         "${row.source_table}",
-                                        ${JSON.stringify(ids)}
+                                        ${JSON.stringify(ids)},
+                                        "${kutuTarih || ""}",
+                                        "${kutuSonTarih || ""}",
+
                                     )'>
                                     PDF Oluştur
                                 </button>
@@ -229,7 +224,7 @@
 
 
 
-            function pdfOlustur(barkod, pdfTitle, pdfDatalogger, sourceTable, cihazArray) {
+            function pdfOlustur(barkod, pdfTitle, pdfDatalogger, sourceTable, cihazArray, kutuTarih, kutuSonTarih) {
 
                 if (!cihazArray || cihazArray.length === 0) {
                     alert("Cihaz listesi yok");
@@ -238,37 +233,21 @@
 
                 const kutuNo = barkod;
 
+                const today = new Date();
 
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, "0");
+                const day = String(today.getDate()).padStart(2, "0");
 
+                const creationDate = `${year}/${month}/${day}`;
 
-                // Sertifika içeriğini bir HTML elementine yerleştiriyoruz
-                const simdikiTarih = new Date();
-                const gelecekYil = new Date(simdikiTarih);
-                gelecekYil.setFullYear(simdikiTarih.getFullYear() + 1);
-
-                // Şimdiki tarih formatlı
-                const simdikiYil = simdikiTarih.getFullYear();
-                const simdikiAy = String(simdikiTarih.getMonth() + 1).padStart(2, '0');
-                const simdikiGun = String(simdikiTarih.getDate()).padStart(2, '0');
-                const formatliBugun = `${simdikiYil}/${simdikiAy}/${simdikiGun}`;
-
-                // Gelecek yıl formatlı
-                const gelecekYilYil = gelecekYil.getFullYear();
-                const gelecekYilAy = String(gelecekYil.getMonth() + 1).padStart(2, '0');
-                const gelecekYilGun = String(gelecekYil.getDate()).padStart(2, '0');
-                const formatliGelecek = `${gelecekYilYil}/${gelecekYilAy}/${gelecekYilGun}`;
-
-                // Yazdır
-                console.log("Bugünün tarihi: ", formatliBugun);
-                console.log("1 yıl sonrası:  ", formatliGelecek);
-
-
-
+                // console.log(creationDate);
 
 
 
                 // Sertifikayı oluşturacak HTML içerik
                 const content = `
+            <div style="width:794px; margin:0 auto; background:white;">
                     <div style="padding: 5px; width: auto;">
                     <img style="width: 100px;" src="/img/logo_bg.png" alt="LOGO">
                     </div>
@@ -287,8 +266,8 @@
                             <tr>
                                 <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">Certificate Number:</th>
                                 <td style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">${kutuNo}</td>
-                                <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">Certificate Date: </th>
-                                <td style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">${formatliBugun}</td>
+                                <th style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">Creation Date: </th>
+                                <td style="border: 1px solid black; width: auto; text-align: start; padding: 5px; color: black;">${creationDate}</td>
                             </tr>
                             
                         </tbody>
@@ -365,8 +344,8 @@
                                 <tr>
                                     <td style=" border:1px solid black; text-align: center; padding: 5px;">${pdfDatalogger} </td>
                                     <td style=" border:1px solid black; text-align: center; padding: 5px;">${pdfTitle}</td>
-                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">${formatliBugun}</td>
-                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">${formatliGelecek}</td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">${kutuTarih}</td>
+                                    <td style=" border:1px solid black; text-align: center; padding: 5px;">${kutuSonTarih}</td>
                                     <td style=" border:1px solid black; text-align: center; padding: 5px;">20 PCS  </td>
                                 </tr>
                             </tbody>
@@ -450,12 +429,12 @@
                 <div style="padding: 5px; font-size: 12px; color: black; ">
                     <h4>İNKATECH ÖLÇÜM SİSTEMLERİ LTD. ŞTİ. </h4>
                     <p><strong>Address:</strong> Kurttepe Mahallesi, Süleyman Demirel Bulvarı, Gelişim Apt. Zemin Kat. Çukurova/ADANA  </p>
-                    <div class="d-flex gap-5">
+                    <div class="w-100 ">
                         <p><strong>Tel:</strong> +90 (322) 247 35 28</p>
                         <p><strong>E-mail:</strong> info@inkatech.com.tr</p>
                     </div>
                 </div>
-
+            </div>
             `;
 
                 // html2pdf.js ile PDF oluşturma
@@ -464,6 +443,9 @@
                 html2pdf()
                     .from(element)
                     .save(`${sourceTable.toUpperCase()}_${barkod}_sertifika.pdf`);
+
+
+
 
 
                 // // Yazdır deneme
@@ -565,10 +547,10 @@
 
             // async function test() {
             //     try {
-            //         console.log("=== CİHAZ ===");
-            //         let r = await fetch(`${BASE}/getCihazPaketlemeDetay?cihazID=63132749`);
-            //         let j = await r.json();
-            //         console.log(j);
+            //         // console.log("=== CİHAZ ===");
+            //         // let r = await fetch(`${BASE}/getCihazPaketlemeDetay?cihazID=63132749`);
+            //         // let j = await r.json();
+            //         // console.log(j);
 
             //         // console.log("\n=== KUTU ===");
             //         // r = await fetch(`${BASE}/getKutuDetay?kutuBarkod=10007161`);
