@@ -1407,7 +1407,7 @@ router.post("/gold/Anyday/post", async (req, res) => {
         // );
 
         const [kutularEksiltme] = await db.execute(
-            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004 AND malzeme_id IN (80)"
+            "SELECT urun_key, malzeme_id FROM urunmalzemeleri WHERE urun_key = 1004 AND malzeme_id IN (77)"
         );
 
 
@@ -1416,11 +1416,11 @@ router.post("/gold/Anyday/post", async (req, res) => {
         let ignoreMalzemeIds = []; // En başta tanımla
 
         if (day === "20 DAY") {
-            ignoreMalzemeIds = [78, 79, 80];
+            ignoreMalzemeIds = [75, 76, 77];
         } else if (day === "40 DAY") {
-            ignoreMalzemeIds = [77, 79, 80];
+            ignoreMalzemeIds = [74, 76, 77];
         } else if (day === "60 DAY") {
-            ignoreMalzemeIds = [77, 78, 80];
+            ignoreMalzemeIds = [74, 75, 77];
         } else {
             console.log("⚠️ Tanımlanamayan day değeri, tüm malzemeler kullanılacak.");
         }
@@ -1496,12 +1496,12 @@ router.post("/gold/Anyday/post", async (req, res) => {
             //     console.log(`✔ 25 numaralı malzemeden ${koliazaltma} adet eksiltildi.`);
             // }
 
-            if (row.malzeme_id === 80) {
+            if (row.malzeme_id === 77) {
                 await db.execute(
                     "UPDATE urunmalzemeleri SET urun_malzeme_adet = urun_malzeme_adet - ? WHERE urun_key = 1004 AND malzeme_id = ?",
-                    [cihazKutu, 80]
+                    [cihazKutu, 77]
                 );
-                console.log(`✔ 80 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
+                console.log(`✔ 77 numaralı malzemeden ${cihazKutu} adet eksiltildi.`);
             }
 
         }
